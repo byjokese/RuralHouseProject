@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<businessLogic local="true"> 
+	<businessLogicNode>localhost</businessLogicNode>
+	<portRMI>1099</portRMI>
+	<serviceRMI>RuralHouses</serviceRMI>
+</businessLogic>
+	<database local="true">
+	<databaseNode>localhost</databaseNode>
+	<db4oFilename>casas.db4o</db4oFilename>
+	<dataBaseOpenMode>open</dataBaseOpenMode>
+	<activationDepth>5</activationDepth>
+	<updateDepth>5</updateDepth>
+	<databasePort>8100</databasePort>
+	<user>softEng</user>
+	<password>i4softwEngin2matx</password>
+</database>
+<javaPolicyPath>java.policy</javaPolicyPath>
+</config>

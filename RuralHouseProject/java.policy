@@ -1,0 +1,9 @@
+grant {
+permission java.security.AllPermission;
+};
+// If there problems with permissions:
+// permission java.security.AllPermission;
+//permission java.net.SocketPermission "localhost:1099", "connect,resolve";
+//permission java.net.SocketPermission "*", "accept,resolve";
+//permission java.io.FilePermission "casas.db4o", "delete,read,write";
+//permission java.util.PropertyPermission "*", "read";
