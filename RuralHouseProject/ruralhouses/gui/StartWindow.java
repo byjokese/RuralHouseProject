@@ -6,6 +6,7 @@ package gui;
 import exceptions.DB4oManagerCreationException;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import configuration.ConfigXML;
 //import businessLogic.FacadeImplementation;
@@ -22,6 +23,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -30,10 +33,10 @@ public class StartWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 
-	private JPanel jContentPane = null;
-	private JButton boton1 = null;
-	private JButton boton2 = null;
-	private JButton boton3 = null;
+	private JPanel contentPane = null;
+	private JTextField userTextField;
+	private JPasswordField passwordField;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static configuration.ConfigXML c;
 
 	public static ApplicationFacadeInterface facadeInterface;
@@ -45,6 +48,7 @@ public class StartWindow extends JFrame {
 	 */
 	public StartWindow() {
 		super();
+		setTitle("Rural House Proyect");
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -73,10 +77,75 @@ public class StartWindow extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		// this.setSize(271, 295);
-		this.setSize(495, 290);
-		this.setContentPane(getJContentPane());
-		this.setTitle("Rural Houses");
+		setBounds(100, 100, 263, 299);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel userLabel = new JLabel("Username:");
+		userLabel.setBounds(33, 44, 76, 20);
+		contentPane.add(userLabel);
+		
+		userTextField = new JTextField();
+		userTextField.setToolTipText("Inserter your username for loging.");
+		userTextField.setBounds(113, 44, 86, 20);
+		contentPane.add(userTextField);
+		userTextField.setColumns(10);
+		
+		JLabel passwordLabel = new JLabel("Password:");
+		passwordLabel.setBounds(33, 79, 76, 20);
+		contentPane.add(passwordLabel);
+		
+		passwordField = new JPasswordField();
+		passwordField.setToolTipText("Insert the password of your account.");
+		passwordField.setBounds(113, 79, 86, 20);
+		contentPane.add(passwordField);
+		
+		JRadioButton userRadBut = new JRadioButton("User");
+		buttonGroup.add(userRadBut);
+		userRadBut.setBounds(33, 106, 61, 23);
+		contentPane.add(userRadBut);
+		
+		JRadioButton ownerRadBut = new JRadioButton("Owner");
+		buttonGroup.add(ownerRadBut);
+		ownerRadBut.setBounds(123, 106, 76, 23);
+		contentPane.add(ownerRadBut);
+		
+		JLabel BannerLabel = new JLabel("Rural House System");
+		BannerLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		BannerLabel.setBounds(20, 0, 200, 37);
+		contentPane.add(BannerLabel);
+		
+		JButton loginBtn = new JButton("Log In");
+		loginBtn.setBounds(20, 136, 205, 39);
+		contentPane.add(loginBtn);
+		
+		JButton btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame a = new RegisterGUI();
+				a.setVisible(true);
+			}
+		});
+		btnRegister.setForeground(Color.BLACK);
+		btnRegister.setBounds(139, 186, 86, 17);
+		contentPane.add(btnRegister);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 35, 247, 2);
+		contentPane.add(separator);
+		
+		JButton btnLookForOffers = new JButton("Look for Offers");
+		btnLookForOffers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame a = new QueryAvailabilityGUI();
+				a.setVisible(true);
+			}
+		});
+		btnLookForOffers.setBounds(20, 214, 205, 39);
+		contentPane.add(btnLookForOffers);
 	}
 
 	/**
@@ -84,82 +153,14 @@ public class StartWindow extends JFrame {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			GridLayout gridLayout = new GridLayout();
-			gridLayout.setRows(4);
-			gridLayout.setColumns(1);
-			jContentPane = new JPanel();
-			jContentPane.setLayout(gridLayout);
-			jContentPane.add(getLblNewLabel());
-			jContentPane.add(getBoton3(), null);
-			jContentPane.add(getBoton2(), null);
-			jContentPane.add(getBoton1(), null);
-		}
-		return jContentPane;
-	}
+	
 
 	/**
 	 * This method initializes boton1
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	private JButton getBoton1() {
-		if (boton1 == null) {
-			boton1 = new JButton();
-			boton1.setText("Book rural house");
-			boton1.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					// C?digo cedido por la univerdad
-					JFrame a = new BookRuralHouseGUI();
-					a.setVisible(true);
-				}
-			});
-		}
-		return boton1;
-	}
-
-	/**
-	 * This method initializes boton2
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getBoton2() {
-		if (boton2 == null) {
-			boton2 = new JButton();
-			boton2.setText("Set availability");
-			boton2.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					// C?digo cedido por la universidad
-					JFrame a = new SetAvailabilityGUI();
-					a.setVisible(true);
-				}
-			});
-		}
-		return boton2;
-	}
 	
-	/**
-	 * This method initializes boton3
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getBoton3() {
-		if (boton3 == null) {
-			boton3 = new JButton();
-			boton3.setText("Query availability");
-			boton3.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					// C?digo cedido por la universidad
-					//JFrame a = new QueryAvailabilityWindow();
-					JFrame a = new QueryAvailabilityGUI();
-
-					a.setVisible(true);
-				}
-			});
-		}
-		return boton3;
-	}
 	public static void main(String[] args) {
 
 		StartWindow a = new StartWindow();

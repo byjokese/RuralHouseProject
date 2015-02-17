@@ -50,6 +50,8 @@ private static final long serialVersionUID = 1L;
 
 
   private static configuration.ConfigXML c;
+  private final JLabel lblQueryMenu = new JLabel("Query Menu");
+  private final JSeparator separator = new JSeparator();
 	
   public QueryAvailabilityGUI()
   {
@@ -79,17 +81,17 @@ private static final long serialVersionUID = 1L;
     this.setSize(new Dimension(433, 548));
     this.setTitle("Query availability");
     jLabel1.setText("Rural house code:");
-    jLabel1.setBounds(new Rectangle(40, 20, 105, 25));
+    jLabel1.setBounds(new Rectangle(42, 66, 105, 25));
     jLabel2.setText("First day:");
-    jLabel2.setBounds(new Rectangle(40, 55, 75, 25));
-    jTextField2.setBounds(new Rectangle(190, 210, 155, 25));
+    jLabel2.setBounds(new Rectangle(42, 101, 75, 25));
+    jTextField2.setBounds(new Rectangle(150, 256, 155, 25));
     jTextField2.setEditable(false);
     jLabel3.setText("Number of nights:");
-    jLabel3.setBounds(new Rectangle(40, 250, 115, 25));
-    jTextField3.setBounds(new Rectangle(190, 250, 155, 25));
+    jLabel3.setBounds(new Rectangle(42, 292, 115, 25));
+    jTextField3.setBounds(new Rectangle(150, 292, 195, 25));
     jTextField3.setText("0");
     jButton1.setText("Accept");
-    jButton1.setBounds(new Rectangle(55, 455, 130, 30));
+    jButton1.setBounds(new Rectangle(55, 468, 130, 30));
     jButton1.addActionListener(new ActionListener()
     	      {
     	        public void actionPerformed(ActionEvent e)
@@ -98,7 +100,7 @@ private static final long serialVersionUID = 1L;
     	        }
     	      });
     jButton2.setText("Close");
-    jButton2.setBounds(new Rectangle(230, 455, 130, 30));
+    jButton2.setBounds(new Rectangle(230, 468, 130, 30));
     
    
     jTextField3.addFocusListener(new FocusListener()
@@ -119,10 +121,10 @@ private static final long serialVersionUID = 1L;
           jButton2_actionPerformed(e);
         }
       });
-    jLabel4.setBounds(new Rectangle(55, 300, 305, 30));
+    jLabel4.setBounds(new Rectangle(55, 311, 305, 30));
     jLabel4.setForeground(Color.red);
-    jCalendar1.setBounds(new Rectangle(190, 60, 225, 150));
-    scrollPane.setBounds(new Rectangle(45, 305, 320, 116));
+    jCalendar1.setBounds(new Rectangle(150, 106, 225, 150));
+    scrollPane.setBounds(new Rectangle(55, 341, 320, 116));
     
     this.getContentPane().add(scrollPane, null);
     
@@ -165,12 +167,20 @@ private static final long serialVersionUID = 1L;
     this.getContentPane().add(jLabel2, null);
     this.getContentPane().add(jLabel1, null);
     comboBox.setBounds(new Rectangle(245, 22, 115, 20));
-    comboBox.setBounds(189, 22, 115, 20);
+    comboBox.setBounds(149, 68, 115, 20);
     
     getContentPane().add(comboBox);
     labelNoOffers.setBounds(73, 432, 265, 14);
     
     getContentPane().add(labelNoOffers);
+    lblQueryMenu.setHorizontalAlignment(SwingConstants.CENTER);
+    lblQueryMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
+    lblQueryMenu.setBounds(0, 10, 417, 30);
+    
+    getContentPane().add(lblQueryMenu);
+    separator.setBounds(0, 41, 417, 14);
+    
+    getContentPane().add(separator);
     
     // Codigo para el JCalendar
     this.jCalendar1.addPropertyChangeListener(new PropertyChangeListener()
