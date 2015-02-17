@@ -2,7 +2,7 @@ package businessLogic;
 
 import java.rmi.*;
 import java.util.Vector;
-import java.sql.Date;
+import java.util.Date;
 
 import domain.Booking;
 import domain.Offer;

@@ -22,7 +22,7 @@ public class Booking implements Serializable {
 		this.offer = offer;
 		//this.price = price;
 		//Booking date is assigned to actual date
-		this.bookingDate= new java.util.Date(System.currentTimeMillis());
+		this.bookingDate= new Date(System.currentTimeMillis());
 		this.isPaid=false;
 
 	}
