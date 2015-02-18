@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Window.Type;
 
 public class SignUpHouseGUI extends JFrame {
 
@@ -31,6 +32,7 @@ public class SignUpHouseGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public SignUpHouseGUI() {
+		setTitle("SIGN UP HOUSE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 553, 392);
 		contentPane = new JPanel();
