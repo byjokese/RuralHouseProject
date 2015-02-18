@@ -49,11 +49,11 @@ public class SignUpHouseGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblCiudadcity = new JLabel("ciudad :");
+		JLabel lblCiudadcity = new JLabel("city :");
 		lblCiudadcity.setBounds(24, 46, 111, 21);
 		contentPane.add(lblCiudadcity);
 		
-		JLabel lblCalle = new JLabel("calle :");
+		JLabel lblCalle = new JLabel("Address :");
 		lblCalle.setBounds(24, 94, 111, 21);
 		contentPane.add(lblCalle);
 		
@@ -70,21 +70,25 @@ public class SignUpHouseGUI extends JFrame {
 		contentPane.add(RegistrarBtn);
 		
 		ciudadtextField = new JTextField();
+		ciudadtextField.setToolTipText("introduce la ciudad");
 		ciudadtextField.setBounds(92, 47, 238, 19);
 		contentPane.add(ciudadtextField);
 		ciudadtextField.setColumns(10);
 		
 		calletextField = new JTextField();
+		calletextField.setToolTipText("introduce una calle");
 		calletextField.setColumns(10);
 		calletextField.setBounds(92, 95, 238, 19);
 		contentPane.add(calletextField);
 		
 		numerotextField = new JTextField();
+		numerotextField.setToolTipText("introduce un numero de calle o portal");
 		numerotextField.setColumns(10);
 		numerotextField.setBounds(430, 98, 69, 19);
 		contentPane.add(numerotextField);
 		
 		descripciontextField = new JTextField();
+		descripciontextField.setToolTipText("introduce una breve descripcion sobre la casa.\nasi se aumenta la posibilidad de alquiler :)");
 		descripciontextField.setBounds(92, 190, 429, 115);
 		contentPane.add(descripciontextField);
 		descripciontextField.setColumns(10);
