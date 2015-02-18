@@ -173,7 +173,7 @@ public class StartWindow extends JFrame {
 						
 			System.setSecurityManager(new RMISecurityManager());
 
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
 			c=configuration.ConfigXML.getInstance();
 			if (c.isBusinessLogicLocal())

@@ -13,7 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -129,19 +130,24 @@ private static final long serialVersionUID = 1L;
     table.addMouseListener(new MouseAdapter() {
     	@Override
     	public void mouseClicked(MouseEvent e) {
+        try{
     		int i=table.getSelectedRow();
     		int houseNumber = (int) tableModel.getValueAt(i,1);
-    		Date firstDate = (Date) tableModel.getValueAt(i,2);
-    		Date lastDate = (Date) tableModel.getValueAt(i,3);
-      		       	    		
-			c=ConfigXML.getInstance();
-			if (c.isDatabaseLocal()) {			
-				BookRuralHouseGUI b=new BookRuralHouseGUI(houseNumber,firstDate,lastDate);
-				b.setVisible(true);}
-			else labelNoOffers.setText("If you want to book, then go to the main frame");
-				
-    	}
-    });
+    		
+			// Dates are represented as strings in the table model
+			// They have to be converted to Dates "dd/mm/aa", removing hh:mm:ss:ms with trim					
+			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT); 
+//       		Date firstDate= trim(df.parse((String)tableModel.getValueAt(i,2)));
+//       		Date lastDate= trim(df.parse((String)tableModel.getValueAt(i,3)));
+       		Date firstDate= df.parse((String)tableModel.getValueAt(i,2));
+//       		firstDate=new Date(firstDate.getTime()+12*60*60*1000); // to add 12 hours because that is how they are stored
+       		Date lastDate= df.parse((String)tableModel.getValueAt(i,3));
+//       		lastDate=new Date(lastDate.getTime()+12*60*60*1000); // to add 12 hours because that is how they are stored
+	
+			BookRuralHouseGUI b=new BookRuralHouseGUI(houseNumber,firstDate,lastDate);
+			b.setVisible(true);
+        } catch (Exception ex){System.out.println("Error trying to call BookRuralHouseGUI: "+ex.getMessage());}
+    }});
 
     scrollPane.setViewportView(table);
     tableModel = new DefaultTableModel(
@@ -190,6 +196,19 @@ private static final long serialVersionUID = 1L;
 
   }
 
+  
+  private Date trim(Date date) {
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(date);
+      calendar.set(Calendar.MILLISECOND, 0);
+      calendar.set(Calendar.SECOND, 0);
+      calendar.set(Calendar.MINUTE, 0);
+      calendar.set(Calendar.HOUR_OF_DAY, 0);
+      return calendar.getTime();
+  }
+  
+  
   private void jButton2_actionPerformed(ActionEvent e)
   {
     this.setVisible(false);
@@ -213,10 +232,9 @@ private static final long serialVersionUID = 1L;
  {		
  		// House object
  		RuralHouse rh=(RuralHouse)comboBox.getSelectedItem();
- 		// First day
- 		Date firstDay=new Date(jCalendar1.getCalendar().getTime().getTime());
- 	    //Remove the hour:minute:second:ms from the date 
- 		firstDay=Date.valueOf(firstDay.toString());
+ 		// First day removing the hour:minute:second:ms from the date 
+ 		Date firstDay=trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
+ 
  		final long diams=1000*60*60*24;
  		long nights= diams * Integer.parseInt(jTextField3.getText());
  		// Last day
@@ -226,7 +244,6 @@ private static final long serialVersionUID = 1L;
     		
     		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
 
-//    		Vector<Offer> v=facade.getOffers(rh, firstDay, lastDay);
     		Vector<Offer> v=rh.getOffers(firstDay, lastDay);
   
 			Enumeration<Offer> en=v.elements();
@@ -239,11 +256,18 @@ private static final long serialVersionUID = 1L;
 
 				while (en.hasMoreElements()) {
 					of=en.nextElement();
+					System.out.println("Offer retrieved: "+of.toString());
 					Vector row = new Vector();
 					row.add(of.getOfferNumber());
 					row.add(of.getRuralHouse().getHouseNumber());
-					row.add(of.getFirstDay());
-					row.add(of.getLastDay());
+
+					// Dates are stored in db4o as java.util.Date objects instead of java.sql.Date objects
+					// They are converted to strings "dd/mm/aa"					
+					DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT); 
+					String firstDayString = df.format(of.getFirstDay());
+					String lastDayString = df.format(of.getLastDay());
+					row.add(firstDayString);
+					row.add(lastDayString);
 					row.add(of.getPrice());
 
 					

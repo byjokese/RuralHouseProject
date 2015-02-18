@@ -102,12 +102,10 @@ public class SetAvailabilityGUI extends JFrame {
 					Owner owner=(Owner)jComboBox.getSelectedItem();
 					Vector<RuralHouse> houseList=null;
 		  			try {
-		  			    //Obtain the business logic from a StartWindow class (local or remote)
-		  	    		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
 		  	    		
-		  	    		
-//						houseList=facade.getRuralHouses(owner);
-						houseList=owner.getRuralHouses();
+//		  				ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();  	    		
+//						houseList=facade.getRuralHouses(owner); // Not needed to ask the business logic because
+						houseList=owner.getRuralHouses();		// Owner has been serialized with its rural houses !!
 					
 					} catch (Exception e1) {
 						e1.printStackTrace();
