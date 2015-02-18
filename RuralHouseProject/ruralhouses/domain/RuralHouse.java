@@ -1,7 +1,7 @@
 package domain;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 

@@ -1,7 +1,7 @@
 package domain;
 
 import java.io.*;
-import java.util.Date;	// db4o has problems to persist java.util.Date objects (in ClientServer mode)
+import java.util.Date;	
 
 
 @SuppressWarnings("serial")
@@ -9,10 +9,10 @@ public class Offer implements Serializable {
 	
 
 	private int offerNumber;
-	private Date firstDay;
-	private Date lastDay;
-	private float price;
-	private Booking booking;
+	private Date firstDay; // Dates are stored as java.util.Date objects instead of java.sql.Date objects
+	private Date lastDay;  // because, they are not well stored in db4o as java.util.Date objects
+	private float price;   // This is coherent because objects of java.sql.Date are objects of java.util.Date 
+	private Booking booking;  // That is: java.sql.Date is a subclass (or extends) java.util.Date
 	private RuralHouse ruralHouse;
 
 	
@@ -138,5 +138,9 @@ public class Offer implements Serializable {
 	public Booking createBooking(int numBooking,String bookTelephoneNumber) {
 		return booking=new Booking(numBooking,bookTelephoneNumber,this);
 			
+	}
+	
+	public String toString(){
+		return offerNumber+";"+firstDay.toString()+";"+lastDay.toString()+";"+price+";"+ruralHouse;
 	}
 }

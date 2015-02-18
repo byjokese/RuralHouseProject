@@ -9,7 +9,8 @@ import domain.RuralHouse;
 import exceptions.OfferCanNotBeBooked;
 
 import java.beans.*;
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.text.*;
 import java.util.*;
 
@@ -147,14 +148,16 @@ public BookRuralHouseGUI()
         	// House code
         	RuralHouse house=(RuralHouse)jComboBox1.getSelectedItem();
         	// Arrival date
-        	Date firstDay= new Date(jCalendar1.getCalendar().getTime().getTime());
-
-        	firstDay=Date.valueOf(firstDay.toString());
+        	Date firstDay= trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
+      	
+        	System.out.println("firstDay="+firstDay);
         	// Last day
         	// Number of days expressed in milliseconds
         	long nights=1000*60*60*24* Integer.parseInt(jTextField3.getText());
         	Date lastDay= new Date((long)(firstDay.getTime()+nights));
         	// Telephone contact
+        	System.out.println("lastDay="+lastDay);
+        	
         	String telephone=jTextField4.getText();
         	try {
 				
@@ -171,8 +174,15 @@ public BookRuralHouseGUI()
 				else jLabel5.setText("There is not available offer for these dates");
 			} catch (OfferCanNotBeBooked e1) {
 				jLabel5.setText("Error: It is not possible to book");
-				JFrame a = new QueryAvailabilityGUI();
-			    a.setVisible(true);
+				JFrame a;
+				try {
+					a = new QueryAvailabilityGUI();
+					a.setVisible(true);
+				}
+				catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			    
 			
         } catch (Exception e1) {
 			
@@ -228,6 +238,16 @@ public BookRuralHouseGUI()
     });
   }
  
+  private Date trim(Date date) {
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(date);
+      calendar.set(Calendar.MILLISECOND, 0);
+      calendar.set(Calendar.SECOND, 0);
+      calendar.set(Calendar.MINUTE, 0);
+      calendar.set(Calendar.HOUR_OF_DAY, 0);
+      return calendar.getTime();
+  }
 
   private void jButton3_actionPerformed(ActionEvent e)
   {

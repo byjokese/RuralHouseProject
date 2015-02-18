@@ -1,6 +1,7 @@
 package gui;
 import java.beans.*;
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -175,51 +176,57 @@ private static final long serialVersionUID = 1L;
   private void jButton1_actionPerformed(ActionEvent e)
   {
 	  	RuralHouse ruralHouse=((RuralHouse)jComboBox1.getSelectedItem());
-	  	Date firstDay=new Date(jCalendar1.getCalendar().getTime().getTime());
-	    //Remove the hour:minute:second:ms from the date 
-	  	firstDay=Date.valueOf(firstDay.toString());
-	  	Date lastDay=new Date(jCalendar2.getCalendar().getTime().getTime());
-	    //Remove the hour:minute:second:ms from the date 
-	  	lastDay=Date.valueOf(lastDay.toString());
-	  	//It could be to trigger an exception if the introduced string is not a number
-	  /*	
-  	RuralHouse ruralHouse=((RuralHouse)jComboBox1.getSelectedItem());
-  	System.out.println("jCalendar1.getCalendar().getTime().getTime()="+jCalendar1.getCalendar().getTime().getTime());
-  	System.out.println("jCalendar1.getCalendar().getTime()="+jCalendar1.getCalendar().getTime());
-  	System.out.println("jCalendar1.getCalendar()="+jCalendar1.getCalendar());
-  	
-  	Date firstDay=new Date(jCalendar1.getCalendar().getTime().getTime());
-	System.out.println("firstDay="+firstDay);
-	System.out.println("firstDay es de la clase: "+firstDay.getClass().toString());
 
-    //Remove the hour:minute:second:ms from the date 
-  	//firstDay=Date.valueOf(firstDay.toString());
-  	Date lastDay=new Date(jCalendar2.getCalendar().getTime().getTime());
-    //Remove the hour:minute:second:ms from the date 
-  	//lastDay=Date.valueOf(lastDay.toString());
-  	 */
-  	 
-  	//It could be to trigger an exception if the introduced string is not a number
-  	float price= Float.parseFloat(jTextField3.getText());
-  	try {
-  	    //Obtain the business logic from a StartWindow class (local or remote)
-		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
-		
-  		Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
-  		
-  		if (o==null)
-  			jLabel5.setText("Bad dates or there exists an overlapping offer");
-  		else jLabel5.setText("Offer created");
-	} catch (OverlappingOfferExists e1) {
-		jLabel5.setText("There exists an overlapping offer");
-	}
-	catch (BadDates e1) {
-		jLabel5.setText("Last day is before first day in the offer");
-	} catch (Exception e1) {
+	  	// The next instruction creates a java.util.Date object from the date selected in the JCalendar object
+	  	// removing the hour, minute, second and ms from the date
+	  	// This has to be made because the date will be stored in db4o as a java.util.Date object 
+	  	// that would store those data, and that would give problems when comparing dates later	  	
+	  	Date firstDay=trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
+	  	
+	  	Date lastDay=trim(new Date(jCalendar2.getCalendar().getTime().getTime()));
+	    //Removes the hour:minute:second:ms from the date 
+	  	
+	  	
+	  	try {
 
-	e1.printStackTrace();
-}
+	  		//It could be to trigger an exception if the introduced string is not a number
+	  		float price= Float.parseFloat(jTextField3.getText());
+
+	  		//Obtain the business logic from a StartWindow class (local or remote)
+	  		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
+
+	  		Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
+	  		System.out.println("Offer created: "+o.toString());
+
+	  		if (o==null)
+	  			jLabel5.setText("Bad dates or there exists an overlapping offer");
+	  		else jLabel5.setText("Offer created");
+
+	  	} catch (java.lang.NumberFormatException e1) {
+	  		jLabel5.setText(jTextField3.getText()+ " is not a valid price");
+	  	} catch (OverlappingOfferExists e1) {
+	  		jLabel5.setText("There exists an overlapping offer");
+	  	}
+	  	catch (BadDates e1) {
+	  		jLabel5.setText("Last day is before first day in the offer");
+	  	} catch (Exception e1) {
+
+	  		e1.printStackTrace();
+	  	}
   }
+  
+  private Date trim(Date date) {
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(date);
+      calendar.set(Calendar.MILLISECOND, 0);
+      calendar.set(Calendar.SECOND, 0);
+      calendar.set(Calendar.MINUTE, 0);
+      calendar.set(Calendar.HOUR_OF_DAY, 0);
+      return calendar.getTime();
+  }
+  
+  
   private void jButton2_actionPerformed(ActionEvent e)
   {
     this.setVisible(false);

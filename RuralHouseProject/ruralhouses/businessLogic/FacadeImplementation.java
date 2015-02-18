@@ -2,14 +2,13 @@ package businessLogic;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.Vector;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
-import configuration.Config;
 import configuration.ConfigXML;
 import dataAccess.DB4oManager;
 import domain.Booking;
