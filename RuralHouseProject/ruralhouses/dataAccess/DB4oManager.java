@@ -17,10 +17,12 @@ import com.db4o.cs.config.ClientConfiguration;
 
 import configuration.ConfigXML;
 import domain.Booking;
+import domain.Client;
 import domain.Offer;
 // import dataModel.Offer;
 import domain.Owner;
 import domain.RuralHouse;
+import domain.Users;
 import exceptions.OfferCanNotBeBooked;
 import exceptions.OverlappingOfferExists;
 
@@ -68,8 +70,8 @@ public class DB4oManager {
 			if (listIter.hasNext()) theDB4oManagerAux = (DB4oManagerAux) res.next();
 		}
 	}
-	
-	public boolean isinitialized(){
+
+	public boolean isinitialized() {
 		return initialized;
 	}
 
@@ -100,10 +102,10 @@ public class DB4oManager {
 
 	public void initializeDB() {
 
-		Owner jon = new Owner("Jon", "Jonlog", "passJon");
-		Owner alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo");
-		Owner jesus = new Owner("Jesús", "Jesuslog", "passJesus");
-		Owner josean = new Owner("Josean", "JoseanLog", "passJosean");
+		Owner jon = new Owner("Jon", "Jonlog", "passJon",true);
+		Owner alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo",true);
+		Owner jesus = new Owner("Jesús", "Jesuslog", "passJesus",true);
+		Owner josean = new Owner("Josean", "JoseanLog", "passJosean",true);
 		jon.addRuralHouse(1, "Ezkioko etxea", "Ezkio");
 		jon.addRuralHouse(2, "Etxetxikia", "Iruña");
 		jesus.addRuralHouse(3, "Udaletxea", "Bilbo");
@@ -144,13 +146,17 @@ public class DB4oManager {
 		}
 	}
 
+/**WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**/
+	@SuppressWarnings("unchecked")
 	public void deleteDB() {
 		try {
-			Owner proto = new Owner(null, null, null, null);
+			Users proto = new Owner(null, null, null, false);
 			ObjectSet result = db.queryByExample(proto);
-			Vector<Owner> owners = new Vector<Owner>();
+			proto = new Owner(null, null, null, true);
+			result.addAll(db.queryByExample(proto));
+			Vector<Users> owners = new Vector<Users>();
 			while (result.hasNext()) {
-				Owner o = (Owner) result.next();
+				Users o = (Owner) result.next();
 				System.out.println("Deleted owner: " + o.toString());
 				db.delete(o);
 			}
@@ -211,8 +217,10 @@ public class DB4oManager {
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
 
 		try {
-			Owner proto = new Owner(null, null, null, null);
+			Users proto = new Owner(null, null, null, false);
 			ObjectSet result = db.queryByExample(proto);
+			proto = new Owner(null, null, null, true);
+			result.addAll(db.queryByExample(proto));
 			Vector<Owner> owners = new Vector<Owner>();
 			while (result.hasNext())
 				owners.add((Owner) result.next());
@@ -237,6 +245,22 @@ public class DB4oManager {
 		}
 		finally {
 			// db.close();
+		}
+	}
+
+	public boolean checkUserAvailability(String username) {
+		Users user = new Client(null, username, null, null);
+		return db.queryByExample(user).size() == 0;
+	}
+
+	public void addUserToDataBase(String name, String login, String password, Users.type type) {
+		if (type == type.CLIENT) {
+			Users client = new Client(name, login, password, true);
+			Users owner = new Owner(name, login, password, false);
+		}
+		else {
+			Users client = new Client(name, login, password, false);
+			Users owner = new Owner(name, login, password, true);
 		}
 	}
 

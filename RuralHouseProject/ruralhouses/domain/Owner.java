@@ -3,23 +3,24 @@ package domain;
 import java.io.Serializable;
 import java.util.Vector;
 
-
-
-
 @SuppressWarnings("serial")
-public class Owner implements Serializable {
+public class Owner implements Serializable, Users {
 
 	private String bankAccount = "";
 	private String name="";
 	private String login="";
 	private String password="";
+	private Boolean activated;
+	private Users.type type;
 	private Vector<RuralHouse> ruralHouses;
 
 
-	public Owner(String name,String login, String password){
+	public Owner(String name,String login, String password, Boolean activated){
 		this.name=name;
 		this.login=login;
 		this.password=password;
+		type = type.OWNER;
+		this.setActivated(activated);
 		ruralHouses=new Vector<RuralHouse>();
 		
 	}
@@ -134,5 +135,12 @@ public class Owner implements Serializable {
 	public String toString(){
 		return name;
 	}
+	public Boolean getActivated() {
+		return activated;
+	}
+	public void setActivated(Boolean activated) {
+		this.activated = activated;
+	}
+
 	
 }

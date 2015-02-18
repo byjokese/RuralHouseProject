@@ -105,6 +105,7 @@ public class StartWindow extends JFrame {
 /**User type Selection Buttons**/
 	/*User*/
 		JRadioButton userRadBut = new JRadioButton("User");
+		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);
 		contentPane.add(userRadBut);
@@ -120,20 +121,20 @@ public class StartWindow extends JFrame {
 		loginBtn.setBounds(20, 136, 205, 39);
 		contentPane.add(loginBtn);
 	/*register*/
-		JButton btnRegister = new JButton("Register");
-		btnRegister.addActionListener(new ActionListener() {
+		JButton RegisterBtn = new JButton("Register");
+		RegisterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Wait until Database is initialized
 				JFrame a = new RegisterGUI();
 				a.setVisible(true);
 			}
 		});
-		btnRegister.setForeground(Color.BLACK);
-		btnRegister.setBounds(139, 186, 86, 17);
-		contentPane.add(btnRegister);
+		RegisterBtn.setForeground(Color.BLACK);
+		RegisterBtn.setBounds(139, 186, 86, 17);
+		contentPane.add(RegisterBtn);
 	/*Offers*/
-		JButton btnLookForOffers = new JButton("Look for Offers");
-		btnLookForOffers.addActionListener(new ActionListener() {
+		JButton LookForOffersBtn = new JButton("Look for Offers");
+		LookForOffersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
 				JFrame b;
 				try {
@@ -146,8 +147,8 @@ public class StartWindow extends JFrame {
 				
 			}
 		});
-		btnLookForOffers.setBounds(20, 214, 205, 39);
-		contentPane.add(btnLookForOffers);
+		LookForOffersBtn.setBounds(20, 214, 205, 39);
+		contentPane.add(LookForOffersBtn);
 /**Extra Decoration**/
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 35, 247, 2);
@@ -156,7 +157,7 @@ public class StartWindow extends JFrame {
 		JLabel BannerLabel = new JLabel("Rural House System");
 		BannerLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		BannerLabel.setBounds(20, 0, 200, 37);
+		BannerLabel.setBounds(0, 0, 247, 37);
 		contentPane.add(BannerLabel);
 
 		
