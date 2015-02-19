@@ -111,7 +111,7 @@ public class DB4oManager {
 		jesus.addRuralHouse(3, "Udaletxea", "Bilbo");
 		josean.addRuralHouse(4, "Gaztetxea", "Renteria");
 
-		jon.setBankAccount("12345677");
+		jon.setBankAccount("1234567812785478963");
 		alfredo.setBankAccount("77654321");
 		jesus.setBankAccount("12344321");
 		josean.setBankAccount("43211234");
@@ -248,20 +248,36 @@ public class DB4oManager {
 		}
 	}
 
-	public boolean checkUserAvailability(String username) {
+	public boolean checkUserAvailability(String username) throws RemoteException{
 		Users user = new Client(null, username, null, null);
-		return db.queryByExample(user).size() == 0;
+		return (db.queryByExample(user).size() == 0);
 	}
-
-	public void addUserToDataBase(String name, String login, String password, Users.type type) {
+	
+	public boolean checkLogin(String username, String password,  Users.type type) throws RemoteException{
+		Object user;
 		if (type == type.CLIENT) {
-			Users client = new Client(name, login, password, true);
-			Users owner = new Owner(name, login, password, false);
+			user = new Client(null, username, password, true);
 		}
 		else {
-			Users client = new Client(name, login, password, false);
-			Users owner = new Owner(name, login, password, true);
+			user = new Owner(null, username, password, true);
 		}
+		return db.queryByExample(user).size()==0;
+	}
+
+	public void addUserToDataBase(String name, String login, String password, Users.type type) throws RemoteException {
+		Client client;
+		Owner owner;
+		if (type == type.CLIENT) {
+			client = new Client(name, login, password, true);
+			owner = new Owner(name, login, password, false);
+		}
+		else {
+			client = new Client(name, login, password, false);
+			owner = new Owner(name, login, password, true);
+		}
+		db.store(client);
+		db.store(owner);
+		db.commit();
 	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {

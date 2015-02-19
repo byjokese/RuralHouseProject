@@ -107,11 +107,15 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	}
 	
-	public boolean checkUserAvailability(String username){
+	public boolean checkUserAvailability(String username) throws RemoteException{
 		return dB4oManager.checkUserAvailability(username);
 	}
 	
-	public void addUserToDataBase(String name, String login, String password, Users.type type){
+	public boolean checkLogin(String username, String password,  Users.type type) throws RemoteException{
+		return dB4oManager.checkLogin(username, password, type);
+	}
+	
+	public void addUserToDataBase(String name, String login, String password, Users.type type) throws RemoteException{
 		dB4oManager.addUserToDataBase(name, login, password, type);
 	}
 	

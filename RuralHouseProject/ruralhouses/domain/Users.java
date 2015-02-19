@@ -21,5 +21,9 @@ public interface Users {
 	String getPassword();
 
 	void setPassword(String password);
+	
+	type whatType();
+	
+	boolean isActivated();
 
 }

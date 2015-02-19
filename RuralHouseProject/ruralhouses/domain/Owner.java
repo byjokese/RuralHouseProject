@@ -142,5 +142,13 @@ public class Owner implements Serializable, Users {
 		this.activated = activated;
 	}
 
+	public domain.Users.type whatType() {
+		return this.type;
+	}
+	
+	public boolean isActivated(){
+		return this.activated;
+	}
+
 	
 }

@@ -21,23 +21,19 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import businessLogic.ApplicationFacadeInterface;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 import domain.Users;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.DropMode;
-import javax.swing.JInternalFrame;
-
-import sun.tools.jar.resources.jar;
 
 @SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
+
+	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
 	private JTextField usernameTextField;
@@ -56,8 +52,7 @@ public class RegisterGUI extends JFrame {
 				try {
 					RegisterGUI frame = new RegisterGUI();
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -129,25 +124,39 @@ public class RegisterGUI extends JFrame {
 
 		JButton btnNewButton = new JButton("Register");
 		btnNewButton.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
+			@SuppressWarnings({ "deprecation", "static-access" })
 			public void actionPerformed(ActionEvent arg0) {
-				if (passwordField.getText().equals(confirmPasswordField.getText())) {
+				if (passwordField.getText().equals(
+						confirmPasswordField.getText())) {
 					String username = usernameTextField.getText();
 					String name = nametextField.getText();
 					String password = passwordField.getText();
-					
-					if (facade.checkUserAvailability(username)) {
-						Users.type type = null;
-						if (userRadBut.isSelected()) {
-							type = type.CLIENT;
+					try {
+						if (facade.checkUserAvailability(username)) {
+							Users.type type = null;
+							if (userRadBut.isSelected()) {
+								type = type.CLIENT;
+							} else {
+								type = type.OWNER;
+							}
+							try {
+								facade.addUserToDataBase(name, username,
+										password, type);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						} else {
-							type = type.OWNER;
+							JOptionPane.showMessageDialog(null,"User already taken, please choose another one.");
 						}
-						facade.addUserToDataBase(name, username, password, type);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "User already taken, please choose another one.");
+					JOptionPane.showMessageDialog(null,
+							"Passwords does not match.");
 				}
 
 			}
@@ -159,8 +168,7 @@ public class RegisterGUI extends JFrame {
 
 		try {
 			mask = new MaskFormatter("####-####-##-##########");
-		}
-		catch (java.text.ParseException e) {
+		} catch (java.text.ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
