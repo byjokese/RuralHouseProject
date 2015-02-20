@@ -12,9 +12,11 @@ import com.db4o.ObjectSet;
 import configuration.ConfigXML;
 import dataAccess.DB4oManager;
 import domain.Booking;
+import domain.Client;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
+import domain.Users;
 import exceptions.BadDates;
 import exceptions.DB4oManagerCreationException;
 import exceptions.OfferCanNotBeBooked;
@@ -29,6 +31,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	private static final long serialVersionUID = 1L;
 
 	Vector<Owner> owners;
+	Vector<Client> clients;
 	Vector<RuralHouse> ruralHouses;
 	DB4oManager dB4oManager;
  
@@ -102,6 +105,18 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 								 return ruralHouses; }
 		else return ruralHouses=dB4oManager.getAllRuralHouses();
 
+	}
+	
+	public boolean checkUserAvailability(String username) throws RemoteException{
+		return dB4oManager.checkUserAvailability(username);
+	}
+	
+	public boolean checkLogin(String username, String password,  Users.type type) throws RemoteException{
+		return dB4oManager.checkLogin(username, password, type);
+	}
+	
+	public void addUserToDataBase(String name, String login, String password, Users.type type) throws RemoteException{
+		dB4oManager.addUserToDataBase(name, login, password, type);
 	}
 	
 	public void close() throws RemoteException{
