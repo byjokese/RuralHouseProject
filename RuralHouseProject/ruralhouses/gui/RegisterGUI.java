@@ -135,9 +135,9 @@ public class RegisterGUI extends JFrame {
 						if (facade.checkUserAvailability(username)) {
 							Users.type type = null;
 							if (userRadBut.isSelected()) {
-								type = type.CLIENT;
+								type = Users.type.CLIENT;
 							} else {
-								type = type.OWNER;
+								type = Users.type.OWNER;
 							}
 							try {
 								facade.addUserToDataBase(name, username,
