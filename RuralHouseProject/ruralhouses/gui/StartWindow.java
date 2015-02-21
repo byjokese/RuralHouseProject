@@ -134,9 +134,9 @@ public class StartWindow extends JFrame {
 				String password = passwordField.getText();
 				Users.type type = null;
 				if (userRadBut.isSelected()) {
-					type = type.CLIENT;
+					type = Users.type.CLIENT;
 				} else {
-					type = type.OWNER;
+					type = Users.type.OWNER;
 				}
 				try {
 					if (facadeInterface.checkLogin(username, password, type))

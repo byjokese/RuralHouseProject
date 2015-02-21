@@ -255,7 +255,7 @@ public class DB4oManager {
 	
 	public boolean checkLogin(String username, String password,  Users.type type) throws RemoteException{
 		Object user;
-		if (type == type.CLIENT) {
+		if (type == Users.type.CLIENT) {
 			user = new Client(null, username, password, true);
 		}
 		else {
@@ -267,7 +267,7 @@ public class DB4oManager {
 	public void addUserToDataBase(String name, String login, String password, Users.type type) throws RemoteException {
 		Client client;
 		Owner owner;
-		if (type == type.CLIENT) {
+		if (type == Users.type.CLIENT) {
 			client = new Client(name, login, password, true);
 			owner = new Owner(name, login, password, false);
 		}
