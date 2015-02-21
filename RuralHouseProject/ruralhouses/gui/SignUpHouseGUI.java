@@ -3,15 +3,27 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Window.Type;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JTextArea;
+
+import domain.Owner;
 
 public class SignUpHouseGUI extends JFrame {
 
@@ -19,7 +31,6 @@ public class SignUpHouseGUI extends JFrame {
 	private JTextField ciudadtextField;
 	private JTextField calletextField;
 	private JTextField numerotextField;
-	private JTextField descripciontextField;
 
 	/**
 	 * Launch the application.
@@ -28,7 +39,7 @@ public class SignUpHouseGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SignUpHouseGUI frame = new SignUpHouseGUI();
+					SignUpHouseGUI frame = new SignUpHouseGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +51,7 @@ public class SignUpHouseGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SignUpHouseGUI() {
+	public SignUpHouseGUI(Owner owner) {
 		setTitle("SIGN UP HOUSE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 553, 392);
@@ -49,7 +60,7 @@ public class SignUpHouseGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblCiudadcity = new JLabel("city :");
+		JLabel lblCiudadcity = new JLabel("City :");
 		lblCiudadcity.setBounds(24, 46, 111, 21);
 		contentPane.add(lblCiudadcity);
 		
@@ -57,15 +68,35 @@ public class SignUpHouseGUI extends JFrame {
 		lblCalle.setBounds(24, 94, 111, 21);
 		contentPane.add(lblCalle);
 		
-		JLabel lblNumero = new JLabel("numero:");
+		JLabel lblNumero = new JLabel("Number:");
 		lblNumero.setBounds(360, 97, 111, 21);
 		contentPane.add(lblNumero);
 		
-		JLabel lblDescripccion = new JLabel("descripccion:");
+		JLabel lblDescripccion = new JLabel("Description:");
 		lblDescripccion.setBounds(243, 157, 111, 21);
 		contentPane.add(lblDescripccion);
 		
-		JButton RegistrarBtn = new JButton("Registrar");
+		JTextArea destextArea = new JTextArea();
+		destextArea.setBounds(77, 190, 464, 111);
+		contentPane.add(destextArea);
+		
+		JButton RegistrarBtn = new JButton("Register");
+		RegistrarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//no dejar ningun campo vacio
+				if(ciudadtextField.getText().equals("")||
+				   calletextField.getText().equals("") ||
+				   numerotextField.getText().equals("")||
+				   destextArea.getText().equals("")  ){JOptionPane.showMessageDialog(null,"NO Puede dejar ningun campo vacio");}
+				else{
+					//CREACION DE LA CASA
+					JOptionPane.showMessageDialog(contentPane,owner);
+					
+				}
+				
+			}
+		});
 		RegistrarBtn.setBounds(255, 317, 117, 25);
 		contentPane.add(RegistrarBtn);
 		
@@ -87,16 +118,14 @@ public class SignUpHouseGUI extends JFrame {
 		numerotextField.setBounds(430, 98, 69, 19);
 		contentPane.add(numerotextField);
 		
-		descripciontextField = new JTextField();
-		descripciontextField.setToolTipText("introduce una breve descripcion sobre la casa.\nasi se aumenta la posibilidad de alquiler :)");
-		descripciontextField.setBounds(92, 190, 429, 115);
-		contentPane.add(descripciontextField);
-		descripciontextField.setColumns(10);
+		
 		
 		JLabel lblNewLabel = new JLabel("House Registration");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		lblNewLabel.setBounds(12, 0, 529, 25);
 		contentPane.add(lblNewLabel);
+		
+		
 	}
 }
