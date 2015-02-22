@@ -131,6 +131,13 @@ public class Owner implements Serializable {
 	 return rh;
 	 
 	}
+	public RuralHouse addRuralHouse(int houseNumber, String description, String city,String address,int number) {
+	     RuralHouse rh=new RuralHouse( houseNumber,  this,  description,  city,address,number);
+		 ruralHouses.add(rh);
+		 return rh;
+		 
+		}
+	
 	public String toString(){
 		return name;
 	}

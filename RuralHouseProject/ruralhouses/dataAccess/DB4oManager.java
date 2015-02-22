@@ -8,6 +8,7 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -104,10 +105,10 @@ public class DB4oManager {
 
 		 Owner jon = new Owner("Jon", "Jonlog", "passJon");
 		 Owner alfredo = new Owner("Alfredo","AlfredoLog", "passAlfredo");
-		 Owner jesus = new Owner("Jesús", "Jesuslog", "passJesus");
+		 Owner jesus = new Owner("Jesï¿½s", "Jesuslog", "passJesus");
 		 Owner josean = new Owner("Josean","JoseanLog", "passJosean");
 	     jon.addRuralHouse(1, "Ezkioko etxea","Ezkio");
-	     jon.addRuralHouse(2, "Etxetxikia","Iruña");
+	     jon.addRuralHouse(2, "Etxetxikia","Iruï¿½a");
 	     jesus.addRuralHouse(3, "Udaletxea","Bilbo");
 	     josean.addRuralHouse(4, "Gaztetxea","Renteria");
 
@@ -253,7 +254,19 @@ public class DB4oManager {
 	         //db.close();
 	     }
 	}
-
+	
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city,String address,int aumber){
+		RuralHouse rh = new RuralHouse(houseNumber, owner, description, city, address, aumber);
+		List<RuralHouse> ls = db.queryByExample(rh);
+		if(ls.size() == 0){
+			db.store(rh);
+			db.commit();
+			owner.addRuralHouse(houseNumber, description, city, address, aumber);
+			return rh;
+		}else{
+		return null;
+		}
+	}
 
 	
 	public void close(){

@@ -8,8 +8,6 @@ import domain.Booking;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
-
-
 import exceptions.OfferCanNotBeBooked; 
 
 
@@ -58,6 +56,6 @@ public interface ApplicationFacadeInterface extends Remote {
 	
 	public void close() throws RemoteException;
 
-
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city,String address,int aumber);
 	
 }

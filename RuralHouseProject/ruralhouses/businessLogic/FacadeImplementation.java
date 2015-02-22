@@ -108,6 +108,10 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		dB4oManager.close();
 
 	}
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city,String address,int aumber){
+		
+		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+	}
 
 	}
 
