@@ -106,14 +106,14 @@ public class DB4oManager {
 
 	public void initializeDB() {
 		Users jon = new Owner("Jon", "Jonlog", "passJon", true, true);
-		
+
 		try {
 			addUserToDataBase("ivan", "byjoke", "123", false);
 			addUserToDataBase("bienvenido", "bienve", "12345", true);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		Users alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo", true, true);
 		Users jesus = new Owner("Jesús", "Jesuslog", "passJesus", true, true);
 		Users josean = new Owner("Josean", "JoseanLog", "passJosean", true, true);
@@ -266,7 +266,7 @@ public class DB4oManager {
 		}
 		List<Users> data = db.queryByExample(user);
 		return (data.size() == 1) ? data.get(0) : null;
-		
+
 	}
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException {
@@ -283,7 +283,23 @@ public class DB4oManager {
 		db.store(owner);
 		db.commit();
 		return (isOwner) ? owner : client;
-		
+
+	}
+	
+	private boolean checkRural(int houseNumber, String description, String city, String address, int aumber){
+		return  db.queryByExample(new RuralHouse(houseNumber, null, description, city, address, aumber)).size()==0;
+	}
+
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+		RuralHouse rh = new RuralHouse(houseNumber, owner, description, city, address, aumber);
+		if (checkRural(houseNumber, description, city, address, aumber)) {
+			db.store(rh);
+			db.commit();
+			owner.addRuralHouse(houseNumber, description, city, address, aumber);
+			return rh;
+		} else {
+			return null;
+		}
 	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {

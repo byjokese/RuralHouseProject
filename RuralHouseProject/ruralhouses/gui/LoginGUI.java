@@ -111,7 +111,7 @@ public class LoginGUI extends JFrame {
 				String password = passwordField.getText();
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
-					if (facadeInterface.checkLogin(username, password, isOwner))
+					if (facadeInterface.checkLogin(username, password, isOwner) != null)
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 					/** Redirects to User's Interface **/
 					else

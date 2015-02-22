@@ -9,14 +9,12 @@ public class Owner extends Users implements Serializable {
 	private String bankAccount = "";
 	private Vector<RuralHouse> ruralHouses;
 
-	public Owner(String name, String username, String password,
-			Boolean activated, Boolean isOwner) {
+	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner) {
 		super(name, username, password, activated, isOwner);
 		ruralHouses = new Vector<RuralHouse>();
 	}
 
-	public Owner(String name, String username, String password,	Boolean activated, Boolean isOwner, String bankAccount,
-			Vector<RuralHouse> ruralHouses) {
+	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner, String bankAccount, Vector<RuralHouse> ruralHouses) {
 		super(name, username, password, activated, isOwner);
 		this.bankAccount = bankAccount;
 		this.ruralHouses = ruralHouses;
@@ -34,9 +32,14 @@ public class Owner extends Users implements Serializable {
 		return ruralHouses;
 	}
 
-	public RuralHouse addRuralHouse(int houseNumber, String description,
-			String city) {
+	public RuralHouse addRuralHouse(int houseNumber, String description, String city) {
 		RuralHouse rh = new RuralHouse(houseNumber, this, description, city);
+		ruralHouses.add(rh);
+		return rh;
+	}
+
+	public RuralHouse addRuralHouse(int houseNumber, String description, String city, String address, int number) {
+		RuralHouse rh = new RuralHouse(houseNumber, this, description, city, address, number);
 		ruralHouses.add(rh);
 		return rh;
 

@@ -126,4 +126,9 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.checkUserAvailability(username);
 	}
 
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+
+		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+	}
+
 }

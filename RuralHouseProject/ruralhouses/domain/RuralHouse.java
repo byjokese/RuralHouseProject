@@ -17,7 +17,9 @@ public class RuralHouse implements Serializable {
 	private int houseNumber;
 	private String description;
 	private Owner owner;
-	private String city; 
+	private String city;
+	private String address;
+	private int number;
 	public Vector<Offer> offers;
 	
 
@@ -32,11 +34,38 @@ public class RuralHouse implements Serializable {
 		this.description = description;
 		this.owner = owner;
 		this.city = city;
+		this.address = "";
+		this.number =0;
+		offers=new Vector<Offer>();
+	}
+	public RuralHouse(int houseNumber, Owner owner, String description, String city,String address,int aumber) {
+		this.houseNumber = houseNumber;
+		this.description = description;
+		this.owner = owner;
+		this.city = city;
+		this.address = address;
+		this.number = aumber;
 		offers=new Vector<Offer>();
 	}
 
 	public int getHouseNumber() {
 		return houseNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	public void setHouseNumber(int houseNumber) {
