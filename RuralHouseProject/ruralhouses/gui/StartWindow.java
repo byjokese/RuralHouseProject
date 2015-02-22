@@ -132,10 +132,12 @@ public class StartWindow extends JFrame {
 				String password = passwordField.getText();
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
-					if (facadeInterface.checkLogin(username, password, isOwner))
+					Users user = facadeInterface.checkLogin(username, password, isOwner);
+					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
-						/**Redirects to User's Interface**/
-					else
+						JFrame o = new OwnerGUI(user);
+						o.setVisible(true);
+					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 				} catch (RemoteException e) {
 					e.printStackTrace();

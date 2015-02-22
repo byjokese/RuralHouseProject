@@ -61,8 +61,8 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public boolean checkUserAvailability(String username) throws RemoteException;
 	
-	public boolean checkLogin(String username, String password,  boolean isOwner) throws RemoteException;
+	public Users checkLogin(String username, String password,  boolean isOwner) throws RemoteException;
 	
-	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException;
+	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAcount) throws RemoteException;
 	
 }

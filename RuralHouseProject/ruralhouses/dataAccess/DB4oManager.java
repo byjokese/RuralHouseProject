@@ -7,6 +7,7 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -105,7 +106,14 @@ public class DB4oManager {
 
 	public void initializeDB() {
 		Users jon = new Owner("Jon", "Jonlog", "passJon", true, true);
-
+		
+		try {
+			addUserToDataBase("ivan", "byjoke", "123", false);
+			addUserToDataBase("bienvenido", "bienve", "12345", true);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 		Users alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo", true, true);
 		Users jesus = new Owner("Jesús", "Jesuslog", "passJesus", true, true);
 		Users josean = new Owner("Josean", "JoseanLog", "passJosean", true, true);
@@ -249,14 +257,16 @@ public class DB4oManager {
 		return (db.queryByExample(user).size() == 0);
 	}
 
-	public boolean checkLogin(String username, String password, boolean isOwner) throws RemoteException {
+	public Users checkLogin(String username, String password, boolean isOwner) throws RemoteException {
 		Users user;
 		if (isOwner) {
 			user = new Owner(null, username, password, true, true);
 		} else {
 			user = new Client(null, username, password, true, false);
 		}
-		return db.queryByExample(user).size() == 1;
+		List<Users> data = db.queryByExample(user);
+		return (data.size() == 1) ? data.get(0) : null;
+		
 	}
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException {

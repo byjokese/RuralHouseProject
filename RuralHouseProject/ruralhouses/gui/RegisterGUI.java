@@ -172,7 +172,7 @@ public class RegisterGUI extends JFrame {
 		mask.setPlaceholderCharacter('0');
 
 		bankField = new JFormattedTextField(mask);
-		bankField.addKeyListener(new KeyAdapter() {
+		/*bankField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if (bankField.getText().length() == 4) {
@@ -188,7 +188,7 @@ public class RegisterGUI extends JFrame {
 					// bankField.setEditable(false);
 				}
 			}
-		});
+		});*/
 		// bankField.setText("");
 		// bankField.setHorizontalAlignment(SwingConstants.LEFT);
 		bankField.setBounds(48, 271, 202, 22);
@@ -210,16 +210,15 @@ public class RegisterGUI extends JFrame {
 							System.out.println(bankField.getText());
 							try {
 								if (isOwner & bankField.getText().length() == 22 && !bankField.getText().equals("0000-0000-00-000000000")) {
-									Users user = facade.addUserToDataBase(name, username, password, isOwner);
 									bankAccount = bankField.getText();
-									((Owner) user).setBankAccount(bankAccount);
+									facade.addUserToDataBase(name, username, password, isOwner, bankAccount);
 									JOptionPane.showMessageDialog(null, "Successfully Registered");
 									dispose();
 								} else if (isOwner & (bankField.getText().length() != 22 || bankField.getText().equals("0000-0000-00-000000000"))) {
 									System.out.println(bankField.getText().length());
 									errorLabel.setText("Incorrect format for Bank Account");
 								} else if (!isOwner) {
-									facade.addUserToDataBase(name, username, password, false);
+									facade.addUserToDataBase(name, username, password, false, null);
 								}
 							} catch (RemoteException e) {
 								e.printStackTrace();
