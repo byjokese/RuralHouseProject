@@ -38,13 +38,13 @@ public class RuralHouse implements Serializable {
 		this.number =0;
 		offers=new Vector<Offer>();
 	}
-	public RuralHouse(int houseNumber, Owner owner, String description, String city,String address,int aumber) {
+	public RuralHouse(int houseNumber, Owner owner, String description, String city,String address,int number) {
 		this.houseNumber = houseNumber;
 		this.description = description;
 		this.owner = owner;
 		this.city = city;
 		this.address = address;
-		this.number = aumber;
+		this.number = number;
 		offers=new Vector<Offer>();
 	}
 
