@@ -92,7 +92,7 @@ public class SignUpHouseGUI extends JFrame {
 				// no dejar ningun campo vacio
 				if (ciudadtextField.getText().equals("") || calletextField.getText().equals("") || numerotextField.getText().equals("")
 						|| destextArea.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "NO Puede dejar ningun campo vacio");
+					JOptionPane.showMessageDialog(null, "You have to fill every blank");
 				} else {
 					String city = ciudadtextField.getText();
 					String address = calletextField.getText();
@@ -102,17 +102,17 @@ public class SignUpHouseGUI extends JFrame {
 						number = Integer.parseInt(numerotextField.getText());
 
 					} catch (Exception e2) {
-						JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
+						JOptionPane.showMessageDialog(numerotextField, "Insert a valid number:");
 						number = -1;
 					}
 					if (number >= 0) {
 
 						try {
 							if (facade.storeRuralhouse(12, owner, description, city, address, number) == null) {
-								JOptionPane.showMessageDialog(numerotextField, "Esta RuralHouse ya EXISTE");
+								JOptionPane.showMessageDialog(numerotextField, "This rural house already exists");
 							} else {
 
-								JOptionPane.showMessageDialog(numerotextField, "REGISTRED");
+								JOptionPane.showMessageDialog(numerotextField, "REGISTERED");
 								dispose();
 							}
 						} catch (HeadlessException e1) {
@@ -136,19 +136,19 @@ public class SignUpHouseGUI extends JFrame {
 		contentPane.add(RegistrarBtn);
 
 		ciudadtextField = new JTextField();
-		ciudadtextField.setToolTipText("introduce la ciudad");
+		ciudadtextField.setToolTipText("insert the city");
 		ciudadtextField.setBounds(92, 47, 238, 19);
 		contentPane.add(ciudadtextField);
 		ciudadtextField.setColumns(10);
 
 		calletextField = new JTextField();
-		calletextField.setToolTipText("introduce una calle");
+		calletextField.setToolTipText("insert the street");
 		calletextField.setColumns(10);
 		calletextField.setBounds(92, 95, 238, 19);
 		contentPane.add(calletextField);
 
 		numerotextField = new JTextField();
-		numerotextField.setToolTipText("introduce un numero de calle o portal");
+		numerotextField.setToolTipText("insert the street number");
 		numerotextField.setColumns(10);
 		numerotextField.setBounds(430, 98, 69, 19);
 		contentPane.add(numerotextField);

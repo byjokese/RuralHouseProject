@@ -232,7 +232,7 @@ public class RegisterGUI extends JFrame {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Passwords does not match.");
+					JOptionPane.showMessageDialog(null, "Passwords do not match.");
 				}
 
 			}
