@@ -46,7 +46,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private String[] columnNames = new String[] { "Offer#", "Rural House", "First Day", "Last Day", "Price" };
 
 	private static configuration.ConfigXML c;
-	private final JLabel lblQueryMenu = new JLabel("Query Menu");
+	private final JLabel lblQueryMenu = new JLabel("Query Menu Not INPLEMENTED YET");
 	private final JSeparator separator = new JSeparator();
 
 	public QueryAvailabilityGUI() throws DataBaseNotInitialized {
@@ -169,9 +169,10 @@ public class QueryAvailabilityGUI extends JFrame {
 		labelNoOffers.setBounds(73, 432, 265, 14);
 
 		getContentPane().add(labelNoOffers);
+		lblQueryMenu.setForeground(Color.RED);
 		lblQueryMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueryMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQueryMenu.setBounds(0, 10, 417, 30);
+		lblQueryMenu.setBounds(0, 11, 417, 30);
 
 		getContentPane().add(lblQueryMenu);
 		separator.setBounds(0, 41, 417, 14);

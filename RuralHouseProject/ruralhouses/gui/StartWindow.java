@@ -60,10 +60,7 @@ public class StartWindow extends JFrame {
 						facade.close();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					System.out
-							.println("Error: "
-									+ e1.toString()
-									+ " , probably problems with Business Logic or Database");
+					System.out.println("Error: " + e1.toString() + " , probably problems with Business Logic or Database");
 				}
 				System.exit(1);
 			}
@@ -129,20 +126,17 @@ public class StartWindow extends JFrame {
 		/* Login */
 		JButton loginBtn = new JButton("Log In");
 		loginBtn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				String username = userTextField.getText();
 				String password = passwordField.getText();
-				Users.type type = null;
-				if (userRadBut.isSelected()) {
-					type = Users.type.CLIENT;
-				} else {
-					type = Users.type.OWNER;
-				}
+				boolean isOwner = ownerRadBut.isSelected();
 				try {
-					if (facadeInterface.checkLogin(username, password, type))
-						JOptionPane.showMessageDialog(null,	"Successfully loged in.");
+					if (facadeInterface.checkLogin(username, password, isOwner))
+						JOptionPane.showMessageDialog(null, "Successfully loged in.");
+						/**Redirects to User's Interface**/
 					else
-						JOptionPane.showMessageDialog(null,	"Username or password incorrect.");
+						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -218,24 +212,19 @@ public class StartWindow extends JFrame {
 				// RMI server port number
 				int portNumber = Integer.parseInt(c.getPortRMI());
 				// RMI server host IP IP
-				facadeInterface = (ApplicationFacadeInterface) Naming
-						.lookup("rmi://" + businessLogicNode + ":" + portNumber
-								+ serviceName);
+				facadeInterface = (ApplicationFacadeInterface) Naming.lookup("rmi://" + businessLogicNode + ":" + portNumber + serviceName);
 			}
 
 		} catch (java.rmi.ConnectException e) {
-			a.lblNewLabel
-					.setText("No business logic: Run BusinessLogicServer first!!");
+			a.lblNewLabel.setText("No business logic: Run BusinessLogicServer first!!");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
 		} catch (java.rmi.NotBoundException e) {
-			a.lblNewLabel
-					.setText("No business logic: Maybe problems running BusinessLogicServer");
+			a.lblNewLabel.setText("No business logic: Maybe problems running BusinessLogicServer");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
 		} catch (com.db4o.ext.DatabaseFileLockedException e) {
-			a.lblNewLabel
-					.setText("Database locked: Do not run BusinessLogicServer or BusinessLogicServer!!");
+			a.lblNewLabel.setText("Database locked: Do not run BusinessLogicServer or BusinessLogicServer!!");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
 		} catch (DB4oManagerCreationException e) {

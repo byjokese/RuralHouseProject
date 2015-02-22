@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import businessLogic.ApplicationFacadeInterface;
+import domain.Owner;
 import domain.Users;
 
 import java.awt.event.ActionListener;
@@ -29,6 +30,10 @@ import java.rmi.RemoteException;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.Color;
+import javax.swing.DropMode;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
@@ -64,7 +69,7 @@ public class RegisterGUI extends JFrame {
 	 */
 	public RegisterGUI() {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 310, 356);
+		setBounds(100, 100, 310, 366);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -122,64 +127,10 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(nametextField);
 		nametextField.setColumns(10);
 
-		JButton btnNewButton = new JButton("Register");
-		btnNewButton.addActionListener(new ActionListener() {
-			@SuppressWarnings({ "deprecation", "static-access" })
-			public void actionPerformed(ActionEvent arg0) {
-				if (passwordField.getText().equals(
-						confirmPasswordField.getText())) {
-					String username = usernameTextField.getText();
-					String name = nametextField.getText();
-					String password = passwordField.getText();
-					try {
-						if (facade.checkUserAvailability(username)) {
-							Users.type type = null;
-							if (userRadBut.isSelected()) {
-								type = Users.type.CLIENT;
-							} else {
-								type = Users.type.OWNER;
-							}
-							try {
-								facade.addUserToDataBase(name, username,
-										password, type);
-							} catch (RemoteException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						} else {
-							JOptionPane.showMessageDialog(null,"User already taken, please choose another one.");
-						}
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Passwords does not match.");
-				}
-
-			}
-		});
-		btnNewButton.setBounds(43, 203, 207, 35);
-		contentPane.add(btnNewButton);
-
-		MaskFormatter mask = null;
-
-		try {
-			mask = new MaskFormatter("####-####-##-##########");
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mask.setPlaceholderCharacter('_');
-
-		bankField = new JFormattedTextField(mask);
-		bankField.setText("");
-		bankField.setEnabled(false);
-		bankField.setHorizontalAlignment(SwingConstants.LEFT);
-		bankField.setBounds(48, 271, 202, 22);
-		contentPane.add(bankField);
+		JLabel errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBounds(48, 304, 202, 14);
+		contentPane.add(errorLabel);
 
 		JRadioButton ownerRadBut = new JRadioButton("Owner");
 		ownerRadBut.setHorizontalAlignment(SwingConstants.CENTER);
@@ -187,10 +138,12 @@ public class RegisterGUI extends JFrame {
 			public void stateChanged(ChangeEvent arg0) {
 				if (ownerRadBut.isSelected()) {
 					bankField.setEnabled(true);
+					bankField.setEditable(true);
 					insertbankLabel.setEnabled(true);
 				} else {
 					bankField.setEnabled(false);
-					bankField.setText("");
+					bankField.setEditable(false);
+					bankField.setValue("");
 					insertbankLabel.setEnabled(false);
 				}
 			}
@@ -207,5 +160,86 @@ public class RegisterGUI extends JFrame {
 		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
 		lblConfirmPassword.setBounds(43, 142, 114, 20);
 		contentPane.add(lblConfirmPassword);
+
+		MaskFormatter mask = null;
+
+		try {
+			mask = new MaskFormatter("####-####-##-#########");
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+
+		mask.setPlaceholderCharacter('0');
+
+		bankField = new JFormattedTextField(mask);
+		bankField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if (bankField.getText().length() == 4) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 9) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 12) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 22) {
+					// bankField.setEditable(false);
+				}
+			}
+		});
+		// bankField.setText("");
+		// bankField.setHorizontalAlignment(SwingConstants.LEFT);
+		bankField.setBounds(48, 271, 202, 22);
+		contentPane.add(bankField);
+
+		JButton btnNewButton = new JButton("Register");
+		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings({ "deprecation", "static-access" })
+			public void actionPerformed(ActionEvent arg0) {
+				if (passwordField.getText().equals(confirmPasswordField.getText())) {
+					String username = usernameTextField.getText();
+					String name = nametextField.getText();
+					String password = passwordField.getText();
+					String bankAccount = null;
+					boolean isOwner;
+					try {
+						if (facade.checkUserAvailability(username)) {
+							isOwner = ownerRadBut.isSelected();
+							System.out.println(bankField.getText());
+							try {
+								if (isOwner & bankField.getText().length() == 22 && !bankField.getText().equals("0000-0000-00-000000000")) {
+									Users user = facade.addUserToDataBase(name, username, password, isOwner);
+									bankAccount = bankField.getText();
+									((Owner) user).setBankAccount(bankAccount);
+									JOptionPane.showMessageDialog(null, "Successfully Registered");
+									dispose();
+								} else if (isOwner & (bankField.getText().length() != 22 || bankField.getText().equals("0000-0000-00-000000000"))) {
+									System.out.println(bankField.getText().length());
+									errorLabel.setText("Incorrect format for Bank Account");
+								} else if (!isOwner) {
+									facade.addUserToDataBase(name, username, password, false);
+								}
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+
+						} else {
+							JOptionPane.showMessageDialog(null, "User already taken, please choose another one.");
+						}
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Passwords does not match.");
+				}
+
+			}
+		});
+		btnNewButton.setBounds(43, 203, 207, 35);
+		contentPane.add(btnNewButton);
+
 	}
 }

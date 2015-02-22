@@ -43,10 +43,10 @@ public class DB4oManager {
 	private DB4oManager() throws Exception {
 		theDB4oManagerAux = new DB4oManagerAux(0, 0);
 		c = ConfigXML.getInstance();
-		System.out.println("Creating DB4oManager instance => isDatabaseLocal: " + c.isDatabaseLocal() + " getDatabBaseOpenMode: "
-				+ c.getDataBaseOpenMode());
+		System.out.println("Creating DB4oManager instance => isDatabaseLocal: " + c.isDatabaseLocal() + " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
-		if ((c.getDataBaseOpenMode().equals("initialize")) && (c.isDatabaseLocal())) new File(c.getDb4oFilename()).delete();
+		if ((c.getDataBaseOpenMode().equals("initialize")) && (c.isDatabaseLocal()))
+			new File(c.getDb4oFilename()).delete();
 
 		if (c.isDatabaseLocal()) {
 			configuration = Db4oEmbedded.newConfiguration();
@@ -59,6 +59,7 @@ public class DB4oManager {
 			openObjectContainer();
 		}
 		if (c.getDataBaseOpenMode().equals("initialize")) {
+			/** ---------------------------------------------------------------------------------------------------- **/
 			initializeDB();
 			System.out.println("DataBase initialized");
 			initialized = true;
@@ -67,7 +68,8 @@ public class DB4oManager {
 		{
 			ObjectSet res = db.queryByExample(DB4oManagerAux.class);
 			ListIterator listIter = res.listIterator();
-			if (listIter.hasNext()) theDB4oManagerAux = (DB4oManagerAux) res.next();
+			if (listIter.hasNext())
+				theDB4oManagerAux = (DB4oManagerAux) res.next();
 		}
 	}
 
@@ -96,25 +98,27 @@ public class DB4oManager {
 	}
 
 	public static DB4oManager getInstance() throws Exception {
-		if (theDB4oManager == null) theDB4oManager = new DB4oManager();
+		if (theDB4oManager == null)
+			theDB4oManager = new DB4oManager();
 		return theDB4oManager;
 	}
 
 	public void initializeDB() {
+		Users jon = new Owner("Jon", "Jonlog", "passJon", true, true);
 
-		Owner jon = new Owner("Jon", "Jonlog", "passJon",true);
-		Owner alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo",true);
-		Owner jesus = new Owner("Jesús", "Jesuslog", "passJesus",true);
-		Owner josean = new Owner("Josean", "JoseanLog", "passJosean",true);
-		jon.addRuralHouse(1, "Ezkioko etxea", "Ezkio");
-		jon.addRuralHouse(2, "Etxetxikia", "Iruña");
-		jesus.addRuralHouse(3, "Udaletxea", "Bilbo");
-		josean.addRuralHouse(4, "Gaztetxea", "Renteria");
+		Users alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo", true, true);
+		Users jesus = new Owner("Jesús", "Jesuslog", "passJesus", true, true);
+		Users josean = new Owner("Josean", "JoseanLog", "passJosean", true, true);
 
-		jon.setBankAccount("1234567812785478963");
-		alfredo.setBankAccount("77654321");
-		jesus.setBankAccount("12344321");
-		josean.setBankAccount("43211234");
+		((Owner) jon).addRuralHouse(1, "Ezkioko etxea", "Ezkio");
+		((Owner) jon).addRuralHouse(2, "Etxetxikia", "Iruña");
+		((Owner) jesus).addRuralHouse(3, "Udaletxea", "Bilbo");
+		((Owner) josean).addRuralHouse(4, "Gaztetxea", "Renteria");
+
+		((Owner) jon).setBankAccount("1234567812785478963");
+		((Owner) alfredo).setBankAccount("1234567812785478963");
+		((Owner) jesus).setBankAccount("123456781278554154963");
+		((Owner) josean).setBankAccount("1234567812785478963");
 
 		db.store(jon);
 		db.store(alfredo);
@@ -139,21 +143,17 @@ public class DB4oManager {
 			db.store(o);
 			db.commit();
 			return o;
-		}
-		catch (com.db4o.ext.ObjectNotStorableException e) {
+		} catch (com.db4o.ext.ObjectNotStorableException e) {
 			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createOffer " + e.getMessage());
 			return null;
 		}
 	}
 
-/**WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**/
 	@SuppressWarnings("unchecked")
 	public void deleteDB() {
 		try {
-			Users proto = new Owner(null, null, null, false);
+			Users proto = new Users(null, null, null, null, null);
 			ObjectSet result = db.queryByExample(proto);
-			proto = new Owner(null, null, null, true);
-			result.addAll(db.queryByExample(proto));
 			Vector<Users> owners = new Vector<Users>();
 			while (result.hasNext()) {
 				Users o = (Owner) result.next();
@@ -161,8 +161,7 @@ public class DB4oManager {
 				db.delete(o);
 			}
 			db.commit();
-		}
-		finally {
+		} finally {
 			// db.close();
 		}
 	}
@@ -197,12 +196,10 @@ public class DB4oManager {
 			}
 			return null;
 
-		}
-		catch (com.db4o.ext.ObjectNotStorableException e) {
+		} catch (com.db4o.ext.ObjectNotStorableException e) {
 			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createBooking " + e.getMessage());
 			return null;
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
 		}
@@ -215,18 +212,18 @@ public class DB4oManager {
 	public Vector<Owner> getOwners() throws RemoteException, Exception {
 
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
-
+		// Se cogen todos los Users activados
 		try {
-			Users proto = new Owner(null, null, null, false);
+			Users proto = new Owner(null, null, null, true, null);
 			ObjectSet result = db.queryByExample(proto);
-			proto = new Owner(null, null, null, true);
-			result.addAll(db.queryByExample(proto));
+			/*
+			 * proto = new Owner(null, null, null, false, null); result.addAll(db.queryByExample(proto));
+			 */
 			Vector<Owner> owners = new Vector<Owner>();
 			while (result.hasNext())
 				owners.add((Owner) result.next());
 			return owners;
-		}
-		finally {
+		} finally {
 			// db.close();
 		}
 	}
@@ -242,42 +239,41 @@ public class DB4oManager {
 			while (result.hasNext())
 				ruralHouses.add((RuralHouse) result.next());
 			return ruralHouses;
-		}
-		finally {
+		} finally {
 			// db.close();
 		}
 	}
 
-	public boolean checkUserAvailability(String username) throws RemoteException{
-		Users user = new Client(null, username, null, null);
+	public boolean checkUserAvailability(String username) throws RemoteException {
+		Users user = new Client(null, username, null, null, null);
 		return (db.queryByExample(user).size() == 0);
 	}
-	
-	public boolean checkLogin(String username, String password,  Users.type type) throws RemoteException{
-		Object user;
-		if (type == Users.type.CLIENT) {
-			user = new Client(null, username, password, true);
+
+	public boolean checkLogin(String username, String password, boolean isOwner) throws RemoteException {
+		Users user;
+		if (isOwner) {
+			user = new Owner(null, username, password, true, true);
+		} else {
+			user = new Client(null, username, password, true, false);
 		}
-		else {
-			user = new Owner(null, username, password, true);
-		}
-		return db.queryByExample(user).size()==0;
+		return db.queryByExample(user).size() == 1;
 	}
 
-	public void addUserToDataBase(String name, String login, String password, Users.type type) throws RemoteException {
-		Client client;
-		Owner owner;
-		if (type == Users.type.CLIENT) {
-			client = new Client(name, login, password, true);
-			owner = new Owner(name, login, password, false);
-		}
-		else {
-			client = new Client(name, login, password, false);
-			owner = new Owner(name, login, password, true);
+	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException {
+		Users client;
+		Users owner;
+		if (isOwner) {
+			client = new Client(name, login, password, false, false);
+			owner = new Owner(name, login, password, true, true);
+		} else {
+			client = new Client(name, login, password, true, false);
+			owner = new Owner(name, login, password, false, true);
 		}
 		db.store(client);
 		db.store(owner);
 		db.commit();
+		return (isOwner) ? owner : client;
+		
 	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {
@@ -285,11 +281,11 @@ public class DB4oManager {
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
 
 			RuralHouse rhn = (RuralHouse) db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null)).next();
-			if (rhn.overlapsWith(firstDay, lastDay) != null) throw new OverlappingOfferExists();
+			if (rhn.overlapsWith(firstDay, lastDay) != null)
+				throw new OverlappingOfferExists();
 			else
 				return false;
-		}
-		finally {
+		} finally {
 			// db.close();
 		}
 	}
