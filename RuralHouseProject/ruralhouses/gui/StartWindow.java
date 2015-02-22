@@ -3,6 +3,7 @@ package gui;
 /**
  * @author Software Engineering teachers
  */
+import domain.Users;
 import exceptions.DB4oManagerCreationException;
 
 import javax.swing.*;
@@ -35,11 +36,13 @@ public class StartWindow extends JFrame {
 	private JPanel contentPane = null;
 	private JTextField userTextField;
 	private JPasswordField passwordField;
+	private JLabel lblNewLabel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static configuration.ConfigXML c;
 
 	public static ApplicationFacadeInterface facadeInterface;
-	private JLabel lblNewLabel;
+
+	// private JLabel lblNewLabel;
 
 	/**
 	 * This is the default constructor
@@ -53,9 +56,9 @@ public class StartWindow extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				ApplicationFacadeInterface facade = StartWindow.facadeInterface;
 				try {
-					if (c.isBusinessLogicLocal()) facade.close();
-				}
-				catch (Exception e1) {
+					if (c.isBusinessLogicLocal())
+						facade.close();
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					System.out.println("Error: " + e1.toString() + " , probably problems with Business Logic or Database");
 				}
@@ -76,17 +79,21 @@ public class StartWindow extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		setBounds(100, 100, 263, 299);
+		setBounds(100, 100, 248, 318);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-/** User Data**/
+
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(12, 126, 205, 16);
+		contentPane.add(lblNewLabel);
+
+		/** User Data **/
 		JLabel userLabel = new JLabel("Username:");
 		userLabel.setBounds(33, 44, 76, 20);
 		contentPane.add(userLabel);
-		
+
 		userTextField = new JTextField();
 		userTextField.setToolTipText("Inserter your username for loging.");
 		userTextField.setBounds(113, 44, 86, 20);
@@ -101,65 +108,84 @@ public class StartWindow extends JFrame {
 		passwordField.setToolTipText("Insert the password of your account.");
 		passwordField.setBounds(113, 79, 86, 20);
 		contentPane.add(passwordField);
-		
-/**User type Selection Buttons**/
-	/*User*/
+
+		/** User type Selection Buttons **/
+		/* User */
 		JRadioButton userRadBut = new JRadioButton("User");
+		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);
 		contentPane.add(userRadBut);
-	/*Owner*/
+		/* Owner */
 		JRadioButton ownerRadBut = new JRadioButton("Owner");
 		buttonGroup.add(ownerRadBut);
 		ownerRadBut.setBounds(123, 106, 76, 23);
 		contentPane.add(ownerRadBut);
 
-/** Login and Register buttons & Look for offers**/
-	/*Login*/
+		/** Login and Register buttons & Look for offers **/
+		/* Login */
 		JButton loginBtn = new JButton("Log In");
-		loginBtn.setBounds(20, 136, 205, 39);
-		contentPane.add(loginBtn);
-	/*register*/
-		JButton btnRegister = new JButton("Register");
-		btnRegister.addActionListener(new ActionListener() {
+		loginBtn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				//Wait until Database is initialized
+				String username = userTextField.getText();
+				String password = passwordField.getText();
+				boolean isOwner = ownerRadBut.isSelected();
+				try {
+					Users user = facadeInterface.checkLogin(username, password, isOwner);
+					if (user != null) {
+						JOptionPane.showMessageDialog(null, "Successfully loged in.");
+						JFrame o = new OwnerGUI(user);
+						o.setVisible(true);
+					} else
+						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		loginBtn.setBounds(12, 150, 205, 39);
+		contentPane.add(loginBtn);
+		/* register */
+		JButton RegisterBtn = new JButton("Register");
+		RegisterBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Wait until Database is initialized
 				JFrame a = new RegisterGUI();
 				a.setVisible(true);
 			}
 		});
-		btnRegister.setForeground(Color.BLACK);
-		btnRegister.setBounds(139, 186, 86, 17);
-		contentPane.add(btnRegister);
-	/*Offers*/
-		JButton btnLookForOffers = new JButton("Look for Offers");
-		btnLookForOffers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0){
+		RegisterBtn.setForeground(Color.BLACK);
+		RegisterBtn.setBounds(131, 200, 86, 17);
+		contentPane.add(RegisterBtn);
+		/* Offers */
+		JButton LookForOffersBtn = new JButton("Look for Offers");
+		LookForOffersBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				JFrame b;
 				try {
 					b = new QueryAvailabilityGUI();
 					b.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					System.out.println(e.getMessage());
+					lblNewLabel.setText(e.getMessage());
 				}
-				
+
 			}
 		});
-		btnLookForOffers.setBounds(20, 214, 205, 39);
-		contentPane.add(btnLookForOffers);
-/**Extra Decoration**/
+		LookForOffersBtn.setBounds(12, 228, 205, 39);
+		contentPane.add(LookForOffersBtn);
+		/** Extra Decoration **/
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 35, 247, 2);
 		contentPane.add(separator);
-		
+
 		JLabel BannerLabel = new JLabel("Rural House System");
 		BannerLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		BannerLabel.setBounds(20, 0, 200, 37);
+		BannerLabel.setBounds(0, 0, 247, 37);
 		contentPane.add(BannerLabel);
 
-		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -178,7 +204,8 @@ public class StartWindow extends JFrame {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
 			c = configuration.ConfigXML.getInstance();
-			if (c.isBusinessLogicLocal()) facadeInterface = new FacadeImplementation();
+			if (c.isBusinessLogicLocal())
+				facadeInterface = new FacadeImplementation();
 			else {
 
 				final String businessLogicNode = c.getBusinessLogicNode();
@@ -190,29 +217,24 @@ public class StartWindow extends JFrame {
 				facadeInterface = (ApplicationFacadeInterface) Naming.lookup("rmi://" + businessLogicNode + ":" + portNumber + serviceName);
 			}
 
-		}
-		catch (java.rmi.ConnectException e) {
+		} catch (java.rmi.ConnectException e) {
 			a.lblNewLabel.setText("No business logic: Run BusinessLogicServer first!!");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
-		}
-		catch (java.rmi.NotBoundException e) {
+		} catch (java.rmi.NotBoundException e) {
 			a.lblNewLabel.setText("No business logic: Maybe problems running BusinessLogicServer");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
-		}
-		catch (com.db4o.ext.DatabaseFileLockedException e) {
+		} catch (com.db4o.ext.DatabaseFileLockedException e) {
 			a.lblNewLabel.setText("Database locked: Do not run BusinessLogicServer or BusinessLogicServer!!");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
-		}
-		catch (DB4oManagerCreationException e) {
+		} catch (DB4oManagerCreationException e) {
 			a.lblNewLabel.setText("No database: Run DB4oManagerServer first!!");
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
 
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			a.lblNewLabel.setText("Error: " + e.toString());
 			a.lblNewLabel.setForeground(Color.RED);
 			System.out.println("Error in StartWindow: " + e.toString());
@@ -220,5 +242,4 @@ public class StartWindow extends JFrame {
 		// a.pack();
 
 	}
-
 }

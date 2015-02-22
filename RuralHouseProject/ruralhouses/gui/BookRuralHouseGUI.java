@@ -174,8 +174,15 @@ public BookRuralHouseGUI()
 				else jLabel5.setText("There is not available offer for these dates");
 			} catch (OfferCanNotBeBooked e1) {
 				jLabel5.setText("Error: It is not possible to book");
-				JFrame a = new QueryAvailabilityGUI();
-			    a.setVisible(true);
+				JFrame a;
+				try {
+					a = new QueryAvailabilityGUI();
+					a.setVisible(true);
+				}
+				catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			    
 			
         } catch (Exception e1) {
 			

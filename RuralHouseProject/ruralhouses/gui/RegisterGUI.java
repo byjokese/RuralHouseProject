@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -19,22 +20,33 @@ import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+import businessLogic.ApplicationFacadeInterface;
+import domain.Owner;
+import domain.Users;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.Color;
 import javax.swing.DropMode;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	private JPanel contentPane;
-	private JTextField userTextField;
+	private JTextField usernameTextField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField;
+	private JTextField nametextField;
 	private JFormattedTextField bankField;
+	private JPasswordField confirmPasswordField;
 
 	/**
 	 * Launch the application.
@@ -45,8 +57,7 @@ public class RegisterGUI extends JFrame {
 				try {
 					RegisterGUI frame = new RegisterGUI();
 					frame.setVisible(true);
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -58,98 +69,176 @@ public class RegisterGUI extends JFrame {
 	 */
 	public RegisterGUI() {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 281, 304);
+		setBounds(100, 100, 310, 366);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
+
 		JLabel lblRegisterPage = new JLabel("Register Page");
 		lblRegisterPage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegisterPage.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblRegisterPage.setBounds(0, 10, 265, 22);
+		lblRegisterPage.setBounds(0, 10, 294, 22);
 		contentPane.add(lblRegisterPage);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 41, 300, 2);
+		separator.setBounds(0, 41, 294, 2);
 		contentPane.add(separator);
 
 		JLabel userLabel = new JLabel("Username:");
-		userLabel.setBounds(43, 50, 76, 20);
+		userLabel.setBounds(43, 50, 101, 20);
 		contentPane.add(userLabel);
 
-		userTextField = new JTextField();
-		userTextField.setToolTipText("Inserter your username for loging.");
-		userTextField.setBounds(123, 50, 86, 20);
-		contentPane.add(userTextField);
-		userTextField.setColumns(10);
+		usernameTextField = new JTextField();
+		usernameTextField.setToolTipText("Inserter your username for loging.");
+		usernameTextField.setBounds(164, 50, 86, 20);
+		contentPane.add(usernameTextField);
+		usernameTextField.setColumns(10);
 
 		JLabel passwordLabel = new JLabel("Password:");
-		passwordLabel.setBounds(43, 111, 76, 20);
+		passwordLabel.setBounds(43, 111, 101, 20);
 		contentPane.add(passwordLabel);
 
 		passwordField = new JPasswordField();
 		passwordField.setToolTipText("Insert the password of your account.");
-		passwordField.setBounds(123, 111, 86, 20);
+		passwordField.setBounds(164, 111, 86, 20);
 		contentPane.add(passwordField);
 
 		JRadioButton userRadBut = new JRadioButton("User");
+		userRadBut.setSelected(true);
+		userRadBut.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonGroup.add(userRadBut);
-		userRadBut.setBounds(43, 138, 61, 23);
+		userRadBut.setBounds(48, 173, 61, 23);
 		contentPane.add(userRadBut);
 
 		JLabel insertbankLabel = new JLabel("Insert your bank account: ");
 		insertbankLabel.setEnabled(false);
-		insertbankLabel.setBounds(43, 214, 166, 22);
+		insertbankLabel.setBounds(48, 249, 202, 22);
 		contentPane.add(insertbankLabel);
 
 		JLabel lblName = new JLabel("Name:");
-		lblName.setBounds(43, 80, 76, 19);
+		lblName.setBounds(43, 80, 101, 19);
 		contentPane.add(lblName);
 
-		textField = new JTextField();
-		textField.setBounds(123, 80, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		nametextField = new JTextField();
+		nametextField.setBounds(164, 81, 86, 20);
+		contentPane.add(nametextField);
+		nametextField.setColumns(10);
 
-		JButton btnNewButton = new JButton("Register");
-		btnNewButton.setBounds(38, 168, 171, 35);
-		contentPane.add(btnNewButton);
-
-		MaskFormatter mask = null;
-
-		try {
-			mask = new MaskFormatter("####-####-##-##########");
-		}
-		catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mask.setPlaceholderCharacter('_');
-
-		bankField = new JFormattedTextField(mask);
-		bankField.setText("");
-		bankField.setEnabled(false);
-		bankField.setHorizontalAlignment(SwingConstants.LEFT);
-		bankField.setBounds(43, 236, 166, 22);
-		contentPane.add(bankField);
+		JLabel errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBounds(48, 304, 202, 14);
+		contentPane.add(errorLabel);
 
 		JRadioButton ownerRadBut = new JRadioButton("Owner");
+		ownerRadBut.setHorizontalAlignment(SwingConstants.CENTER);
 		ownerRadBut.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				if (ownerRadBut.isSelected()) {
 					bankField.setEnabled(true);
+					bankField.setEditable(true);
 					insertbankLabel.setEnabled(true);
-				}
-				else{
+				} else {
 					bankField.setEnabled(false);
-					bankField.setText("");
+					bankField.setEditable(false);
+					bankField.setValue("");
 					insertbankLabel.setEnabled(false);
 				}
 			}
 		});
 		buttonGroup.add(ownerRadBut);
-		ownerRadBut.setBounds(133, 138, 76, 23);
+		ownerRadBut.setBounds(174, 173, 76, 23);
 		contentPane.add(ownerRadBut);
+
+		confirmPasswordField = new JPasswordField();
+		confirmPasswordField.setToolTipText("Confirm the previous password");
+		confirmPasswordField.setBounds(164, 142, 86, 20);
+		contentPane.add(confirmPasswordField);
+
+		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
+		lblConfirmPassword.setBounds(43, 142, 114, 20);
+		contentPane.add(lblConfirmPassword);
+
+		MaskFormatter mask = null;
+
+		try {
+			mask = new MaskFormatter("####-####-##-#########");
+		} catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+
+		mask.setPlaceholderCharacter('0');
+
+		bankField = new JFormattedTextField(mask);
+		/*bankField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if (bankField.getText().length() == 4) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 9) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 12) {
+					bankField.setText(bankField.getText() + "-");
+				}
+				if (bankField.getText().length() == 22) {
+					// bankField.setEditable(false);
+				}
+			}
+		});*/
+		// bankField.setText("");
+		// bankField.setHorizontalAlignment(SwingConstants.LEFT);
+		bankField.setBounds(48, 271, 202, 22);
+		contentPane.add(bankField);
+
+		JButton btnNewButton = new JButton("Register");
+		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings({ "deprecation", "static-access" })
+			public void actionPerformed(ActionEvent arg0) {
+				if (passwordField.getText().equals(confirmPasswordField.getText())) {
+					String username = usernameTextField.getText();
+					String name = nametextField.getText();
+					String password = passwordField.getText();
+					String bankAccount = null;
+					boolean isOwner;
+					try {
+						if (facade.checkUserAvailability(username)) {
+							isOwner = ownerRadBut.isSelected();
+							System.out.println(bankField.getText());
+							try {
+								if (isOwner & bankField.getText().length() == 22 && !bankField.getText().equals("0000-0000-00-000000000")) {
+									bankAccount = bankField.getText();
+									facade.addUserToDataBase(name, username, password, isOwner, bankAccount);
+									JOptionPane.showMessageDialog(null, "Successfully Registered");
+									dispose();
+								} else if (isOwner & (bankField.getText().length() != 22 || bankField.getText().equals("0000-0000-00-000000000"))) {
+									System.out.println(bankField.getText().length());
+									errorLabel.setText("Incorrect format for Bank Account");
+								} else if (!isOwner) {
+									facade.addUserToDataBase(name, username, password, false, null);
+								}
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+
+						} else {
+							JOptionPane.showMessageDialog(null, "User already taken, please choose another one.");
+						}
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Passwords does not match.");
+				}
+
+			}
+		});
+		btnNewButton.setBounds(43, 203, 207, 35);
+		contentPane.add(btnNewButton);
+
 	}
 }

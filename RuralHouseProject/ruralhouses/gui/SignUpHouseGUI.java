@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.JTextArea;
 
@@ -56,7 +58,7 @@ public class SignUpHouseGUI extends JFrame {
 	 */
 	public SignUpHouseGUI(Owner owner) {
 		setTitle("SIGN UP HOUSE");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 553, 392);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -87,37 +89,44 @@ public class SignUpHouseGUI extends JFrame {
 		RegistrarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//no dejar ningun campo vacio
-				if(ciudadtextField.getText().equals("")||
-						calletextField.getText().equals("") ||
-						numerotextField.getText().equals("")||
-						destextArea.getText().equals("")  ){JOptionPane.showMessageDialog(null,"NO Puede dejar ningun campo vacio");}
-				else{
+				// no dejar ningun campo vacio
+				if (ciudadtextField.getText().equals("") || calletextField.getText().equals("") || numerotextField.getText().equals("")
+						|| destextArea.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "NO Puede dejar ningun campo vacio");
+				} else {
 					String city = ciudadtextField.getText();
 					String address = calletextField.getText();
-					String description = destextArea.getText(); 
+					String description = destextArea.getText();
 					int number;
 					try {
 						number = Integer.parseInt(numerotextField.getText());
 
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
-						number =-1;
+						number = -1;
 					}
-					if(number >= 0){
+					if (number >= 0) {
 
-						if(facade.storeRuralhouse(12, owner, description, city, address, number) == null){
-							JOptionPane.showMessageDialog(numerotextField, "Esta RuralHouse ya EXISTE");
-						}else{
+						try {
+							if (facade.storeRuralhouse(12, owner, description, city, address, number) == null) {
+								JOptionPane.showMessageDialog(numerotextField, "Esta RuralHouse ya EXISTE");
+							} else {
 
-							JOptionPane.showMessageDialog(numerotextField, "REGISTRED");
-							 }
+								JOptionPane.showMessageDialog(numerotextField, "REGISTRED");
+								dispose();
+							}
+						} catch (HeadlessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
-					}else{
+					} else {
 
-						JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
+					//	JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
 					}
-
 
 				}
 
@@ -144,14 +153,11 @@ public class SignUpHouseGUI extends JFrame {
 		numerotextField.setBounds(430, 98, 69, 19);
 		contentPane.add(numerotextField);
 
-
-
 		JLabel lblNewLabel = new JLabel("House Registration");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		lblNewLabel.setBounds(12, 0, 529, 25);
 		contentPane.add(lblNewLabel);
-
 
 	}
 }
