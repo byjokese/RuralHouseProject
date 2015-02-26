@@ -68,8 +68,9 @@ public class RegisterGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
+		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 310, 366);
+		setBounds(100, 100, 310, 357);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -110,12 +111,12 @@ public class RegisterGUI extends JFrame {
 		userRadBut.setSelected(true);
 		userRadBut.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonGroup.add(userRadBut);
-		userRadBut.setBounds(48, 173, 61, 23);
+		userRadBut.setBounds(48, 169, 61, 23);
 		contentPane.add(userRadBut);
 
 		JLabel insertbankLabel = new JLabel("Insert your bank account: ");
 		insertbankLabel.setEnabled(false);
-		insertbankLabel.setBounds(48, 249, 202, 22);
+		insertbankLabel.setBounds(48, 255, 202, 22);
 		contentPane.add(insertbankLabel);
 
 		JLabel lblName = new JLabel("Name:");
@@ -129,7 +130,7 @@ public class RegisterGUI extends JFrame {
 
 		JLabel errorLabel = new JLabel("");
 		errorLabel.setForeground(Color.RED);
-		errorLabel.setBounds(48, 304, 202, 14);
+		errorLabel.setBounds(48, 302, 202, 14);
 		contentPane.add(errorLabel);
 
 		JRadioButton ownerRadBut = new JRadioButton("Owner");
@@ -149,7 +150,7 @@ public class RegisterGUI extends JFrame {
 			}
 		});
 		buttonGroup.add(ownerRadBut);
-		ownerRadBut.setBounds(174, 173, 76, 23);
+		ownerRadBut.setBounds(174, 169, 76, 23);
 		contentPane.add(ownerRadBut);
 
 		confirmPasswordField = new JPasswordField();
@@ -191,7 +192,7 @@ public class RegisterGUI extends JFrame {
 		});*/
 		// bankField.setText("");
 		// bankField.setHorizontalAlignment(SwingConstants.LEFT);
-		bankField.setBounds(48, 271, 202, 22);
+		bankField.setBounds(48, 277, 202, 22);
 		contentPane.add(bankField);
 
 		JButton btnNewButton = new JButton("Register");
@@ -237,8 +238,18 @@ public class RegisterGUI extends JFrame {
 
 			}
 		});
-		btnNewButton.setBounds(43, 203, 207, 35);
+		btnNewButton.setBounds(43, 197, 207, 35);
 		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Activate Account");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame a = new ActivationGUI();
+				a.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(43, 235, 207, 19);
+		contentPane.add(btnNewButton_1);
 
 	}
 }

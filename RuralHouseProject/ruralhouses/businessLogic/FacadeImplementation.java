@@ -95,13 +95,11 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
-
 		if (ruralHouses != null) {
 			System.out.println("RuralHouses obtained directly from business logic layer");
 			return ruralHouses;
 		} else
 			return ruralHouses = dB4oManager.getAllRuralHouses();
-
 	}
 
 	public Users checkLogin(String username, String password, boolean isOwner) throws RemoteException {
@@ -127,8 +125,11 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
-
 		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+	}
+
+	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
+		dB4oManager.activateAccount(username, isOwner, bank);
 	}
 
 }

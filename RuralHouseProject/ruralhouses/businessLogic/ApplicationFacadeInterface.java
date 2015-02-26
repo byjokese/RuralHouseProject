@@ -8,7 +8,6 @@ import domain.Booking;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
-
 import domain.Users;
 import exceptions.OfferCanNotBeBooked;
 
@@ -56,5 +55,7 @@ public interface ApplicationFacadeInterface extends Remote {
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAcount) throws RemoteException;
 
 	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException;
+	
+	public void activateAccount(String username, boolean isOwner, String bank)throws RemoteException;
 
 }

@@ -135,8 +135,13 @@ public class StartWindow extends JFrame {
 					Users user = facadeInterface.checkLogin(username, password, isOwner);
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
-						JFrame o = new OwnerGUI(user);
-						o.setVisible(true);
+						if (isOwner) {
+							JFrame o = new OwnerGUI(user);
+							o.setVisible(true);
+						}
+						else{
+							/**ClientGUI**/
+						}
 					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 				} catch (RemoteException e) {
@@ -147,7 +152,7 @@ public class StartWindow extends JFrame {
 		loginBtn.setBounds(12, 150, 205, 39);
 		contentPane.add(loginBtn);
 		/* register */
-		JButton RegisterBtn = new JButton("Register");
+		JButton RegisterBtn = new JButton("Register / Activate");
 		RegisterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Wait until Database is initialized
@@ -156,7 +161,7 @@ public class StartWindow extends JFrame {
 			}
 		});
 		RegisterBtn.setForeground(Color.BLACK);
-		RegisterBtn.setBounds(131, 200, 86, 17);
+		RegisterBtn.setBounds(80, 200, 137, 17);
 		contentPane.add(RegisterBtn);
 		/* Offers */
 		JButton LookForOffersBtn = new JButton("Look for Offers");
