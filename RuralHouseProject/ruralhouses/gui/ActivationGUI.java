@@ -66,7 +66,7 @@ public class ActivationGUI extends JFrame {
 		setTitle("Rural House System");
 		ApplicationFacadeInterface facade = StartWindow.facadeInterface;
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 244, 291);
+		setBounds(100, 100, 244, 285);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -126,6 +126,11 @@ public class ActivationGUI extends JFrame {
 		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		BannerLabel.setBounds(20, 0, 200, 37);
 		contentPane.add(BannerLabel);
+		
+		JLabel errorLabel = new JLabel("");
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBounds(20, 228, 200, 14);
+		contentPane.add(errorLabel);
 
 		MaskFormatter mask = null;
 		try {
@@ -135,7 +140,7 @@ public class ActivationGUI extends JFrame {
 		}
 		mask.setPlaceholderCharacter('0');
 		bankField = new JFormattedTextField(mask);
-		bankField.setBounds(17, 201, 198, 22);
+		bankField.setBounds(17, 201, 200, 22);
 		contentPane.add(bankField);
 
 		JButton loginBtn = new JButton("Activate Account");
@@ -148,11 +153,15 @@ public class ActivationGUI extends JFrame {
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
 					Users user = facade.checkLogin(username, password, !isOwner);
-					if (user != null) {
-						facade.activateAccount(username, isOwner,bankaccount);
-						JOptionPane.showMessageDialog(null, "Successfully Activated.");
-					} else
-						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
+					if (!bankaccount.equals("0000-0000-00-000000000")) {
+						if (user != null) {
+							facade.activateAccount(username, isOwner, bankaccount);
+							JOptionPane.showMessageDialog(null, "Successfully Activated.");
+						} else
+							JOptionPane.showMessageDialog(null, "Username or password incorrect.");
+					} else {
+						errorLabel.setText("Incorrect format for Bank Account");	
+					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}

@@ -108,33 +108,20 @@ public class DB4oManager {
 		Users jon = new Owner("Jon", "Jonlog", "passJon", true, true);
 
 		try {
-			addUserToDataBase("ivan", "byjoke", "123", false);
-			addUserToDataBase("bienvenido", "bienve", "12345", true);
-			addUserToDataBase("jose", "ena_795", "123456", true);
+			addUserToDataBase("ivan", "byjoke", "123", false, "1234-5678-12-123456789");
+			addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
+			addUserToDataBase("jose", "ena_795", "123456", true, "4567-98763-25-123456789");
+
+			addUserToDataBase("Jon", "Jonlog", "passJon", true, "4567-98763-25-122567891");
+			addUserToDataBase("Alfredo", "AlfredoLog", "passAlfredo", true, "1234-5678-12-785478963");
+			addUserToDataBase("Jesús", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
+			addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 
-		Users alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo", true, true);
-		Users jesus = new Owner("Jesús", "Jesuslog", "passJesus", true, true);
-		Users josean = new Owner("Josean", "JoseanLog", "passJosean", true, true);
-
 		((Owner) jon).addRuralHouse(1, "Ezkioko etxea", "Ezkio");
 		((Owner) jon).addRuralHouse(2, "Etxetxikia", "Iruña");
-		((Owner) jesus).addRuralHouse(3, "Udaletxea", "Bilbo");
-		((Owner) josean).addRuralHouse(4, "Gaztetxea", "Renteria");
-
-		((Owner) jon).setBankAccount("1234567812785478963");
-		((Owner) alfredo).setBankAccount("1234567812785478963");
-		((Owner) jesus).setBankAccount("123456781278554154963");
-		((Owner) josean).setBankAccount("1234567812785478963");
-
-		db.store(jon);
-		db.store(alfredo);
-		db.store(jesus);
-		db.store(josean);
-
-		db.commit();
 	}
 
 	public Offer createOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) throws RemoteException, Exception {
@@ -261,9 +248,11 @@ public class DB4oManager {
 	public Users checkLogin(String username, String password, boolean isOwner) throws RemoteException {
 		Users user;
 		if (isOwner) {
-			user = new Owner(null, username, password, true, true);
+			user = new Owner(null, username, password, true, true, null, null);
+			// user = new Owner(null, username, password, true, true);
 		} else {
-			user = new Client(null, username, password, true, false);
+			// user = new Client(null, username, password, true, false);
+			user = new Client(null, username, password, true, false, null);
 		}
 		List<Users> data = db.queryByExample(user);
 		return (data.size() == 1) ? data.get(0) : null;
@@ -272,28 +261,26 @@ public class DB4oManager {
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		Users act;
 		if (isOwner) {
-			act = new Owner(null, username, null, null, true);
+			act = new Owner(null, username, null, null, true, null, null);
 		} else {
-			act = new Client(null, username, null, null, false);
+			act = new Client(null, username, null, null, false, null);
 		}
 		List<Users> data = db.queryByExample(act);
-		if(isOwner){
-			((Owner) data.get(0)).setBankAccount(bank);
-		}
-		data.get(0).setActivated(true);
+		((Owner) data.get(0)).setBankAccount(bank);
+		data.get(0).setActivated(true); // POSIBLE ERROR IF NOT CHECKED PREVIUSLY WITH CHECKLOGIN!!
 		db.store(data.get(0));
 		db.commit();
 	}
 
-	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException {
+	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String bank) throws RemoteException {
 		Users client;
 		Users owner;
 		if (isOwner) {
-			client = new Client(name, login, password, false, false);
-			owner = new Owner(name, login, password, true, true);
+			client = new Client(name, login, password, false, false, null);
+			owner = new Owner(name, login, password, true, true, bank, null);
 		} else {
-			client = new Client(name, login, password, true, false);
-			owner = new Owner(name, login, password, false, true);
+			client = new Client(name, login, password, true, false, null);
+			owner = new Owner(name, login, password, false, true, bank, null);
 		}
 		db.store(client);
 		db.store(owner);

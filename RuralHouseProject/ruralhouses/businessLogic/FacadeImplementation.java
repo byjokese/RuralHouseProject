@@ -107,11 +107,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAccount) throws RemoteException {
-		Users user = dB4oManager.addUserToDataBase(name, login, password, isOwner);
-		if (isOwner) {
-			((Owner) user).setBankAccount(BankAccount);
-		}
-		return user;
+		return dB4oManager.addUserToDataBase(name, login, password, isOwner, BankAccount);
 	}
 
 	public void close() throws RemoteException {

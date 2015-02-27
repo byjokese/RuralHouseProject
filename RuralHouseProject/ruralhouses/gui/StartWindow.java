@@ -141,6 +141,7 @@ public class StartWindow extends JFrame {
 						}
 						else{
 							/**ClientGUI**/
+							JOptionPane.showMessageDialog(null, "NOT Implemented yet");
 						}
 					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
