@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -31,34 +30,21 @@ import businessLogic.ApplicationFacadeInterface;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Button;
 import java.rmi.RemoteException;
-
+ 
 public class ActivationGUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField userTextField;
 	private JPasswordField passwordField;
 	private JFormattedTextField bankField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-
-			public void run() {
-				try {
-					ActivationGUI frame = new ActivationGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */

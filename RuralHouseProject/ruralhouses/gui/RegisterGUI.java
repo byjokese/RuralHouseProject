@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,9 +19,6 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import businessLogic.ApplicationFacadeInterface;
-import domain.Owner;
-import domain.Users;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
@@ -31,11 +26,7 @@ import java.rmi.RemoteException;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.Color;
-import javax.swing.DropMode;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-@SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -51,18 +42,6 @@ public class RegisterGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterGUI frame = new RegisterGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -197,7 +176,7 @@ public class RegisterGUI extends JFrame {
 
 		JButton btnNewButton = new JButton("Register");
 		btnNewButton.addActionListener(new ActionListener() {
-			@SuppressWarnings({ "deprecation", "static-access" })
+			@SuppressWarnings({ "deprecation"})
 			public void actionPerformed(ActionEvent arg0) {
 				if (passwordField.getText().equals(confirmPasswordField.getText())) {
 					String username = usernameTextField.getText();
@@ -216,10 +195,11 @@ public class RegisterGUI extends JFrame {
 									JOptionPane.showMessageDialog(null, "Successfully Registered");
 									dispose();
 								} else if (isOwner & (bankField.getText().length() != 22 || bankField.getText().equals("0000-0000-00-000000000"))) {
-									System.out.println(bankField.getText().length());
 									errorLabel.setText("Incorrect format for Bank Account");
 								} else if (!isOwner) {
 									facade.addUserToDataBase(name, username, password, false, null);
+									JOptionPane.showMessageDialog(null, "Successfully Registered");
+									dispose();
 								}
 							} catch (RemoteException e) {
 								e.printStackTrace();

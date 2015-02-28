@@ -6,10 +6,6 @@ import java.util.Date;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-
-import configuration.ConfigXML;
 import dataAccess.DB4oManager;
 import domain.Booking;
 import domain.Client;

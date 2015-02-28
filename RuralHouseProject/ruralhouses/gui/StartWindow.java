@@ -17,13 +17,6 @@ import businessLogic.FacadeImplementation;
 import java.rmi.*;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -138,9 +131,8 @@ public class StartWindow extends JFrame {
 						if (isOwner) {
 							JFrame o = new OwnerGUI(user);
 							o.setVisible(true);
-						}
-						else{
-							/**ClientGUI**/
+						} else {
+							/** ClientGUI **/
 							JOptionPane.showMessageDialog(null, "NOT Implemented yet");
 						}
 					} else

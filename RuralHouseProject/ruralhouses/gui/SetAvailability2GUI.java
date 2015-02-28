@@ -24,7 +24,7 @@ import exceptions.BadDates;
 public class SetAvailability2GUI extends JFrame  {
 private static final long serialVersionUID = 1L;
 	
-  private JComboBox jComboBox1;
+  private JComboBox<RuralHouse> jComboBox1;
   private JLabel jLabel1 = new JLabel();
   private JLabel jLabel2 = new JLabel();
   private JTextField jTextField1 = new JTextField();
@@ -62,7 +62,7 @@ private static final long serialVersionUID = 1L;
     this.setTitle("Set availability");
     
     
-    jComboBox1 = new JComboBox(v);
+    jComboBox1 = new JComboBox<RuralHouse>(v);
     jComboBox1.setBounds(new Rectangle(115, 30, 115, 20));
     jLabel1.setText("List of houses:");
     jLabel1.setBounds(new Rectangle(25, 30, 95, 20));
@@ -173,7 +173,8 @@ private static final long serialVersionUID = 1L;
     getContentPane().add(lblNewLabel);
   }
 
-  private void jButton1_actionPerformed(ActionEvent e)
+  @SuppressWarnings({ "unused"})
+private void jButton1_actionPerformed(ActionEvent e)
   {
 	  	RuralHouse ruralHouse=((RuralHouse)jComboBox1.getSelectedItem());
 
@@ -184,8 +185,7 @@ private static final long serialVersionUID = 1L;
 	  	Date firstDay=trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
 	  	
 	  	Date lastDay=trim(new Date(jCalendar2.getCalendar().getTime().getTime()));
-	    //Removes the hour:minute:second:ms from the date 
-	  	
+	    //Removes the hour:minute:second:ms from the date   	
 	  	
 	  	try {
 
