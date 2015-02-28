@@ -87,7 +87,7 @@ public class SignUpHouseGUI extends JFrame {
 					}
 					if (number >= 0) {
 						try {
-							if (facade.storeRuralhouse(12, owner, description, city, address, number) == null) {
+							if (facade.storeRuralhouse(owner, description, city, address, number) == null) {
 								JOptionPane.showMessageDialog(numerotextField, "This rural house already exists");
 							} else {
 								JOptionPane.showMessageDialog(numerotextField, "Successfully Registered");
