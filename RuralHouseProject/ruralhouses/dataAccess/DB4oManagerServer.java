@@ -2,12 +2,7 @@ package dataAccess;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,7 +17,6 @@ import com.db4o.ObjectServer;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
 
-import domain.Offer;
 import domain.Owner;
 
 import java.awt.event.ActionListener;
@@ -30,6 +24,10 @@ import java.awt.event.ActionEvent;
 
 public class DB4oManagerServer extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
 	ObjectServer server;

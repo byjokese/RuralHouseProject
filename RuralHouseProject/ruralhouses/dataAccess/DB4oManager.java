@@ -6,7 +6,6 @@ import java.io.File;
 
 import java.rmi.RemoteException;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -39,6 +38,7 @@ public class DB4oManager {
 
 	private static DB4oManagerAux theDB4oManagerAux;
 	private static boolean initialized = false;
+	private int lastHouseNumber;
 	ConfigXML c;
 
 	private DB4oManager() throws Exception {
@@ -67,8 +67,8 @@ public class DB4oManager {
 		} else // c.getDataBaseOpenMode().equals("open")
 
 		{
-			ObjectSet res = db.queryByExample(DB4oManagerAux.class);
-			ListIterator listIter = res.listIterator();
+			ObjectSet<Object> res = db.queryByExample(DB4oManagerAux.class);
+			ListIterator<Object> listIter = res.listIterator();
 			if (listIter.hasNext())
 				theDB4oManagerAux = (DB4oManagerAux) res.next();
 		}
@@ -105,49 +105,38 @@ public class DB4oManager {
 	}
 
 	public void initializeDB() {
-		Users jon = new Owner("Jon", "Jonlog", "passJon", true, true);
+		lastHouseNumber = 0;
 
 		try {
-			addUserToDataBase("ivan", "byjoke", "123", false);
-			addUserToDataBase("bienvenido", "bienve", "12345", true);
+			addUserToDataBase("ivan", "byjoke", "123", false, "1234-5678-12-123456789");
+			addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
+			addUserToDataBase("jose", "ena_795", "123456", true, "4567-98763-25-123456789");
+
+			Users jon = addUserToDataBase("Jon", "Jonlog", "passJon", true, "4567-98763-25-122567891");
+			addUserToDataBase("Alfredo", "AlfredoLog", "passAlfredo", true, "1234-5678-12-785478963");
+			Users jesus = addUserToDataBase("Jesús", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
+			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
+
+			storeRuralhouse(1, ((Owner) jon), "jon house", "Ezkio", "Ezkioko Kalea", 2);
+			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 27);
+			storeRuralhouse(3, ((Owner) jesus), "Udaletxea", "Bilbo", "Udaletxeko kalea", 1);
+			storeRuralhouse(4, ((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 
-		Users alfredo = new Owner("Alfredo", "AlfredoLog", "passAlfredo", true, true);
-		Users jesus = new Owner("Jesús", "Jesuslog", "passJesus", true, true);
-		Users josean = new Owner("Josean", "JoseanLog", "passJosean", true, true);
-
-		((Owner) jon).addRuralHouse(1, "Ezkioko etxea", "Ezkio");
-		((Owner) jon).addRuralHouse(2, "Etxetxikia", "Iruña");
-		((Owner) jesus).addRuralHouse(3, "Udaletxea", "Bilbo");
-		((Owner) josean).addRuralHouse(4, "Gaztetxea", "Renteria");
-
-		((Owner) jon).setBankAccount("1234567812785478963");
-		((Owner) alfredo).setBankAccount("1234567812785478963");
-		((Owner) jesus).setBankAccount("123456781278554154963");
-		((Owner) josean).setBankAccount("1234567812785478963");
-
-		db.store(jon);
-		db.store(alfredo);
-		db.store(jesus);
-		db.store(josean);
-
-		db.commit();
 	}
 
 	public Offer createOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) throws RemoteException, Exception {
-
 		try {
 
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
 
 			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, null, null);
-			ObjectSet result = db.queryByExample(proto);
+			ObjectSet<Object> result = db.queryByExample(proto);
 			RuralHouse rh = (RuralHouse) result.next();
 			Offer o = rh.createOffer(theDB4oManagerAux.offerNumber++, firstDay, lastDay, price);
-			db.store(theDB4oManagerAux); // To store the new value for
-											// offerNumber
+			db.store(theDB4oManagerAux); // To store the new value for offerNumber
 			db.store(o);
 			db.commit();
 			return o;
@@ -157,12 +146,10 @@ public class DB4oManager {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void deleteDB() {
 		try {
 			Users proto = new Users(null, null, null, null, null);
-			ObjectSet result = db.queryByExample(proto);
-			Vector<Users> owners = new Vector<Users>();
+			ObjectSet<Object> result = db.queryByExample(proto);
 			while (result.hasNext()) {
 				Users o = (Owner) result.next();
 				System.out.println("Deleted owner: " + o.toString());
@@ -186,9 +173,8 @@ public class DB4oManager {
 		try {
 
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
-
 			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, ruralHouse.getDescription(), ruralHouse.getCity());
-			ObjectSet result = db.queryByExample(proto);
+			ObjectSet<Object> result = db.queryByExample(proto);
 			RuralHouse rh = (RuralHouse) result.next();
 
 			Offer offer;
@@ -223,7 +209,7 @@ public class DB4oManager {
 		// Se cogen todos los Users activados
 		try {
 			Users proto = new Owner(null, null, null, true, null);
-			ObjectSet result = db.queryByExample(proto);
+			ObjectSet<Object> result = db.queryByExample(proto);
 			/*
 			 * proto = new Owner(null, null, null, false, null); result.addAll(db.queryByExample(proto));
 			 */
@@ -242,7 +228,7 @@ public class DB4oManager {
 
 		try {
 			RuralHouse proto = new RuralHouse(0, null, null, null);
-			ObjectSet result = db.queryByExample(proto);
+			ObjectSet<Object> result = db.queryByExample(proto);
 			Vector<RuralHouse> ruralHouses = new Vector<RuralHouse>();
 			while (result.hasNext())
 				ruralHouses.add((RuralHouse) result.next());
@@ -260,24 +246,39 @@ public class DB4oManager {
 	public Users checkLogin(String username, String password, boolean isOwner) throws RemoteException {
 		Users user;
 		if (isOwner) {
-			user = new Owner(null, username, password, true, true);
+			user = new Owner(null, username, password, true, true, null);
+			// user = new Owner(null, username, password, true, true);
 		} else {
-			user = new Client(null, username, password, true, false);
+			// user = new Client(null, username, password, true, false);
+			user = new Client(null, username, password, true, false, null);
 		}
 		List<Users> data = db.queryByExample(user);
 		return (data.size() == 1) ? data.get(0) : null;
-
 	}
 
-	public Users addUserToDataBase(String name, String login, String password, boolean isOwner) throws RemoteException {
+	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
+		Users act;
+		if (isOwner) {
+			act = new Owner(null, username, null, null, true, null);
+		} else {
+			act = new Client(null, username, null, null, false, null);
+		}
+		List<Users> data = db.queryByExample(act);
+		((Owner) data.get(0)).setBankAccount(bank);
+		data.get(0).setActivated(true); // POSIBLE ERROR IF NOT CHECKED PREVIUSLY WITH CHECKLOGIN!!
+		db.store(data.get(0));
+		db.commit();
+	}
+
+	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String bank) throws RemoteException {
 		Users client;
 		Users owner;
 		if (isOwner) {
 			client = new Client(name, login, password, false, false);
-			owner = new Owner(name, login, password, true, true);
+			owner = new Owner(name, login, password, true, true, bank);
 		} else {
 			client = new Client(name, login, password, true, false);
-			owner = new Owner(name, login, password, false, true);
+			owner = new Owner(name, login, password, false, true, bank);
 		}
 		db.store(client);
 		db.store(owner);
@@ -285,17 +286,17 @@ public class DB4oManager {
 		return (isOwner) ? owner : client;
 
 	}
-	
-	private boolean checkRural(int houseNumber, String description, String city, String address, int aumber){
-		return  db.queryByExample(new RuralHouse(houseNumber, null, description, city, address, aumber)).size()==0;
+
+	private boolean checkRural(String city, String address, int number) {
+		return db.queryByExample(new RuralHouse(0, null, null, city, address, number)).size() == 0;
 	}
 
-	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
-		RuralHouse rh = new RuralHouse(houseNumber, owner, description, city, address, aumber);
-		if (checkRural(houseNumber, description, city, address, aumber)) {
-			db.store(rh);
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int number) throws RemoteException {
+		RuralHouse rh = new RuralHouse(houseNumber, owner, description, city, address, number);
+		if (checkRural(city, address, number)) {
+			owner.addRuralHouse(rh);
+			db.store(rh);			
 			db.commit();
-			owner.addRuralHouse(houseNumber, description, city, address, aumber);
 			return rh;
 		} else {
 			return null;
@@ -314,6 +315,10 @@ public class DB4oManager {
 		} finally {
 			// db.close();
 		}
+	}
+	
+	private int nextHouseNumber(){
+		return nextHouseNumber() + 1;
 	}
 
 	public void close() {

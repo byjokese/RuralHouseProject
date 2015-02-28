@@ -20,7 +20,7 @@ public class RuralHouse implements Serializable {
 	private String city;
 	private String address;
 	private int number;
-	public Vector<Offer> offers;
+	private Vector<Offer> offers;
 	
 
 
