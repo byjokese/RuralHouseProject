@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * @author Software Engineering teachers
+ * @author Software Engineering teachers & Byte Breakers Team
  */
 import domain.Users;
 import exceptions.DB4oManagerCreationException;
