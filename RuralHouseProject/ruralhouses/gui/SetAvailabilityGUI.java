@@ -1,12 +1,10 @@
 package gui;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 
 import java.awt.Rectangle;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -21,7 +19,7 @@ public class SetAvailabilityGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
-	private JComboBox jComboBox = null;
+	private JComboBox<Owner> jComboBox = null;
 	private JButton jButton = null;
 	private JLabel lblNewLabel;
 
@@ -69,16 +67,15 @@ public class SetAvailabilityGUI extends JFrame {
 	 * 	
 	 * @return javax.swing.JComboBox	
 	 */
-	private JComboBox getJComboBox() {
+	private JComboBox<Owner> getJComboBox() {
 		
 		if (jComboBox == null) {
 			try {
 			ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
 				Vector<Owner> owners=facade.getOwners();
-			jComboBox = new JComboBox(owners);
+			jComboBox = new JComboBox<Owner>(owners);
 			jComboBox.setBounds(new Rectangle(136, 39, 175, 44));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

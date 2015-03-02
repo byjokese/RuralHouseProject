@@ -1,15 +1,11 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.HeadlessException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import java.awt.Window.Type;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -26,63 +22,48 @@ import java.rmi.RemoteException;
 import javax.swing.JTextArea;
 
 import businessLogic.ApplicationFacadeInterface;
-import businessLogic.FacadeImplementation;
 import domain.Owner;
-import domain.RuralHouse;
+import javax.swing.JSeparator;
 
 public class SignUpHouseGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField ciudadtextField;
 	private JTextField calletextField;
 	private JTextField numerotextField;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SignUpHouseGUI frame = new SignUpHouseGUI(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public SignUpHouseGUI(Owner owner) {
-		setTitle("SIGN UP HOUSE");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 553, 392);
+		setTitle("Rural House System");
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 544, 392);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		JLabel lblCiudadcity = new JLabel("City :");
-		lblCiudadcity.setBounds(24, 46, 111, 21);
+		lblCiudadcity.setBounds(24, 46, 58, 21);
 		contentPane.add(lblCiudadcity);
 
 		JLabel lblCalle = new JLabel("Address :");
-		lblCalle.setBounds(24, 94, 111, 21);
+		lblCalle.setBounds(24, 94, 58, 21);
 		contentPane.add(lblCalle);
 
 		JLabel lblNumero = new JLabel("Number:");
-		lblNumero.setBounds(360, 97, 111, 21);
+		lblNumero.setBounds(360, 94, 60, 21);
 		contentPane.add(lblNumero);
 
 		JLabel lblDescripccion = new JLabel("Description:");
-		lblDescripccion.setBounds(243, 157, 111, 21);
+		lblDescripccion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescripccion.setBounds(24, 141, 475, 21);
 		contentPane.add(lblDescripccion);
 
 		JTextArea destextArea = new JTextArea();
-		destextArea.setBounds(77, 190, 464, 111);
+		destextArea.setBounds(24, 169, 475, 111);
 		contentPane.add(destextArea);
 
 		JButton RegistrarBtn = new JButton("Register");
@@ -92,7 +73,7 @@ public class SignUpHouseGUI extends JFrame {
 				// no dejar ningun campo vacio
 				if (ciudadtextField.getText().equals("") || calletextField.getText().equals("") || numerotextField.getText().equals("")
 						|| destextArea.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "NO Puede dejar ningun campo vacio");
+					JOptionPane.showMessageDialog(null, "You have to fill every blank");
 				} else {
 					String city = ciudadtextField.getText();
 					String address = calletextField.getText();
@@ -100,64 +81,57 @@ public class SignUpHouseGUI extends JFrame {
 					int number;
 					try {
 						number = Integer.parseInt(numerotextField.getText());
-
 					} catch (Exception e2) {
-						JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
+						JOptionPane.showMessageDialog(numerotextField, "Insert a valid number:");
 						number = -1;
 					}
 					if (number >= 0) {
-
 						try {
-							if (facade.storeRuralhouse(12, owner, description, city, address, number) == null) {
-								JOptionPane.showMessageDialog(numerotextField, "Esta RuralHouse ya EXISTE");
+							if (facade.storeRuralhouse(owner, description, city, address, number) == null) {
+								JOptionPane.showMessageDialog(numerotextField, "This rural house already exists");
 							} else {
-
-								JOptionPane.showMessageDialog(numerotextField, "REGISTRED");
+								JOptionPane.showMessageDialog(numerotextField, "Successfully Registered");
 								dispose();
 							}
 						} catch (HeadlessException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
-					} else {
-
-					//	JOptionPane.showMessageDialog(numerotextField, "introduzca un numero valido:");
 					}
-
 				}
-
 			}
 		});
-		RegistrarBtn.setBounds(255, 317, 117, 25);
+		RegistrarBtn.setBounds(24, 295, 475, 47);
 		contentPane.add(RegistrarBtn);
 
 		ciudadtextField = new JTextField();
-		ciudadtextField.setToolTipText("introduce la ciudad");
+		ciudadtextField.setToolTipText("insert the city");
 		ciudadtextField.setBounds(92, 47, 238, 19);
 		contentPane.add(ciudadtextField);
 		ciudadtextField.setColumns(10);
 
 		calletextField = new JTextField();
-		calletextField.setToolTipText("introduce una calle");
+		calletextField.setToolTipText("insert the street");
 		calletextField.setColumns(10);
 		calletextField.setBounds(92, 95, 238, 19);
 		contentPane.add(calletextField);
 
 		numerotextField = new JTextField();
-		numerotextField.setToolTipText("introduce un numero de calle o portal");
+		numerotextField.setToolTipText("insert the street number");
 		numerotextField.setColumns(10);
-		numerotextField.setBounds(430, 98, 69, 19);
+		numerotextField.setBounds(430, 94, 69, 19);
 		contentPane.add(numerotextField);
 
 		JLabel lblNewLabel = new JLabel("House Registration");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 18));
-		lblNewLabel.setBounds(12, 0, 529, 25);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setBounds(0, 0, 527, 35);
 		contentPane.add(lblNewLabel);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 37, 527, 10);
+		contentPane.add(separator);
 
 	}
 }

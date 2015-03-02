@@ -6,10 +6,6 @@ import java.util.Date;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-
-import configuration.ConfigXML;
 import dataAccess.DB4oManager;
 import domain.Booking;
 import domain.Client;
@@ -95,13 +91,11 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
-
 		if (ruralHouses != null) {
 			System.out.println("RuralHouses obtained directly from business logic layer");
 			return ruralHouses;
 		} else
 			return ruralHouses = dB4oManager.getAllRuralHouses();
-
 	}
 
 	public Users checkLogin(String username, String password, boolean isOwner) throws RemoteException {
@@ -109,11 +103,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAccount) throws RemoteException {
-		Users user = dB4oManager.addUserToDataBase(name, login, password, isOwner);
-		if (isOwner) {
-			((Owner) user).setBankAccount(BankAccount);
-		}
-		return user;
+		return dB4oManager.addUserToDataBase(name, login, password, isOwner, BankAccount);
 	}
 
 	public void close() throws RemoteException {
@@ -126,9 +116,12 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.checkUserAvailability(username);
 	}
 
-	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+		return dB4oManager.storeRuralhouse(owner, description, city, address, aumber);
+	}
 
-		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
+		dB4oManager.activateAccount(username, isOwner, bank);
 	}
 
 }
