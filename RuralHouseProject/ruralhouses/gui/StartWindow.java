@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * @author Software Engineering teachers
+ * @author Software Engineering teachers & Byte Breakers Team
  */
 import domain.Users;
 import exceptions.DB4oManagerCreationException;
@@ -17,13 +17,6 @@ import businessLogic.FacadeImplementation;
 import java.rmi.*;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -135,8 +128,13 @@ public class StartWindow extends JFrame {
 					Users user = facadeInterface.checkLogin(username, password, isOwner);
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
-						JFrame o = new OwnerGUI(user);
-						o.setVisible(true);
+						if (isOwner) {
+							JFrame o = new OwnerGUI(user);
+							o.setVisible(true);
+						} else {
+							/** ClientGUI **/
+							JOptionPane.showMessageDialog(null, "NOT Implemented yet");
+						}
 					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 				} catch (RemoteException e) {
@@ -147,7 +145,7 @@ public class StartWindow extends JFrame {
 		loginBtn.setBounds(12, 150, 205, 39);
 		contentPane.add(loginBtn);
 		/* register */
-		JButton RegisterBtn = new JButton("Register");
+		JButton RegisterBtn = new JButton("Register / Activate");
 		RegisterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Wait until Database is initialized
@@ -156,7 +154,7 @@ public class StartWindow extends JFrame {
 			}
 		});
 		RegisterBtn.setForeground(Color.BLACK);
-		RegisterBtn.setBounds(131, 200, 86, 17);
+		RegisterBtn.setBounds(80, 200, 137, 17);
 		contentPane.add(RegisterBtn);
 		/* Offers */
 		JButton LookForOffersBtn = new JButton("Look for Offers");

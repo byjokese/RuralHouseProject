@@ -3,13 +3,10 @@ package gui;
 import exceptions.DataBaseNotInitialized;
 import businessLogic.ApplicationFacadeInterface;
 
-import com.db4o.ext.DatabaseClosedException;
 import com.toedter.calendar.JCalendar;
 
-import configuration.ConfigXML;
 import domain.Offer;
 import domain.RuralHouse;
-import exceptions.DataBaseNotInitialized;
 
 import javax.swing.*;
 
@@ -39,12 +36,13 @@ public class QueryAvailabilityGUI extends JFrame {
 	private Calendar calendarMio = null;
 	private JLabel jLabel4 = new JLabel();
 	private JScrollPane scrollPane = new JScrollPane();
-	private JComboBox comboBox;
+	private JComboBox<RuralHouse> comboBox;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private final JLabel labelNoOffers = new JLabel("");
 	private String[] columnNames = new String[] { "Offer#", "Rural House", "First Day", "Last Day", "Price" };
 
+	@SuppressWarnings("unused")
 	private static configuration.ConfigXML c;
 	private final JLabel lblQueryMenu = new JLabel("Query Menu Not INPLEMENTED YET");
 	private final JSeparator separator = new JSeparator();
@@ -67,7 +65,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		// wait till the database is loaded.
 		try {
 			Vector<RuralHouse> rhs = facade.getAllRuralHouses();
-			comboBox = new JComboBox(rhs);
+			comboBox = new JComboBox<RuralHouse>(rhs);
 		}
 		catch (NullPointerException e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
@@ -235,6 +233,7 @@ public class QueryAvailabilityGUI extends JFrame {
 
 		try {
 
+			@SuppressWarnings("unused")
 			ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 
 			Vector<Offer> v = rh.getOffers(firstDay, lastDay);
@@ -249,7 +248,7 @@ public class QueryAvailabilityGUI extends JFrame {
 				while (en.hasMoreElements()) {
 					of = en.nextElement();
 					System.out.println("Offer retrieved: " + of.toString());
-					Vector row = new Vector();
+					Vector<Object> row = new Vector<Object>();
 					row.add(of.getOfferNumber());
 					row.add(of.getRuralHouse().getHouseNumber());
 
