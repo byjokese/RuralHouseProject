@@ -104,7 +104,7 @@ public class StartWindow extends JFrame {
 
 		/** User type Selection Buttons **/
 		/* User */
-		JRadioButton userRadBut = new JRadioButton("User");
+		JRadioButton userRadBut = new JRadioButton("Client");
 		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);

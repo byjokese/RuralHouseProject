@@ -80,7 +80,7 @@ public class ActivationGUI extends JFrame {
 		insertbankLabel.setBounds(20, 179, 197, 22);
 		contentPane.add(insertbankLabel);
 
-		JRadioButton userRadBut = new JRadioButton("User");
+		JRadioButton userRadBut = new JRadioButton("Client");
 		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);
@@ -137,7 +137,7 @@ public class ActivationGUI extends JFrame {
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
 					Users user = facade.checkLogin(username, password, !isOwner);
-					if (!bankaccount.equals("0000-0000-00-000000000")) {
+					if (!isOwner || (isOwner && !bankaccount.equals("0000-0000-00-000000000"))) {
 						if (user != null) {
 							facade.activateAccount(username, isOwner, bankaccount);
 							JOptionPane.showMessageDialog(null, "Successfully Activated.");

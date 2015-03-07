@@ -86,7 +86,7 @@ public class RegisterGUI extends JFrame {
 		passwordField.setBounds(164, 111, 86, 20);
 		contentPane.add(passwordField);
 
-		JRadioButton userRadBut = new JRadioButton("User");
+		JRadioButton userRadBut = new JRadioButton("Client");
 		userRadBut.setSelected(true);
 		userRadBut.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonGroup.add(userRadBut);
