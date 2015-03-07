@@ -254,7 +254,8 @@ public class DB4oManager {
 			act = new Client(null, username, null, null, false, null);
 		}
 		List<Users> data = db.queryByExample(act);
-		((Owner) data.get(0)).setBankAccount(bank);
+		if (isOwner)
+			((Owner) data.get(0)).setBankAccount(bank);
 		data.get(0).setActivated(true); // POSIBLE ERROR IF NOT CHECKED PREVIUSLY WITH CHECKLOGIN!!
 		db.store(data.get(0));
 		db.commit();
@@ -286,7 +287,7 @@ public class DB4oManager {
 			owner.addRuralHouse(rh);
 			db.store(rh);
 			db.commit();
-			//saveControl();
+			// saveControl();
 			return rh;
 		} else {
 			return null;
@@ -311,16 +312,16 @@ public class DB4oManager {
 		db.close();
 		System.out.println("DataBase closed");
 	}
-	
-	private void openControl(){
-		//Open control data
-		try{
-		controlDb4o =  (ControlDB4o) db.queryByExample(new ControlDB4o(0)).get(0);
-		}
-		catch (Exception e){
+
+	private void openControl() {
+		// Open control data
+		try {
+			controlDb4o = (ControlDB4o) db.queryByExample(new ControlDB4o(0)).get(0);
+		} catch (Exception e) {
 			controlDb4o = new ControlDB4o();
 		}
 	}
+
 	private void saveControl() {
 		ControlDB4o lasthouse = (ControlDB4o) db.queryByExample(new ControlDB4o(0)).get(0);
 		lasthouse.setLastHouseNumber(controlDb4o.getLastHouseNumber());
