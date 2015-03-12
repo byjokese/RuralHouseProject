@@ -115,7 +115,7 @@ public class StartWindow extends JFrame {
 		ownerRadBut.setBounds(123, 106, 76, 23);
 		contentPane.add(ownerRadBut);
 
-		/** Login and Register buttons & Look for offers **/
+		/** Login, Register buttons & Look for offers **/
 		/* Login */
 		JButton loginBtn = new JButton("Log In");
 		loginBtn.addActionListener(new ActionListener() {
@@ -129,6 +129,7 @@ public class StartWindow extends JFrame {
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 						if (isOwner) {
+							/** OwnerGUI **/
 							JFrame o = new OwnerGUI(user);
 							o.setVisible(true);
 						} else {
@@ -162,7 +163,7 @@ public class StartWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame b;
 				try {
-					b = new QueryAvailabilityGUI();
+					b = new QueryAvailabilityGUI(null);
 					b.setVisible(true);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
