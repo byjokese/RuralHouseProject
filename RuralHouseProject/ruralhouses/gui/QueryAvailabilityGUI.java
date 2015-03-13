@@ -63,36 +63,33 @@ public class QueryAvailabilityGUI extends JFrame {
 		minPriceTextField.setColumns(10);
 		try {
 			jbInit(user);
-		}
-		catch (DataBaseNotInitialized e) {
+		} catch (DataBaseNotInitialized e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
-		}
-		catch (Exception e) {
-			//e.printStackTrace();
+		} catch (Exception e) {
+			// e.printStackTrace();
 		}
 	}
-
 
 	private void jbInit(Users user) throws Exception {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		// wait till the database is loaded.
 		try {
 			Vector<RuralHouse> rhs = facade.getAllRuralHouses();
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
 		}
-		this.setSize(new Dimension(940, 647));
+		this.setSize(new Dimension(940, 628));
 		this.setTitle("Rural House System");
+		dateTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		dateTextField.setBounds(491, 82, 155, 25);
 		dateTextField.setEditable(false);
 		numberNightLabel.setBounds(151, 52, 100, 19);
 		numberNightLabel.setText("Number of nights:");
 		jTextField3.setBounds(261, 52, 54, 19);
 		jTextField3.setText("0");
-		jButton1.setBounds(42, 547, 430, 30);
+		jButton1.setBounds(42, 548, 430, 30);
 		jButton1.setText("Accept");
-		jButton2.setBounds(482, 547, 413, 30);
+		jButton2.setBounds(482, 548, 413, 30);
 		jButton2.setText("Close");
 
 		jLabel4.setBounds(55, 390, 305, 30);
@@ -122,13 +119,12 @@ public class QueryAvailabilityGUI extends JFrame {
 
 					BookRuralHouseGUI b = new BookRuralHouseGUI(houseNumber, firstDate, lastDate);
 					b.setVisible(true);
-				}
-				catch (Exception ex) {
+				} catch (Exception ex) {
 					System.out.println("Error trying to call BookRuralHouseGUI: " + ex.getMessage());
 				}
 			}
 		});
-		scrollPane.setBounds(42, 346, 853, 141);
+		scrollPane.setBounds(42, 166, 853, 321);
 
 		scrollPane.setViewportView(table);
 		tableModel = new DefaultTableModel(null, columnNames);
@@ -138,7 +134,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		lblQueryMenu.setForeground(Color.BLACK);
 		lblQueryMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueryMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
+
 		JLabel cityLabel = new JLabel("City:");
 		cityLabel.setBounds(21, 52, 34, 14);
 		getContentPane().setLayout(null);
@@ -146,7 +142,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		getContentPane().add(cityLabel);
 		getContentPane().add(dateTextField);
 		getContentPane().add(scrollPane);
-		labelNoOffers.setBounds(73, 511, 265, 14);
+		labelNoOffers.setBounds(42, 498, 265, 14);
 		getContentPane().add(labelNoOffers);
 		getContentPane().add(jButton1);
 		getContentPane().add(jButton2);
@@ -155,98 +151,100 @@ public class QueryAvailabilityGUI extends JFrame {
 		getContentPane().add(jTextField3);
 		separator.setBounds(0, 37, 924, 14);
 		getContentPane().add(separator);
-		
+
 		textField = new JTextField();
 		textField.setBounds(55, 49, 86, 20);
 		getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel dayLabel = new JLabel("Day:");
 		dayLabel.setBounds(333, 54, 41, 14);
 		getContentPane().add(dayLabel);
-		
+
 		JComboBox<Object> monthComboBox = new JComboBox<Object>();
+		monthComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August",
+				"September", "October", "November", "December " }));
+		monthComboBox.setSelectedIndex(0);
+		monthComboBox.setBounds(452, 51, 79, 20);
+		getContentPane().add(monthComboBox);
 		
 		JSpinner daySpinner = new JSpinner();
+		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+		updateDate(daySpinner, monthComboBox);
 		daySpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				String day = ((int)daySpinner.getValue() >= 0 || (int)daySpinner.getValue()<10) ? "0"+daySpinner.getValue() : ""+daySpinner.getValue();
-				dateTextField.setText(day+ "/" + monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+				updateDate(daySpinner, monthComboBox);
 			}
 		});
-				
+
 		monthComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				switch (monthComboBox.getSelectedItem().toString()) {
 				case "January":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "February":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 28, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 28, 1));
 					break;
 				case "March":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "April":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
 					break;
 				case "May":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "June":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
 					break;
 				case "July":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "August":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "September":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
 					break;
 				case "October":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				case "November":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
 					break;
 				case "December":
-					daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 					break;
 				default:
 					break;
 				}
-				String day = ((int)daySpinner.getValue() >= 0 || (int)daySpinner.getValue()<10) ? "0"+daySpinner.getValue() : ""+daySpinner.getValue();
-				dateTextField.setText(day+ "/" + monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+				updateDate(daySpinner, monthComboBox);
 			}
 		});
+
 		
-		monthComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December "}));
-		monthComboBox.setBounds(452, 51, 79, 20);
-		getContentPane().add(monthComboBox);
-		
-		
-		daySpinner.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+
+		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 		daySpinner.setBounds(363, 51, 40, 20);
 		getContentPane().add(daySpinner);
 		MonthLabel.setBounds(413, 54, 46, 14);
-		
+
 		getContentPane().add(MonthLabel);
 
 		lblYear.setBounds(538, 54, 46, 14);
 		getContentPane().add(lblYear);
 		yearSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				String day = ((int)daySpinner.getValue() >= 0 || (int)daySpinner.getValue()<10) ? "0"+daySpinner.getValue() : ""+daySpinner.getValue();
-				dateTextField.setText(day+ "/" + monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+				String day = ((int) daySpinner.getValue() >= 0 || (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
+				dateTextField.setText(day + "/" + monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
 			}
 		});
 		yearSpinner.setModel(new SpinnerNumberModel(new Integer(2015), null, null, new Integer(1)));
 		yearSpinner.setBounds(567, 51, 79, 20);
 		getContentPane().add(yearSpinner);
 		PriceLabel.setBounds(656, 54, 46, 14);
-		
+
 		getContentPane().add(PriceLabel);
 		minSlider.setValue(400);
 		minSlider.setMaximum(10000);
@@ -254,26 +252,26 @@ public class QueryAvailabilityGUI extends JFrame {
 		minSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				minPriceTextField.setText(Integer.toString(minSlider.getValue()));
-				if(minSlider.getValue()> maxSlider.getValue()){
+				if (minSlider.getValue() > maxSlider.getValue()) {
 					maxSlider.setValue(minSlider.getValue());
 				}
 			}
 		});
 		minSlider.setMajorTickSpacing(1);
 		minSlider.setBounds(743, 43, 126, 25);
-		
+
 		getContentPane().add(minSlider);
-		
+
 		getContentPane().add(minPriceTextField);
 		maxPriceTextField.setEditable(false);
 		maxPriceTextField.setColumns(10);
 		maxPriceTextField.setBounds(873, 54, 41, 20);
-		
+
 		getContentPane().add(maxPriceTextField);
 		maxSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				maxPriceTextField.setText(Integer.toString(maxSlider.getValue()));
-				if (maxSlider.getValue()<minSlider.getValue()){
+				if (maxSlider.getValue() < minSlider.getValue()) {
 					minSlider.setValue(maxSlider.getValue());
 				}
 			}
@@ -282,5 +280,18 @@ public class QueryAvailabilityGUI extends JFrame {
 		maxSlider.setValue(7500);
 		maxSlider.setBounds(743, 65, 126, 25);
 		getContentPane().add(maxSlider);
+		
+		JButton btnNewButton = new JButton("Apply Filters");
+		btnNewButton.setBounds(42, 121, 853, 23);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnSeeOfferDetails = new JButton("See Offer Details");
+		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
+		getContentPane().add(btnSeeOfferDetails);
+	}
+
+	private void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
+		String day = ((int) daySpinner.getValue() >= 0 && (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
+		dateTextField.setText("1/January/2015");
 	}
 }
