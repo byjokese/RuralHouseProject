@@ -19,8 +19,8 @@ public class Owner extends Users implements Serializable {
 		return ExtraActivities;
 	}
 
-	public void setExtraActivities(Vector<ExtraActivity> extraActivities) {
-		ExtraActivities = extraActivities;
+	public void addExtraActivities(ExtraActivity extraActivity) {
+		ExtraActivities.addElement(extraActivity);
 	}
 
 	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner, String bankAccount) {

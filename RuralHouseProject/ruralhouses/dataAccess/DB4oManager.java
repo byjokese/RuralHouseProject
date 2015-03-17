@@ -5,10 +5,14 @@ import java.io.File;
 // import java.util.Vector;
 
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+
+import javax.swing.JOptionPane;
 
 import com.db4o.*;
 import com.db4o.config.EmbeddedConfiguration;
@@ -331,6 +335,17 @@ public class DB4oManager {
 		return "bookingNumber=" + bookingNumber + " offerNumber=" + offerNumber;
 	}
 	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description){
-		return null; //implementar el almacenamienro.
+
+		ExtraActivity actividad = new ExtraActivity(owner, nombre, lugar, fecha, description);
+		List<ExtraActivity> data = db.queryByExample(actividad);
+		if(data.size()==0){
+			owner.addExtraActivities(actividad);
+			db.store(actividad);
+			db.commit();
+			return actividad;
+		}else{
+			
+		return null;} //implementar el almacenamienro.
 	}
+	
 }

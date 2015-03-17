@@ -18,6 +18,7 @@ import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 import com.toedter.calendar.JCalendar;
 
+import domain.ExtraActivity;
 import domain.Owner;
 import domain.RuralHouse;
 
@@ -46,7 +47,6 @@ public class CreatenewOfferGUI extends JFrame {
 	private JTextField OffersPricetextField;
 	private JLabel lblListOfHouses;
 	private JTable SelectedActivititable;
-	private JTable selectedHousetable;
 
 	/**
 	 * Launch the application.
@@ -144,11 +144,15 @@ public class CreatenewOfferGUI extends JFrame {
 		RHouseslist.setModel(houses);
 		RHouseslist.setBounds(906, 64, 200, 494);
 		contentPane.add(RHouseslist);
-		
+		//rellenamos las actividades
+		DefaultListModel<ExtraActivity> Activities = new DefaultListModel<ExtraActivity>();
+		for(ExtraActivity rh : owner.getExtraActivities()){
+			Activities.addElement(rh);
+						}
 		
 		
 		JList list = new JList();
-		
+		list.setModel(Activities);
 		list.setBounds(12, 64, 200, 494);
 		contentPane.add(list);
 		
@@ -161,6 +165,12 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(separator);
 		
 		JButton btnCreateActivity = new JButton("Create Activity");
+		btnCreateActivity.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame a = new CreateExtraActivityGUI(owner);
+				a.setVisible(true);
+			}
+		});
 		btnCreateActivity.setBounds(12, 573, 200, 50);
 		contentPane.add(btnCreateActivity);
 		
@@ -174,20 +184,12 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(AddActivitybutton);
 		
 		SelectedActivititable = new JTable();
-		SelectedActivititable.setBounds(290, 380, 282, 163);
+		SelectedActivititable.setBounds(245, 380, 629, 163);
 		contentPane.add(SelectedActivititable);
 		
 		JLabel lblSelectedActivities = new JLabel("Selected activities:");
 		lblSelectedActivities.setBounds(364, 353, 146, 15);
 		contentPane.add(lblSelectedActivities);
-		
-		JLabel lblSelectedHouse = new JLabel("Selected House:");
-		lblSelectedHouse.setBounds(676, 353, 146, 15);
-		contentPane.add(lblSelectedHouse);
-		
-		selectedHousetable = new JTable();
-		selectedHousetable.setBounds(622, 380, 260, 163);
-		contentPane.add(selectedHousetable);
 		
 		
 		

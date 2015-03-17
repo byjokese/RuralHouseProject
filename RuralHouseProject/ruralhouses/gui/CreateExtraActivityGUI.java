@@ -24,6 +24,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,7 +55,6 @@ public class CreateExtraActivityGUI extends JFrame {
 	 */
 	public CreateExtraActivityGUI(Owner owner) {
 		setTitle("Create a New  Extra Activity");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 613, 391);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,10 +114,20 @@ public class CreateExtraActivityGUI extends JFrame {
 					String name = NametextField.getText();
 					String lugar = LugartextField_1.getText();
 					String description = DescriptiontextArea.getText();
-					JOptionPane.showMessageDialog(contentPane,"la fecha es"+ fecha);
-					JOptionPane.showMessageDialog(contentPane,"el nombre es"+ name);
-					JOptionPane.showMessageDialog(contentPane,"el lugar es"+ lugar);
-					JOptionPane.showMessageDialog(contentPane,"la descripcion es"+ description);
+//					JOptionPane.showMessageDialog(contentPane,"la fecha es"+ fecha);
+//					JOptionPane.showMessageDialog(contentPane,"el nombre es"+ name);
+//					JOptionPane.showMessageDialog(contentPane,"el lugar es"+ lugar);
+//					JOptionPane.showMessageDialog(contentPane,"la descripcion es"+ description);
+					try {
+						if(facade.storeExtraActivity(owner, name, lugar, fecha, description) != null){
+							JOptionPane.showMessageDialog(contentPane,"Actividad Añadida");
+						}else{
+							JOptionPane.showMessageDialog(contentPane,"Actividad EXISTENTE");
+						}
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				
 				
