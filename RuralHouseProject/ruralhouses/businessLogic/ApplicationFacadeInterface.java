@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.Date;
 
 import domain.Booking;
+import domain.ExtraActivity;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
@@ -57,5 +58,6 @@ public interface ApplicationFacadeInterface extends Remote {
 	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException;
 	
 	public void activateAccount(String username, boolean isOwner, String bank)throws RemoteException;
+	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException;
 
 }

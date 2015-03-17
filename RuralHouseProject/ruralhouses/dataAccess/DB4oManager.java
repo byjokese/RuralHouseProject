@@ -18,6 +18,7 @@ import com.db4o.cs.config.ClientConfiguration;
 import configuration.ConfigXML;
 import domain.Booking;
 import domain.Client;
+import domain.ExtraActivity;
 import domain.Offer;
 // import dataModel.Offer;
 import domain.Owner;
@@ -114,11 +115,11 @@ public class DB4oManager {
 
 			Users jon = addUserToDataBase("Jon", "Jonlog", "passJon", true, "4567-98763-25-122567891");
 			addUserToDataBase("Alfredo", "AlfredoLog", "passAlfredo", true, "1234-5678-12-785478963");
-			Users jesus = addUserToDataBase("Jesús", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
+			Users jesus = addUserToDataBase("Jesï¿½s", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
 			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 
 			storeRuralhouse(1, ((Owner) jon), "jon house", "Ezkio", "Ezkioko Kalea", 2);
-			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 27);
+			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruï¿½a", "berdin Kalea", 27);
 			storeRuralhouse(3, ((Owner) jesus), "Udaletxea", "Bilbo", "Udaletxeko kalea", 1);
 			storeRuralhouse(4, ((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
 		} catch (RemoteException e) {
@@ -328,5 +329,8 @@ public class DB4oManager {
 
 	public String toString() {
 		return "bookingNumber=" + bookingNumber + " offerNumber=" + offerNumber;
+	}
+	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description){
+		return null; //implementar el almacenamienro.
 	}
 }
