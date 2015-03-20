@@ -282,6 +282,13 @@ public class QueryAvailabilityGUI extends JFrame {
 		getContentPane().add(maxSlider);
 		
 		JButton btnNewButton = new JButton("Apply Filters");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String city = cityLabel.getText();
+				String numberOfNights = numberNightLabel.getText();
+				String startDay = (String) daySpinner.getValue();
+			}
+		});
 		btnNewButton.setBounds(42, 121, 853, 23);
 		getContentPane().add(btnNewButton);
 		
