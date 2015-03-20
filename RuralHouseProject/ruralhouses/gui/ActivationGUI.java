@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -80,7 +82,7 @@ public class ActivationGUI extends JFrame {
 		insertbankLabel.setBounds(20, 179, 197, 22);
 		contentPane.add(insertbankLabel);
 
-		JRadioButton userRadBut = new JRadioButton("Client");
+		JRadioButton userRadBut = new JRadioButton("User");
 		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);
@@ -137,11 +139,10 @@ public class ActivationGUI extends JFrame {
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
 					Users user = facade.checkLogin(username, password, !isOwner);
-					if (!isOwner || (isOwner && !bankaccount.equals("0000-0000-00-000000000"))) {
+					if (!bankaccount.equals("0000-0000-00-000000000")) {
 						if (user != null) {
 							facade.activateAccount(username, isOwner, bankaccount);
 							JOptionPane.showMessageDialog(null, "Successfully Activated.");
-							dispose();
 						} else
 							JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 					} else {

@@ -9,6 +9,7 @@ import java.util.Vector;
 import dataAccess.DB4oManager;
 import domain.Booking;
 import domain.Client;
+import domain.ExtraActivity;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
@@ -116,12 +117,15 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.checkUserAvailability(username);
 	}
 
-	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException {
-		return dB4oManager.storeRuralhouse(owner, description, city, address, aumber);
+	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
 	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		dB4oManager.activateAccount(username, isOwner, bank);
 	}
-
+	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException{
+		return dB4oManager.storeExtraActivity(owner, nombre, lugar, fecha, description);
+	}
+	
 }

@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * @author Software Engineering teachers & Byte Breakers Team
+ * @author Software Engineering teachers
  */
 import domain.Users;
 import exceptions.DB4oManagerCreationException;
@@ -104,7 +104,7 @@ public class StartWindow extends JFrame {
 
 		/** User type Selection Buttons **/
 		/* User */
-		JRadioButton userRadBut = new JRadioButton("Client");
+		JRadioButton userRadBut = new JRadioButton("User");
 		userRadBut.setSelected(true);
 		buttonGroup.add(userRadBut);
 		userRadBut.setBounds(33, 106, 61, 23);
@@ -115,7 +115,7 @@ public class StartWindow extends JFrame {
 		ownerRadBut.setBounds(123, 106, 76, 23);
 		contentPane.add(ownerRadBut);
 
-		/** Login, Register buttons & Look for offers **/
+		/** Login and Register buttons & Look for offers **/
 		/* Login */
 		JButton loginBtn = new JButton("Log In");
 		loginBtn.addActionListener(new ActionListener() {
@@ -129,7 +129,6 @@ public class StartWindow extends JFrame {
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 						if (isOwner) {
-							/** OwnerGUI **/
 							JFrame o = new OwnerGUI(user);
 							o.setVisible(true);
 						} else {
