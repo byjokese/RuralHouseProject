@@ -7,6 +7,7 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
@@ -347,5 +348,20 @@ public class DB4oManager {
 			
 		return null;} //implementar el almacenamienro.
 	}
+	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi){
+		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
+		if(db.queryByExample(idem).size() == 0){
+			idem.setOfferNumber(theDB4oManagerAux.offerNumber++);
+			db.store(theDB4oManagerAux); 
+			db.store(idem);
+			db.commit();
+			
+			return idem;
+		}else{
+			return null;
+		}
+		
+	}	
+	
 	
 }

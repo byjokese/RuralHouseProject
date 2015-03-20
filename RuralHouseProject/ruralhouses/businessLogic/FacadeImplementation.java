@@ -2,6 +2,7 @@ package businessLogic;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -127,5 +128,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException{
 		return dB4oManager.storeExtraActivity(owner, nombre, lugar, fecha, description);
 	}
-	
+	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi) throws RemoteException{
+		
+		return dB4oManager.StoreOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
+	}
 }

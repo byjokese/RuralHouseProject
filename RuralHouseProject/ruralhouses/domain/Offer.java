@@ -1,7 +1,9 @@
 package domain;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;	
+import java.util.Vector;
 
 
 @SuppressWarnings("serial")
@@ -14,7 +16,7 @@ public class Offer implements Serializable {
 	private float price;   // This is coherent because objects of java.sql.Date are objects of java.util.Date 
 	private Booking booking;  // That is: java.sql.Date is a subclass (or extends) java.util.Date
 	private RuralHouse ruralHouse;
-
+	private Vector<ExtraActivity> ExtraActivities;
 	
 	public Offer(int offerNumber,RuralHouse ruralHouse, Date firstDay, Date lastDay, float price){
 		  this.firstDay=firstDay;
@@ -22,7 +24,30 @@ public class Offer implements Serializable {
 		  this.price=price;
 		  this.ruralHouse=ruralHouse;
 		  this.offerNumber=offerNumber;
+		  ExtraActivities = new Vector<ExtraActivity>();
 	}
+	public Offer(int offerNumber,RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi){
+		  this.firstDay=firstDay;
+		  this.lastDay=lastDay;
+		  this.price=price;
+		  this.ruralHouse=ruralHouse;
+		  this.offerNumber=offerNumber;
+		  ExtraActivities = new Vector<ExtraActivity>();
+		  for(ExtraActivity act : ExtraActi ){
+			  ExtraActivities.add(act);
+		  }
+		  
+	}
+	
+	
+	public Vector<ExtraActivity> getExtraActivities() {
+		return ExtraActivities;
+	}
+
+	public void setExtraActivities(Vector<ExtraActivity> extraActivities) {
+		ExtraActivities = extraActivities;
+	}
+
 	/**
 	 * Get the house number of the offer
 	 * 
@@ -80,7 +105,13 @@ public class Offer implements Serializable {
 	public Date getLastDay() {
 		return this.lastDay;
 	}
-
+	/**
+	 * asign offers numbers
+	 * @param offerNumber
+	 */
+	public void setOfferNumber(int offerNumber) {
+		this.offerNumber = offerNumber;
+	}
 	/**
 	 * Set the last day of the offer
 	 * 
