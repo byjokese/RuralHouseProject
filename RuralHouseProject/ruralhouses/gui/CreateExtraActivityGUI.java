@@ -31,6 +31,7 @@ import java.util.Date;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.border.CompoundBorder;
 
 public class CreateExtraActivityGUI extends JFrame {
 
@@ -38,23 +39,7 @@ public class CreateExtraActivityGUI extends JFrame {
 	private JTextField NametextField;
 	private JTextField LugartextField_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateExtraActivityGUI frame = new CreateExtraActivityGUI(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
+		/**
 	 * Create the frame.
 	 */
 	public CreateExtraActivityGUI(Owner owner) {
@@ -63,7 +48,7 @@ public class CreateExtraActivityGUI extends JFrame {
 		setBounds(100, 100, 613, 379);
 
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new CompoundBorder());
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		/**
@@ -72,7 +57,7 @@ public class CreateExtraActivityGUI extends JFrame {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		JLabel lblName = new JLabel("Name:");
 
-		lblName.setBounds(12, 48, 70, 15);
+		lblName.setBounds(12, 49, 70, 15);
 		contentPane.add(lblName);
 
 		NametextField = new JTextField();
@@ -81,7 +66,7 @@ public class CreateExtraActivityGUI extends JFrame {
 		contentPane.add(NametextField);
 		NametextField.setColumns(10);
 
-		JLabel lblLugar = new JLabel("lugar:");
+		JLabel lblLugar = new JLabel("Lugar:");
 
 		lblLugar.setBounds(12, 102, 70, 15);
 		contentPane.add(lblLugar);
@@ -105,11 +90,11 @@ public class CreateExtraActivityGUI extends JFrame {
 		JCalendar Datecalendar = new JCalendar();
 		Datecalendar.setBounds(new Rectangle(150, 106, 225, 180));
 
-		Datecalendar.setBounds(302, 48, 272, 171);
+		Datecalendar.setBounds(302, 72, 272, 171);
 		contentPane.add(Datecalendar);
 
 		JLabel lblDate = new JLabel("Date:");
-		lblDate.setBounds(392, 32, 70, 15);
+		lblDate.setBounds(302, 48, 70, 15);
 
 		contentPane.add(lblDate);
 
@@ -132,7 +117,8 @@ public class CreateExtraActivityGUI extends JFrame {
 					// JOptionPane.showMessageDialog(contentPane,"la descripcion es"+ description);
 					try {
 						if (facade.storeExtraActivity(owner, name, lugar, fecha, description) != null) {
-							JOptionPane.showMessageDialog(contentPane, "Actividad AÃ±adida");
+							JOptionPane.showMessageDialog(contentPane, "Actividad Añadida");
+							dispose();
 						} else {
 							JOptionPane.showMessageDialog(contentPane, "Actividad EXISTENTE");
 						}
@@ -145,12 +131,22 @@ public class CreateExtraActivityGUI extends JFrame {
 			}
 		});
 
-		btnCreateActivity.setBounds(372, 301, 175, 54);
+		btnCreateActivity.setBounds(302, 275, 175, 54);
 		contentPane.add(btnCreateActivity);
 
 		JLabel lblCreateAnExtra = new JLabel("Create an Extra Activity");
-		lblCreateAnExtra.setBounds(372, 255, 175, 15);
+		lblCreateAnExtra.setBounds(302, 243, 175, 15);
 		contentPane.add(lblCreateAnExtra);
+		
+		JLabel lblCreateANew = new JLabel("Create a new Extra Activity");
+		lblCreateANew.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCreateANew.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreateANew.setBounds(0, 0, 597, 25);
+		contentPane.add(lblCreateANew);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 26, 597, 15);
+		contentPane.add(separator);
 
 	}
 

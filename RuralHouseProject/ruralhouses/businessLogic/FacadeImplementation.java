@@ -109,8 +109,6 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.checkLogin(username, password, isOwner);
 	}
 
-
-
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAccount) throws RemoteException {
 		return dB4oManager.addUserToDataBase(name, login, password, isOwner, BankAccount);
 	}
@@ -134,7 +132,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
@@ -147,14 +145,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	@SuppressWarnings({ "null", "unused" })
 	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException {
-		/**Offers comes with an previous applied filter of starting date. will never show a offer previous to the given date of start.**/
-		List<Offer> offers = dB4oManager.searchEngine(city, date);
-		List<List<Offer>> allAvailableOffers = null;
-		List<Offer> requestedOffers = null;
-		List<Offer> possibleOffers = null;
+		/** Offers comes with an previous applied filter of starting date. will never show a offer previous to the given date of start. **/
+		List<Offer> offers = dB4oManager.searchEngine(date);
+		List<List<Offer>> allAvailableOffers = new Vector<>();
+		List<Offer> requestedOffers = new Vector<Offer>();
+		List<Offer> possibleOffers = new Vector<Offer>();
 		for (Offer offer : offers) {
-			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)) {	//City Filter
-				if (offer.getPrice() > minPrice && offer.getPrice() < maxPrice) {	//Price Filter
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)) { // City Filter
+				if (offer.getPrice() >= minPrice && offer.getPrice() <= maxPrice) { // Price Filter
 					requestedOffers.add(offer);
 				} else if (offer.getPrice() < minPrice) {
 					possibleOffers.add(offer);
@@ -168,11 +166,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return allAvailableOffers;
 	}
 
+	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 
-	
-
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi) throws RemoteException{
-		
 		return dB4oManager.StoreOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 

@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.util.*;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -49,7 +50,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JLabel lblQueryMenu = new JLabel("Query Menu / Look for Offers");
 	private final JSeparator separator = new JSeparator();
 	private Object comboBox;
-	private JTextField textField;
+	private JTextField cityField;
 	private final JLabel MonthLabel = new JLabel("Month:");
 	private final JLabel lblYear = new JLabel("Year:");
 	private final JSpinner yearSpinner = new JSpinner();
@@ -99,34 +100,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		jLabel4.setForeground(Color.red);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					int i = table.getSelectedRow();
-					int houseNumber = (int) tableModel.getValueAt(i, 1);
-					// Dates are represented as strings in the table model
-					// They have to be converted to Dates "dd/mm/aa", removing
-					// hh:mm:ss:ms with trim
-					DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-					// Date firstDate=
-					// trim(df.parse((String)tableModel.getValueAt(i,2)));
-					// Date lastDate=
-					// trim(df.parse((String)tableModel.getValueAt(i,3)));
-					Date firstDate = df.parse((String) tableModel.getValueAt(i, 2));
-					// firstDate=new Date(firstDate.getTime()+12*60*60*1000); //
-					// to add 12 hours because that is how they are stored
-					Date lastDate = df.parse((String) tableModel.getValueAt(i, 3));
-					// lastDate=new Date(lastDate.getTime()+12*60*60*1000); //
-					// to add 12 hours because that is how they are stored
-
-					BookRuralHouseGUI b = new BookRuralHouseGUI(houseNumber, firstDate, lastDate);
-					b.setVisible(true);
-				} catch (Exception ex) {
-					System.out.println("Error trying to call BookRuralHouseGUI: " + ex.getMessage());
-				}
-			}
-		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setBounds(42, 166, 853, 321);
 
 		scrollPane.setViewportView(table);
@@ -155,10 +129,10 @@ public class QueryAvailabilityGUI extends JFrame {
 		separator.setBounds(0, 37, 924, 14);
 		getContentPane().add(separator);
 
-		textField = new JTextField();
-		textField.setBounds(55, 49, 86, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		cityField = new JTextField();
+		cityField.setBounds(55, 49, 86, 20);
+		getContentPane().add(cityField);
+		cityField.setColumns(10);
 
 		JLabel dayLabel = new JLabel("Day:");
 		dayLabel.setBounds(333, 54, 41, 14);
@@ -285,7 +259,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				String city = cityLabel.getText();
+				String city = cityField.getText();
 				String numberOfNights = numberNightLabel.getText();
 				int startDay = (int) daySpinner.getValue();
 				int month = monthComboBox.getSelectedIndex() + 1;
@@ -317,14 +291,17 @@ public class QueryAvailabilityGUI extends JFrame {
 	}
 
 	protected void updateTable(List<List<Offer>> availableOffers) {
-		Object[][] data = null;
+		Object[][] data = new Object[2][];
 		int row = 0;
 		for (Offer offer : availableOffers.get(0)){
+			System.out.println(offer.toString());
 			Object[] tmp = {new Integer(offer.getOfferNumber()), new String (offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()), 
 							new String(offer.getLastDay().toString()), new Float(offer.getPrice())};
 			data[row] = tmp;
+			row++;
 		}
-		table = new JTable(data, columnNames);
+		DefaultTableModel tabmodel= new DefaultTableModel(data, columnNames);
+		table.setModel(tabmodel);
 	}
 
 	protected void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {

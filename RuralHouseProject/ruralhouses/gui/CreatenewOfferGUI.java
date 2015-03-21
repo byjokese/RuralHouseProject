@@ -40,29 +40,13 @@ public class CreatenewOfferGUI extends JFrame {
 	private JLabel lblListOfHouses;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreatenewOfferGUI frame = new CreatenewOfferGUI(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public CreatenewOfferGUI(Owner owner) {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
-		setTitle("REVISAR FORMATO EN WINDOWS");
+		setTitle("Rural House System");
 		setBounds(100, 100, 1118, 735);
 
 		contentPane = new JPanel();
@@ -72,24 +56,24 @@ public class CreatenewOfferGUI extends JFrame {
 
 		JLabel lblPrice = new JLabel("price:");
 		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrice.setBounds(379, 65, 54, 15);
+		lblPrice.setBounds(290, 103, 54, 15);
 		contentPane.add(lblPrice);
 
 		OffersPricetextField = new JTextField();
-		OffersPricetextField.setBounds(448, 59, 114, 27);
+		OffersPricetextField.setBounds(354, 97, 114, 27);
 		contentPane.add(OffersPricetextField);
 		OffersPricetextField.setColumns(10);
 
-		lblListOfHouses = new JLabel("List Of Houses: ");
-		lblListOfHouses.setBounds(939, 37, 114, 15);
+		lblListOfHouses = new JLabel("List of Houses: ");
+		lblListOfHouses.setBounds(906, 48, 114, 15);
 		contentPane.add(lblListOfHouses);
 
 		JLabel lblFirstDay = new JLabel("First Day:");
-		lblFirstDay.setBounds(357, 147, 87, 15);
+		lblFirstDay.setBounds(290, 147, 87, 15);
 		contentPane.add(lblFirstDay);
 
 		JLabel lblLastDay = new JLabel("Last Day:");
-		lblLastDay.setBounds(655, 147, 87, 15);
+		lblLastDay.setBounds(581, 147, 87, 15);
 
 		contentPane.add(lblLastDay);
 
@@ -143,11 +127,11 @@ public class CreatenewOfferGUI extends JFrame {
 
 		JLabel lblAvailablesActivities = new JLabel("Availables Activities:");
 
-		lblAvailablesActivities.setBounds(23, 25, 164, 15);
+		lblAvailablesActivities.setBounds(12, 48, 164, 15);
 		contentPane.add(lblAvailablesActivities);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(115, 91, 790, 50);
+		separator.setBounds(0, 35, 1106, 15);
 
 		contentPane.add(separator);
 
@@ -156,8 +140,11 @@ public class CreatenewOfferGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFrame a = new CreateExtraActivityGUI(owner);
 				a.setVisible(true);
+//CONTINUAR!!!!!!!!!!!!!!!!!!!
+				System.out.println("Cerrada");
 			}
 		});
+
 		btnCreateActivity.setBounds(12, 573, 200, 50);
 		contentPane.add(btnCreateActivity);
 
@@ -176,7 +163,7 @@ public class CreatenewOfferGUI extends JFrame {
 		ArrayList<ExtraActivity> listaSeleccion = new ArrayList<ExtraActivity>();
 
 		JList Selectedlist = new JList();
-		Selectedlist.setBounds(292, 389, 549, 171);
+		Selectedlist.setBounds(290, 387, 549, 171);
 		Selectedlist.setModel(seleccion);
 		contentPane.add(Selectedlist);
 		// cosas de las seleccionadas
@@ -208,7 +195,7 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(AddActivitybutton);
 
 		JLabel lblSelectedActivities = new JLabel("Selected activities:");
-		lblSelectedActivities.setBounds(364, 353, 146, 15);
+		lblSelectedActivities.setBounds(290, 363, 146, 15);
 		contentPane.add(lblSelectedActivities);
 
 		JButton DropSelectionbutton = new JButton("<");
@@ -229,7 +216,7 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(DropSelectionbutton);
 
 		JLabel lblSelectedHouseInfo = new JLabel("Selected House Info:");
-		lblSelectedHouseInfo.setBounds(498, 573, 244, 15);
+		lblSelectedHouseInfo.setBounds(290, 573, 244, 15);
 		contentPane.add(lblSelectedHouseInfo);
 
 		JButton btnCreateOffer = new JButton("Create Offer");
@@ -275,6 +262,12 @@ public class CreatenewOfferGUI extends JFrame {
 		});
 		btnCreateOffer.setBounds(501, 651, 181, 44);
 		contentPane.add(btnCreateOffer);
+
+		JLabel lblCreateANew = new JLabel("Create a new Offer");
+		lblCreateANew.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreateANew.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCreateANew.setBounds(0, 0, 1106, 37);
+		contentPane.add(lblCreateANew);
 	}
 
 	private boolean validar(String nuevo, DefaultListModel<String> lista) {
