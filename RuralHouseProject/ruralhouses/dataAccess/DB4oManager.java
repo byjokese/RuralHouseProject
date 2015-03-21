@@ -109,23 +109,33 @@ public class DB4oManager {
 		return theDB4oManager;
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	public void initializeDB() {
 		lastHouseNumber = 0;
 
 		try {
 			addUserToDataBase("ivan", "byjoke", "123", false, "1234-5678-12-123456789");
-			addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
+			Users bienve = addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
 			addUserToDataBase("jose", "ena_795", "123456", true, "4567-98763-25-123456789");
 
 			Users jon = addUserToDataBase("Jon", "Jonlog", "passJon", true, "4567-98763-25-122567891");
 			addUserToDataBase("Alfredo", "AlfredoLog", "passAlfredo", true, "1234-5678-12-785478963");
-			Users jesus = addUserToDataBase("Jesï¿½s", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
+			Users jesus = addUserToDataBase("Jesus", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
 			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 
 			storeRuralhouse(1, ((Owner) jon), "jon house", "Ezkio", "Ezkioko Kalea", 2);
-			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruï¿½a", "berdin Kalea", 27);
+			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 21);
 			storeRuralhouse(3, ((Owner) jesus), "Udaletxea", "Bilbo", "Udaletxeko kalea", 1);
 			storeRuralhouse(4, ((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
+			RuralHouse rhB = storeRuralhouse(5, ((Owner) bienve), "CasaBienve", "Tolosa", "Tolosa Kalea", 27);
+			
+			try {
+				Offer of = createOffer(rhB, new Date(2015, 7, 30), new Date(2015, 8, 3), 750);
+			} catch (Exception e) {
+				System.out.println("Error at initialize DataBase on: createOffer");
+			}
+		
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -322,6 +332,12 @@ public class DB4oManager {
 		}
 	}
 	
+	public List<Offer> searchEngine(String city, Date date) throws RemoteException{
+		Offer offer = new Offer(0, null, date, null, 0);
+		return db.queryByExample(offer);
+	}
+	
+	@SuppressWarnings("unused")
 	private int nextHouseNumber(){
 		return nextHouseNumber() + 1;
 	}

@@ -69,43 +69,42 @@ public class CreatenewOfferGUI extends JFrame {
 	 */
 	public CreatenewOfferGUI(Owner owner) {
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("REVISAR FORMATO EN WINDOWS");
+		setTitle("Rural House System");
 		setBounds(100, 100, 1118, 662);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblPrice = new JLabel("price:");
-		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPrice.setBounds(379, 65, 54, 15);
+		JLabel lblPrice = new JLabel("Price:");
+		lblPrice.setBounds(290, 65, 54, 15);
 		contentPane.add(lblPrice);
 		
 		OffersPricetextField = new JTextField();
-		OffersPricetextField.setBounds(448, 59, 114, 27);
+		OffersPricetextField.setBounds(330, 62, 114, 20);
 		contentPane.add(OffersPricetextField);
 		OffersPricetextField.setColumns(10);
 		
-		lblListOfHouses = new JLabel("List Of Houses: ");
-		lblListOfHouses.setBounds(939, 37, 114, 15);
+		lblListOfHouses = new JLabel("List of Houses: ");
+		lblListOfHouses.setBounds(906, 48, 114, 15);
 		contentPane.add(lblListOfHouses);
 		
 		JLabel lblFirstDay = new JLabel("First Day:");
-		lblFirstDay.setBounds(357, 147, 87, 15);
+		lblFirstDay.setBounds(290, 113, 87, 15);
 		contentPane.add(lblFirstDay);
 		
 		JLabel lblLastDay = new JLabel("Last Day:");
-		lblLastDay.setBounds(655, 147, 87, 15);
+		lblLastDay.setBounds(581, 113, 87, 15);
 		contentPane.add(lblLastDay);
 		
 		JCalendar FirstDaycalendar = new JCalendar();
 		FirstDaycalendar.setBounds(new Rectangle(150, 106, 225, 180));
-		FirstDaycalendar.setBounds(290, 170, 272, 171);
+		FirstDaycalendar.setBounds(290, 139, 272, 171);
 		contentPane.add(FirstDaycalendar);
 		
 		JCalendar LastDaycalendar = new JCalendar();
 		LastDaycalendar.setBounds(new Rectangle(150, 106, 225, 180));
-		LastDaycalendar.setBounds(581, 170, 260, 171);
+		LastDaycalendar.setBounds(581, 139, 260, 171);
 		contentPane.add(LastDaycalendar);
 		
 		JButton btnCreateOffer = new JButton("Create Offer");
@@ -129,7 +128,7 @@ public class CreatenewOfferGUI extends JFrame {
 				
 			}
 		});
-		btnCreateOffer.setBounds(501, 576, 181, 44);
+		btnCreateOffer.setBounds(475, 576, 193, 44);
 		contentPane.add(btnCreateOffer);
 		//rellenamos la lista de casas
 		DefaultListModel<RuralHouse> houses = new DefaultListModel<RuralHouse>();
@@ -157,11 +156,11 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(list);
 		
 		JLabel lblAvailablesActivities = new JLabel("Availables Activities:");
-		lblAvailablesActivities.setBounds(23, 25, 164, 15);
+		lblAvailablesActivities.setBounds(12, 48, 164, 15);
 		contentPane.add(lblAvailablesActivities);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(115, 91, 790, 50);
+		separator.setBounds(0, 37, 1106, 15);
 		contentPane.add(separator);
 		
 		JButton btnCreateActivity = new JButton("Create Activity");
@@ -180,16 +179,22 @@ public class CreatenewOfferGUI extends JFrame {
 		
 		JButton AddActivitybutton = new JButton(">");
 		AddActivitybutton.setFont(new Font("Arial Black", Font.BOLD, 14));
-		AddActivitybutton.setBounds(216, 291, 44, 50);
+		AddActivitybutton.setBounds(222, 292, 44, 50);
 		contentPane.add(AddActivitybutton);
 		
 		SelectedActivititable = new JTable();
-		SelectedActivititable.setBounds(245, 380, 629, 163);
+		SelectedActivititable.setBounds(226, 380, 670, 163);
 		contentPane.add(SelectedActivititable);
 		
 		JLabel lblSelectedActivities = new JLabel("Selected activities:");
-		lblSelectedActivities.setBounds(364, 353, 146, 15);
+		lblSelectedActivities.setBounds(290, 347, 146, 15);
 		contentPane.add(lblSelectedActivities);
+		
+		JLabel lblNewLabel = new JLabel("Create a new Offer");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(12, 0, 1090, 37);
+		contentPane.add(lblNewLabel);
 		
 		
 		

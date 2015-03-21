@@ -17,7 +17,9 @@ import java.awt.event.*;
 import java.beans.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -83,6 +85,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		dateTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		dateTextField.setBounds(491, 82, 155, 25);
 		dateTextField.setEditable(false);
+		dateTextField.setText("1/January/2015");
 		numberNightLabel.setBounds(151, 52, 100, 19);
 		numberNightLabel.setText("Number of nights:");
 		jTextField3.setBounds(261, 52, 54, 19);
@@ -167,7 +170,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		monthComboBox.setSelectedIndex(0);
 		monthComboBox.setBounds(452, 51, 79, 20);
 		getContentPane().add(monthComboBox);
-		
+
 		JSpinner daySpinner = new JSpinner();
 		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 		updateDate(daySpinner, monthComboBox);
@@ -223,8 +226,6 @@ public class QueryAvailabilityGUI extends JFrame {
 			}
 		});
 
-		
-
 		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
 		daySpinner.setBounds(363, 51, 40, 20);
 		getContentPane().add(daySpinner);
@@ -236,8 +237,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		getContentPane().add(lblYear);
 		yearSpinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				String day = ((int) daySpinner.getValue() >= 0 || (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
-				dateTextField.setText(day + "/" + monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+				updateDate(daySpinner, monthComboBox);
 			}
 		});
 		yearSpinner.setModel(new SpinnerNumberModel(new Integer(2015), null, null, new Integer(1)));
@@ -280,25 +280,55 @@ public class QueryAvailabilityGUI extends JFrame {
 		maxSlider.setValue(7500);
 		maxSlider.setBounds(743, 65, 126, 25);
 		getContentPane().add(maxSlider);
-		
+
 		JButton btnNewButton = new JButton("Apply Filters");
 		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				String city = cityLabel.getText();
 				String numberOfNights = numberNightLabel.getText();
-				String startDay = (String) daySpinner.getValue();
+				int startDay = (int) daySpinner.getValue();
+				int month = monthComboBox.getSelectedIndex() + 1;
+				int year = (int) yearSpinner.getValue();
+				Date date = new Date(year, month, startDay);
+				int minPrice = Integer.parseInt(minPriceTextField.getText());
+				int maxPrice = Integer.parseInt(maxPriceTextField.getText());
+				try {
+					List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights,date,minPrice,maxPrice);
+					if(availableOffers!=null){
+						updateTable(availableOffers);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "NO Offers Found");
+					}
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 		btnNewButton.setBounds(42, 121, 853, 23);
 		getContentPane().add(btnNewButton);
-		
+
 		JButton btnSeeOfferDetails = new JButton("See Offer Details");
 		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
 		getContentPane().add(btnSeeOfferDetails);
 	}
 
-	private void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
+	protected void updateTable(List<List<Offer>> availableOffers) {
+		Object[][] data = null;
+		int row = 0;
+		for (Offer offer : availableOffers.get(0)){
+			Object[] tmp = {new Integer(offer.getOfferNumber()), new String (offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()), 
+							new String(offer.getLastDay().toString()), new Float(offer.getPrice())};
+			data[row] = tmp;
+		}
+		table = new JTable(data, columnNames);
+	}
+
+	protected void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
 		String day = ((int) daySpinner.getValue() >= 0 && (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
-		dateTextField.setText("1/January/2015");
+		dateTextField.setText(day + "/" + (String) monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
 	}
 }

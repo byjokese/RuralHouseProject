@@ -2,7 +2,11 @@ package businessLogic;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -124,8 +128,32 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		dB4oManager.activateAccount(username, isOwner, bank);
 	}
-	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException{
+
+	public ExtraActivity storeExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) throws RemoteException {
 		return dB4oManager.storeExtraActivity(owner, nombre, lugar, fecha, description);
 	}
-	
+
+	@SuppressWarnings({ "null", "unused" })
+	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException {
+		/**Offers comes with an previous applied filter of starting date. will never show a offer previous to the given date of start.**/
+		List<Offer> offers = dB4oManager.searchEngine(city, date);
+		List<List<Offer>> allAvailableOffers = null;
+		List<Offer> requestedOffers = null;
+		List<Offer> possibleOffers = null;
+		for (Offer offer : offers) {
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)) {	//City Filter
+				if (offer.getPrice() > minPrice && offer.getPrice() < maxPrice) {	//Price Filter
+					requestedOffers.add(offer);
+				} else if (offer.getPrice() < minPrice) {
+					possibleOffers.add(offer);
+				}
+			}
+		}
+		if (requestedOffers != null)
+			allAvailableOffers.add(requestedOffers);
+		if (possibleOffers != null)
+			allAvailableOffers.add(possibleOffers);
+		return allAvailableOffers;
+	}
+
 }

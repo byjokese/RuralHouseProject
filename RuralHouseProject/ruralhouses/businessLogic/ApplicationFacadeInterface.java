@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.rmi.*;
+import java.util.List;
 import java.util.Vector;
 import java.util.Date;
 
@@ -59,5 +60,7 @@ public interface ApplicationFacadeInterface extends Remote {
 	
 	public void activateAccount(String username, boolean isOwner, String bank)throws RemoteException;
 	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException;
+
+	List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException;
 
 }
