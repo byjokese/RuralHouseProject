@@ -3,6 +3,7 @@ package businessLogic;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +94,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			return owners;
 		} else
 			return owners = dB4oManager.getOwners();
+
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
@@ -107,6 +109,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.checkLogin(username, password, isOwner);
 	}
 
+
+
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAccount) throws RemoteException {
 		return dB4oManager.addUserToDataBase(name, login, password, isOwner, BankAccount);
 	}
@@ -119,6 +123,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	@Override
 	public boolean checkUserAvailability(String username) throws RemoteException {
 		return dB4oManager.checkUserAvailability(username);
+
 	}
 
 	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
@@ -161,6 +166,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		if (possibleOffers != null)
 			allAvailableOffers.add(possibleOffers);
 		return allAvailableOffers;
+	}
+
+
+	
+
+	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi) throws RemoteException{
+		
+		return dB4oManager.StoreOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
 }
