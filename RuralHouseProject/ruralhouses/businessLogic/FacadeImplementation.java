@@ -122,7 +122,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
-		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+		try {
+			return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+		} catch (Exception e) {
+			System.out.println("Error at storeRuralhouse raised at Facadeimplementation: " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {

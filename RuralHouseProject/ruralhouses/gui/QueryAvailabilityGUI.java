@@ -302,8 +302,8 @@ public class QueryAvailabilityGUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "NO Offers Found");
 					}
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Error at searchAvailableOffers in QueryAvailability: "+e.getMessage());
+					
 				}
 
 			}
