@@ -29,7 +29,7 @@ public class OwnerGUI extends JFrame {
 	 */
 	public OwnerGUI(Users owner) {
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 304, 253);
+		setBounds(100, 100, 307, 288);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -56,16 +56,30 @@ public class OwnerGUI extends JFrame {
 		contentPane.add(SignupHouseBtn);
 		
 		JButton CreateNewOfferBtn = new JButton("Create new Offer");
-		CreateNewOfferBtn.setBounds(10, 93, 268, 43);
+		CreateNewOfferBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		CreateNewOfferBtn.setBounds(10, 147, 268, 43);
 		contentPane.add(CreateNewOfferBtn);
 		
 		JButton EditMyOffersBtn = new JButton("Edit my Offers");
-		EditMyOffersBtn.setBounds(10, 147, 268, 43);
+		EditMyOffersBtn.setBounds(10, 201, 268, 43);
 		contentPane.add(EditMyOffersBtn);
 		
 		JLabel infoLabel = new JLabel("");
 		infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		infoLabel.setBounds(10, 194, 268, 14);
 		contentPane.add(infoLabel);
+		
+		JButton EditMyHouseBtn = new JButton("Edit My House");
+		EditMyHouseBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame s = new EditMyHouseGUI( (Owner) owner);
+				s.setVisible(true);
+			}
+		});
+		EditMyHouseBtn.setBounds(10, 93, 268, 43);
+		contentPane.add(EditMyHouseBtn);
 	}
 }

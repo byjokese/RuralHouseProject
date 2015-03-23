@@ -119,6 +119,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException {
 		return dB4oManager.storeRuralhouse(owner, description, city, address, aumber);
 	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException {
+		return dB4oManager.updateRuralHouse(rh, owner, description, index);
+	}
+	
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException {
+		return dB4oManager.deleteRuralHouse(rh, owner, index);
+	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		dB4oManager.activateAccount(username, isOwner, bank);

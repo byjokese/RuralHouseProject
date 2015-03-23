@@ -14,6 +14,7 @@ import com.db4o.*;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ClientConfiguration;
+
 import configuration.ConfigXML;
 import domain.Booking;
 import domain.Client;
@@ -291,6 +292,26 @@ public class DB4oManager {
 		} else {
 			return null;
 		}
+	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index){
+		
+		List<RuralHouse> list = db.queryByExample(rh);
+		list.get(0).setDescription(description);
+		owner.updateRuralHouse(list.get(0), index);
+		db.store(list.get(0));
+		db.commit();
+		return list.get(0);
+	}
+	
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index){
+		List<RuralHouse> list = db.queryByExample(rh);
+		List<Owner> listo = db.queryByExample(owner);
+		listo.get(0).deleteRuralHouse(index);
+		db.delete(list.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return true;
 	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {

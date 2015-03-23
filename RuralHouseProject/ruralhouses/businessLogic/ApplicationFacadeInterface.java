@@ -57,5 +57,9 @@ public interface ApplicationFacadeInterface extends Remote {
 	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException;
 	
 	public void activateAccount(String username, boolean isOwner, String bank)throws RemoteException;
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException;
+	
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException;
 
 }
