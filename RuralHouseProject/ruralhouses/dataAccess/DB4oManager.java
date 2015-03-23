@@ -130,11 +130,18 @@ public class DB4oManager {
 			} catch (Exception e) {
 				System.out.println("Error at initialize DataBase on: ./storeRuralHouses " + e.getMessage());
 			}
+			ArrayList<ExtraActivity> activities = new ArrayList<ExtraActivity>();
+			activities.add(new ExtraActivity((Owner) bienve, "Montar a caballo", "Tolosa2 Kalea", new Date(2015, 3, 3), "Actividad para montar a caballo"));
+			activities.add(new ExtraActivity((Owner) bienve, "Montar a bici", "kale", new Date(2015, 3, 3), "Actividad para montar en bicicleta"));
+			activities.add(new ExtraActivity((Owner) bienve, "Fiesta", "fiestakalea", new Date(2015, 4, 3), "fiesta de tolosa"));
+			ArrayList<ExtraActivity> activities1 = new ArrayList<ExtraActivity>();
+			activities1.add(new ExtraActivity((Owner) jon, "Montar a caballo", "Tolosa Kalea", new Date(2015, 3, 3), "Actividad para montar a caballo"));
+			activities1.add(new ExtraActivity((Owner) jon, "Fiesta", "fiestakalea", new Date(2015, 4, 3), "fiesta de tolosa"));
 			try {
-				createOffer(rhJ, new Date(2015, 7, 30), new Date(2015, 8, 3), 750);
-				createOffer(rhB, new Date(2015, 7, 30), new Date(2015, 8, 7), 825);
+				storeOffer(rhJ, new Date(2015, 7, 30), new Date(2015, 8, 3), 750, activities1);
+				storeOffer(rhB, new Date(2015, 7, 30), new Date(2015, 8, 7), 1200, activities);
 			} catch (Exception e1) {
-				System.out.println("Error at initialize DataBase on: ./createOffer " + e1.getMessage());
+				System.out.println("Error at initialize DataBase on: ./storeOffer " + e1.getMessage());
 				e1.printStackTrace();
 			}
 
@@ -371,7 +378,7 @@ public class DB4oManager {
 		} // implementar el almacenamienro.
 	}
 
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
 		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
 		if (db.queryByExample(idem).size() == 0) {
 			idem.setOfferNumber(theDB4oManagerAux.nextOffersNumber());

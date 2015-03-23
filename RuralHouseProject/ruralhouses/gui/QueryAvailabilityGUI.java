@@ -28,6 +28,7 @@ import javax.swing.table.TableModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
@@ -58,6 +59,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JSlider minSlider = new JSlider();
 	private final JTextField minPriceTextField = new JTextField();
 	private final JTextField maxPriceTextField = new JTextField();
+	private final List<List<Offer>> offers = new Vector<>();;
 	private final JSlider maxSlider = new JSlider();
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
@@ -93,14 +95,21 @@ public class QueryAvailabilityGUI extends JFrame {
 		jTextField3.setText("0");
 		jButton1.setBounds(42, 548, 430, 30);
 		jButton1.setText("Accept");
-		jButton2.setBounds(482, 548, 413, 30);
+		
 		jButton2.setText("Close");
+		jButton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		jButton2.setBounds(482, 548, 413, 30);
 
 		jLabel4.setBounds(55, 390, 305, 30);
 		jLabel4.setForeground(Color.red);
 
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFillsViewportHeight(true);
 		scrollPane.setBounds(42, 166, 853, 321);
 
 		scrollPane.setViewportView(table);
@@ -268,24 +277,36 @@ public class QueryAvailabilityGUI extends JFrame {
 				int minPrice = Integer.parseInt(minPriceTextField.getText());
 				int maxPrice = Integer.parseInt(maxPriceTextField.getText());
 				try {
-					List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights,date,minPrice,maxPrice);
-					if(availableOffers!=null){
-						updateTable(availableOffers);
-					}
-					else {
+					if (offers != null)
+						offers.removeAll(offers);
+					List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
+					if (availableOffers.get(0).size() != 0) {
+						System.out.println(availableOffers.get(0).toString());
+						offers.add(availableOffers.get(0));
+					} else if (availableOffers.get(1).size() != 0) {
+						offers.add(availableOffers.get(1));
+					} else {
 						JOptionPane.showMessageDialog(null, "NO Offers Found");
 					}
+					updateTable(availableOffers);
 				} catch (RemoteException e) {
-					System.out.println("Error at searchAvailableOffers in QueryAvailability: "+e.getMessage());
-					
+					System.out.println("Error at searchAvailableOffers in QueryAvailability: " + e.getMessage());
+
 				}
 
 			}
+
 		});
 		btnNewButton.setBounds(42, 121, 853, 23);
 		getContentPane().add(btnNewButton);
 
 		JButton btnSeeOfferDetails = new JButton("See Offer Details");
+		btnSeeOfferDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame ad = new AditionaOfferInfoGUI(offers.get(0).get(table.getSelectedRow()));
+				ad.setVisible(true);
+			}
+		});
 		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
 		getContentPane().add(btnSeeOfferDetails);
 	}
@@ -293,19 +314,152 @@ public class QueryAvailabilityGUI extends JFrame {
 	protected void updateTable(List<List<Offer>> availableOffers) {
 		Object[][] data = new Object[2][];
 		int row = 0;
-		for (Offer offer : availableOffers.get(0)){
-			System.out.println(offer.toString());
-			Object[] tmp = {new Integer(offer.getOfferNumber()), new String (offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()), 
-							new String(offer.getLastDay().toString()), new Float(offer.getPrice())};
+		for (Offer offer : availableOffers.get(0)) {
+			Object[] tmp = { new Integer(offer.getOfferNumber()), new String(offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()),
+					new String(offer.getLastDay().toString()), new Float(offer.getPrice()) };
 			data[row] = tmp;
 			row++;
 		}
-		DefaultTableModel tabmodel= new DefaultTableModel(data, columnNames);
+		DefaultTableModel tabmodel = new DefaultTableModel(data, columnNames);
 		table.setModel(tabmodel);
 	}
 
 	protected void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
 		String day = ((int) daySpinner.getValue() >= 0 && (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
 		dateTextField.setText(day + "/" + (String) monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+	}
+
+	class AditionaOfferInfoGUI extends JFrame {
+
+		private static final long serialVersionUID = 1L;
+		private JPanel activitiesTextField;
+		private JTextField offerTextField;
+		private JTextField lastdayTextField;
+		private JTextField firstdayTextField;
+		private JTextField priceTextField;
+		private JTextField ruralhouseTextField;
+		private JTextField offerNumTextField;
+		private JTable table;
+		private DefaultTableModel tableModel;
+
+		/**
+		 * Create the frame.
+		 */
+		public AditionaOfferInfoGUI(Offer offer) {
+			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setBounds(100, 100, 738, 355);
+			activitiesTextField = new JPanel();
+			activitiesTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(activitiesTextField);
+			activitiesTextField.setLayout(null);
+
+			JLabel lblNewLabel = new JLabel("Offer Info");
+			lblNewLabel.setBounds(5, 0, 707, 27);
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			activitiesTextField.add(lblNewLabel);
+
+			JSeparator separator = new JSeparator();
+			separator.setBounds(0, 28, 722, 11);
+			activitiesTextField.add(separator);
+
+			JLabel lblOffer = new JLabel("Offer #:");
+			lblOffer.setBounds(15, 38, 46, 14);
+			activitiesTextField.add(lblOffer);
+
+			JLabel lblFirstDay = new JLabel("First day:");
+			lblFirstDay.setBounds(15, 75, 56, 14);
+			activitiesTextField.add(lblFirstDay);
+
+			JLabel lblLastDay = new JLabel("Last day:");
+			lblLastDay.setBounds(15, 112, 56, 14);
+			activitiesTextField.add(lblLastDay);
+
+			JLabel lblPrice = new JLabel("Price:");
+			lblPrice.setBounds(351, 38, 46, 14);
+			activitiesTextField.add(lblPrice);
+
+			JLabel lblRuralhouse = new JLabel("RuralHouse:");
+			lblRuralhouse.setBounds(351, 75, 75, 14);
+			activitiesTextField.add(lblRuralhouse);
+
+			JLabel lblOptionalActivities = new JLabel("Optional Activities:");
+			lblOptionalActivities.setBounds(351, 112, 96, 14);
+			activitiesTextField.add(lblOptionalActivities);
+
+			offerTextField = new JTextField();
+			offerTextField.setEditable(false);
+			offerTextField.setBounds(81, 35, 96, 20);
+			offerTextField.setText(Integer.toString(offer.getOfferNumber()));
+			activitiesTextField.add(offerTextField);
+			offerTextField.setColumns(10);
+
+			lastdayTextField = new JTextField();
+			lastdayTextField.setEditable(false);
+			lastdayTextField.setColumns(10);
+			lastdayTextField.setBounds(81, 109, 221, 20);
+			lastdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
+			lastdayTextField.setText(offer.getLastDay().toString());
+			activitiesTextField.add(lastdayTextField);
+
+			firstdayTextField = new JTextField();
+			firstdayTextField.setEditable(false);
+			firstdayTextField.setColumns(10);
+			firstdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
+			firstdayTextField.setBounds(81, 72, 221, 20);
+			firstdayTextField.setText(offer.getFirstDay().toString());
+			activitiesTextField.add(firstdayTextField);
+
+			priceTextField = new JTextField();
+			priceTextField.setEditable(false);
+			priceTextField.setColumns(10);
+			priceTextField.setBounds(429, 38, 96, 20);
+			priceTextField.setText(Float.toString(offer.getPrice()));
+			activitiesTextField.add(priceTextField);
+
+			ruralhouseTextField = new JTextField();
+			ruralhouseTextField.setEditable(false);
+			ruralhouseTextField.setColumns(10);
+			ruralhouseTextField.setBounds(429, 72, 141, 20);
+			ruralhouseTextField.setText(offer.getRuralHouse().toString());
+			activitiesTextField.add(ruralhouseTextField);
+
+			offerNumTextField = new JTextField();
+			offerNumTextField.setEditable(false);
+			offerNumTextField.setColumns(10);
+			offerNumTextField.setBounds(453, 112, 117, 20);
+			offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
+			activitiesTextField.add(offerNumTextField);
+
+			String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
+			Object[][] data = new Object[offer.getExtraActivities().size()][];
+			for (int i = 0; i < offer.getExtraActivities().size(); i++) {
+				Object[] tmp = { new String(offer.getExtraActivities().get(i).getNombre()), new String(offer.getExtraActivities().get(i).getDescription()),
+						new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
+						new String(offer.getExtraActivities().get(i).getFecha().toString()) };
+				data[i] = tmp;
+			}
+
+			JButton closeBtn = new JButton("Close");
+			closeBtn.setBounds(10, 283, 702, 25);
+			closeBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+				}
+			});
+			activitiesTextField.add(closeBtn);
+
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 138, 702, 134);
+			activitiesTextField.add(scrollPane);
+			table = new JTable();
+			table.setEnabled(false);
+			table.setFillsViewportHeight(true);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			scrollPane.setViewportView(table);
+			tableModel = new DefaultTableModel(data, columnNames);
+			table.setModel(tableModel);
+
+		}
 	}
 }

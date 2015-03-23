@@ -159,16 +159,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 				}
 			}
 		}
-		if (requestedOffers != null)
-			allAvailableOffers.add(requestedOffers);
-		if (possibleOffers != null)
-			allAvailableOffers.add(possibleOffers);
+		allAvailableOffers.add(requestedOffers);
+		allAvailableOffers.add(possibleOffers);
 		return allAvailableOffers;
 	}
 
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 
-		return dB4oManager.StoreOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
+		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
 }

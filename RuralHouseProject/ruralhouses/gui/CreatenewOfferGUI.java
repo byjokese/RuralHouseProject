@@ -54,8 +54,7 @@ public class CreatenewOfferGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblPrice = new JLabel("price:");
-		lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblPrice = new JLabel("Price:");
 		lblPrice.setBounds(290, 103, 54, 15);
 		contentPane.add(lblPrice);
 
@@ -241,7 +240,7 @@ public class CreatenewOfferGUI extends JFrame {
 						int res = firsDay.compareTo(lastDay);
 						if (res <= 0) {
 							try {
-								if (facade.StoreOffer((RuralHouse) RHouseslist.getSelectedValue(), firsDay, lastDay, precio, listaSeleccion) == null) {
+								if (facade.storeOffer((RuralHouse) RHouseslist.getSelectedValue(), firsDay, lastDay, precio, listaSeleccion) == null) {
 									JOptionPane.showMessageDialog(null, "Esta Oferta ya existe");
 								} else {
 									JOptionPane.showMessageDialog(null, "OFFER CREATED");
