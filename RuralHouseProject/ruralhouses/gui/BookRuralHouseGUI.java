@@ -1,4 +1,4 @@
-package gui;
+/*package gui;
 
 import businessLogic.ApplicationFacadeInterface;
 
@@ -245,4 +245,4 @@ public class BookRuralHouseGUI extends JFrame {
 			jLabel5.setText("Error: Introduce a number");
 		}
 	}
-}
+}*/

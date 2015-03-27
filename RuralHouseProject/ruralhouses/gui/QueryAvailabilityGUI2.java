@@ -1,4 +1,4 @@
-package gui;
+/*package gui;
 
 import exceptions.DataBaseNotInitialized;
 import businessLogic.ApplicationFacadeInterface;
@@ -272,4 +272,4 @@ public class QueryAvailabilityGUI2 extends JFrame {
 			labelNoOffers.setText(e1.getMessage());
 		}
 	}
-}
+}*/

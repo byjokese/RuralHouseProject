@@ -70,17 +70,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return null;
 	}
 
-	/**
-	 * This method creates a book with a corresponding parameters
-	 * 
-	 * @param First
-	 *            day, last day, house number and telephone
-	 * @return a book
-	 */
-	public Booking createBooking(RuralHouse ruralHouse, Date firstDate, Date lastDate, String bookTelephoneNumber) throws OfferCanNotBeBooked {
-		ruralHouses = null;
-		owners = null;
-		return dB4oManager.createBooking(ruralHouse, firstDate, lastDate, bookTelephoneNumber);
+	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
+		return dB4oManager.bookOffer(user, telephone, offer);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import businessLogic.ApplicationFacadeInterface;
 
 import com.toedter.calendar.JCalendar;
 
+import domain.Booking;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
@@ -26,7 +27,9 @@ import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeListener;
@@ -61,6 +64,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JTextField maxPriceTextField = new JTextField();
 	private final List<List<Offer>> offers = new Vector<>();;
 	private final JSlider maxSlider = new JSlider();
+	private List<List<Offer>> availableOffers;
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
 		minPriceTextField.setEditable(false);
@@ -93,9 +97,26 @@ public class QueryAvailabilityGUI extends JFrame {
 		numberNightLabel.setText("Number of nights:");
 		jTextField3.setBounds(261, 52, 54, 19);
 		jTextField3.setText("0");
+		jButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				/*if (user == null) {
+					JPopupMenu a = new JPopupMenu();
+					a.setVisible(true);
+				} else {*/
+					Offer offer = availableOffers.get(0).get(table.getSelectedRow());
+					String telephone = JOptionPane.showInputDialog(new JTextField(), "Insert the telephone number:");
+					System.out.println("Selected Offer:" + offer.toString());
+					try {
+						facade.bookOffer(user, telephone, offer);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				//}
+			}
+		});
 		jButton1.setBounds(42, 548, 430, 30);
 		jButton1.setText("Accept");
-		
+
 		jButton2.setText("Close");
 		jButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,42 +186,43 @@ public class QueryAvailabilityGUI extends JFrame {
 
 		monthComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
+				int daySlected = (int) daySpinner.getValue();
 				switch (monthComboBox.getSelectedItem().toString()) {
 				case "January":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "February":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 28, 1));
+					daySpinner.setModel(new SpinnerNumberModel((daySlected > 28) ? 28 : daySlected, 1, 28, 1));
 					break;
 				case "March":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "April":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel((daySlected > 30) ? 30 : daySlected, 1, 30, 1));
 					break;
 				case "May":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "June":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel((daySlected > 30) ? 30 : daySlected, 1, 30, 1));
 					break;
 				case "July":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "August":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "September":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel((daySlected > 30) ? 30 : daySlected, 1, 30, 1));
 					break;
 				case "October":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				case "November":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					daySpinner.setModel(new SpinnerNumberModel((daySlected > 30) ? 30 : daySlected, 1, 30, 1));
 					break;
 				case "December":
-					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					daySpinner.setModel(new SpinnerNumberModel(daySlected, 1, 31, 1));
 					break;
 				default:
 					break;

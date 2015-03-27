@@ -193,35 +193,19 @@ public class DB4oManager {
 	 *            day, last day, house number and telephone
 	 * @return a book
 	 */
-	public Booking createBooking(RuralHouse ruralHouse, Date firstDate, Date lastDate, String bookTelephoneNumber) throws OfferCanNotBeBooked {
-		try {
-			// if (c.isDatabaseLocal()==false) openObjectContainer();
-			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, ruralHouse.getDescription(), ruralHouse.getCity());
-			ObjectSet<Object> result = db.queryByExample(proto);
-			RuralHouse rh = (RuralHouse) result.next();
+	public Booking createBooking(Offer offer, String telephone) {
+		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer);
+		db.store(book);
+		db.commit();
+		return book;
+	}
 
-			Offer offer;
-			offer = rh.findOffer(firstDate, lastDate);
-
-			if (offer != null) {
-
-				offer.createBooking(theDB4oManagerAux.nextBookingNumber(), bookTelephoneNumber);
-
-				db.store(theDB4oManagerAux); // To store the new value for
-												// bookingNumber
-				db.store(offer);
-				db.commit();
-				return offer.getBooking();
-			}
-			return null;
-
-		} catch (com.db4o.ext.ObjectNotStorableException e) {
-			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createBooking " + e.getMessage());
-			return null;
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			return null;
-		}
+	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
+		Booking book = createBooking(offer, telephone);
+		((Client) user).addBook(book);
+		db.store(book);
+		db.commit();
+		return book;
 	}
 
 	/**

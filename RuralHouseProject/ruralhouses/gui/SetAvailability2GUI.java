@@ -187,7 +187,7 @@ private void jButton1_actionPerformed(ActionEvent e)
 	  	Date lastDay=trim(new Date(jCalendar2.getCalendar().getTime().getTime()));
 	    //Removes the hour:minute:second:ms from the date   	
 	  	
-	  	try {
+	  	/*try {
 
 	  		//It could be to trigger an exception if the introduced string is not a number
 	  		float price= Float.parseFloat(jTextField3.getText());
@@ -195,12 +195,12 @@ private void jButton1_actionPerformed(ActionEvent e)
 	  		//Obtain the business logic from a StartWindow class (local or remote)
 	  		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
 
-	  		Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
-	  		System.out.println("Offer created: "+o.toString());
+	  		//Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
+	  		//System.out.println("Offer created: "+o.toString());
 
-	  		if (o==null)
-	  			jLabel5.setText("Bad dates or there exists an overlapping offer");
-	  		else jLabel5.setText("Offer created");
+	  		//if (o==null)
+	  	//		jLabel5.setText("Bad dates or there exists an overlapping offer");
+	  	//	else jLabel5.setText("Offer created");
 
 	  	} catch (java.lang.NumberFormatException e1) {
 	  		jLabel5.setText(jTextField3.getText()+ " is not a valid price");
@@ -212,7 +212,7 @@ private void jButton1_actionPerformed(ActionEvent e)
 	  	} catch (Exception e1) {
 
 	  		e1.printStackTrace();
-	  	}
+	  	}*/
   }
   
   private Date trim(Date date) {
