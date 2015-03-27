@@ -9,7 +9,7 @@
 	<databaseNode>localhost</databaseNode>
 	<db4oFilename>casas.db4o</db4oFilename>
 	
-	<dataBaseOpenMode>open</dataBaseOpenMode><activationDepth>5</activationDepth>
+	<dataBaseOpenMode>initialize</dataBaseOpenMode><activationDepth>5</activationDepth>
 	<updateDepth>5</updateDepth>
 	<databasePort>8100</databasePort>
 	<user>softEng</user>

@@ -58,6 +58,8 @@ public class OwnerGUI extends JFrame {
 		JButton CreateNewOfferBtn = new JButton("Create new Offer");
 		CreateNewOfferBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame s = new CreatenewOfferGUI( (Owner) owner);
+				s.setVisible(true);
 			}
 		});
 		CreateNewOfferBtn.setBounds(10, 147, 268, 43);

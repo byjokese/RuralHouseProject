@@ -6,7 +6,9 @@ import businessLogic.ApplicationFacadeInterface;
 import com.toedter.calendar.JCalendar;
 
 import domain.Offer;
+import domain.Owner;
 import domain.RuralHouse;
+import domain.Users;
 
 import javax.swing.*;
 
@@ -15,28 +17,30 @@ import java.awt.event.*;
 import java.beans.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.util.*;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JComboBox;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class QueryAvailabilityGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	private JLabel jLabel1 = new JLabel();
-	private JLabel jLabel2 = new JLabel();
-	private JTextField jTextField2 = new JTextField();
-	private JLabel jLabel3 = new JLabel();
+	private JTextField dateTextField = new JTextField();
+	private JLabel numberNightLabel = new JLabel();
 	private JTextField jTextField3 = new JTextField();
 	private JButton jButton1 = new JButton();
 	private JButton jButton2 = new JButton();
-
-	// Code for JCalendar
-	private JCalendar jCalendar1 = new JCalendar();
-	private Calendar calendarMio = null;
 	private JLabel jLabel4 = new JLabel();
 	private JScrollPane scrollPane = new JScrollPane();
-	private JComboBox<RuralHouse> comboBox;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private final JLabel labelNoOffers = new JLabel("");
@@ -44,232 +48,418 @@ public class QueryAvailabilityGUI extends JFrame {
 
 	@SuppressWarnings("unused")
 	private static configuration.ConfigXML c;
-	private final JLabel lblQueryMenu = new JLabel("Query Menu Not INPLEMENTED YET");
+	private final JLabel lblQueryMenu = new JLabel("Query Menu / Look for Offers");
 	private final JSeparator separator = new JSeparator();
+	private Object comboBox;
+	private JTextField cityField;
+	private final JLabel MonthLabel = new JLabel("Month:");
+	private final JLabel lblYear = new JLabel("Year:");
+	private final JSpinner yearSpinner = new JSpinner();
+	private final JLabel PriceLabel = new JLabel("Precio:");
+	private final JSlider minSlider = new JSlider();
+	private final JTextField minPriceTextField = new JTextField();
+	private final JTextField maxPriceTextField = new JTextField();
+	private final List<List<Offer>> offers = new Vector<>();;
+	private final JSlider maxSlider = new JSlider();
 
-	public QueryAvailabilityGUI() throws DataBaseNotInitialized {
+	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
+		minPriceTextField.setEditable(false);
+		minPriceTextField.setBounds(699, 54, 34, 20);
+		minPriceTextField.setColumns(10);
 		try {
-			jbInit();
-		}
-		catch (DataBaseNotInitialized e) {
+			jbInit(user);
+		} catch (DataBaseNotInitialized e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
+		} catch (Exception e) {
+			// e.printStackTrace();
 		}
-		catch (Exception e) {
-			//e.printStackTrace();
-		}
-
 	}
 
-	private void jbInit() throws Exception {
+	private void jbInit(Users user) throws Exception {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		// wait till the database is loaded.
 		try {
 			Vector<RuralHouse> rhs = facade.getAllRuralHouses();
-			comboBox = new JComboBox<RuralHouse>(rhs);
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
 		}
-
-		// comboBox.setModel(new DefaultComboBoxModel(rhs));
-
-		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(433, 548));
-		this.setTitle("Query availability");
-		jLabel1.setText("Rural house code:");
-		jLabel1.setBounds(new Rectangle(42, 66, 105, 25));
-		jLabel2.setText("First day:");
-		jLabel2.setBounds(new Rectangle(42, 101, 75, 25));
-		jTextField2.setBounds(new Rectangle(150, 256, 155, 25));
-		jTextField2.setEditable(false);
-		jLabel3.setText("Number of nights:");
-		jLabel3.setBounds(new Rectangle(42, 292, 115, 25));
-		jTextField3.setBounds(new Rectangle(150, 292, 195, 25));
+		this.setSize(new Dimension(940, 628));
+		this.setTitle("Rural House System");
+		dateTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		dateTextField.setBounds(491, 82, 155, 25);
+		dateTextField.setEditable(false);
+		dateTextField.setText("1/January/2015");
+		numberNightLabel.setBounds(151, 52, 100, 19);
+		numberNightLabel.setText("Number of nights:");
+		jTextField3.setBounds(261, 52, 54, 19);
 		jTextField3.setText("0");
+		jButton1.setBounds(42, 548, 430, 30);
 		jButton1.setText("Accept");
-		jButton1.setBounds(new Rectangle(55, 468, 130, 30));
-		jButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jButton1_actionPerformed(e);
-			}
-		});
+		
 		jButton2.setText("Close");
-		jButton2.setBounds(new Rectangle(230, 468, 130, 30));
-
-		jTextField3.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {}
-
-			public void focusLost(FocusEvent e) {
-				jTextField3_focusLost();
-			}
-		});
 		jButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButton2_actionPerformed(e);
+				dispose();
 			}
 		});
-		jLabel4.setBounds(new Rectangle(55, 311, 305, 30));
-		jLabel4.setForeground(Color.red);
-		jCalendar1.setBounds(new Rectangle(150, 106, 225, 150));
-		scrollPane.setBounds(new Rectangle(55, 341, 320, 116));
+		jButton2.setBounds(482, 548, 413, 30);
 
-		this.getContentPane().add(scrollPane, null);
+		jLabel4.setBounds(55, 390, 305, 30);
+		jLabel4.setForeground(Color.red);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					int i = table.getSelectedRow();
-					int houseNumber = (int) tableModel.getValueAt(i, 1);
-
-					// Dates are represented as strings in the table model
-					// They have to be converted to Dates "dd/mm/aa", removing
-					// hh:mm:ss:ms with trim
-					DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-					// Date firstDate=
-					// trim(df.parse((String)tableModel.getValueAt(i,2)));
-					// Date lastDate=
-					// trim(df.parse((String)tableModel.getValueAt(i,3)));
-					Date firstDate = df.parse((String) tableModel.getValueAt(i, 2));
-					// firstDate=new Date(firstDate.getTime()+12*60*60*1000); //
-					// to add 12 hours because that is how they are stored
-					Date lastDate = df.parse((String) tableModel.getValueAt(i, 3));
-					// lastDate=new Date(lastDate.getTime()+12*60*60*1000); //
-					// to add 12 hours because that is how they are stored
-
-					BookRuralHouseGUI b = new BookRuralHouseGUI(houseNumber, firstDate, lastDate);
-					b.setVisible(true);
-				}
-				catch (Exception ex) {
-					System.out.println("Error trying to call BookRuralHouseGUI: " + ex.getMessage());
-				}
-			}
-		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFillsViewportHeight(true);
+		scrollPane.setBounds(42, 166, 853, 321);
 
 		scrollPane.setViewportView(table);
 		tableModel = new DefaultTableModel(null, columnNames);
 
 		table.setModel(tableModel);
-		this.getContentPane().add(jCalendar1, null);
-		this.getContentPane().add(jLabel4, null);
-		this.getContentPane().add(jButton2, null);
-		this.getContentPane().add(jButton1, null);
-		this.getContentPane().add(jTextField3, null);
-		this.getContentPane().add(jLabel3, null);
-		this.getContentPane().add(jTextField2, null);
-		this.getContentPane().add(jLabel2, null);
-		this.getContentPane().add(jLabel1, null);
-		comboBox.setBounds(new Rectangle(245, 22, 115, 20));
-		comboBox.setBounds(149, 68, 115, 20);
-
-		getContentPane().add(comboBox);
-		labelNoOffers.setBounds(73, 432, 265, 14);
-
-		getContentPane().add(labelNoOffers);
-		lblQueryMenu.setForeground(Color.RED);
+		lblQueryMenu.setBounds(0, 0, 924, 41);
+		lblQueryMenu.setForeground(Color.BLACK);
 		lblQueryMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQueryMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblQueryMenu.setBounds(0, 11, 417, 30);
 
+		JLabel cityLabel = new JLabel("City:");
+		cityLabel.setBounds(21, 52, 34, 14);
+		getContentPane().setLayout(null);
 		getContentPane().add(lblQueryMenu);
-		separator.setBounds(0, 41, 417, 14);
-
+		getContentPane().add(cityLabel);
+		getContentPane().add(dateTextField);
+		getContentPane().add(scrollPane);
+		labelNoOffers.setBounds(42, 498, 265, 14);
+		getContentPane().add(labelNoOffers);
+		getContentPane().add(jButton1);
+		getContentPane().add(jButton2);
+		getContentPane().add(jLabel4);
+		getContentPane().add(numberNightLabel);
+		getContentPane().add(jTextField3);
+		separator.setBounds(0, 37, 924, 14);
 		getContentPane().add(separator);
 
-		// Codigo para el JCalendar
-		this.jCalendar1.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent propertychangeevent) {
-				if (propertychangeevent.getPropertyName().equals("locale")) {
-					jCalendar1.setLocale((Locale) propertychangeevent.getNewValue());
-					DateFormat dateformat = DateFormat.getDateInstance(1, jCalendar1.getLocale());
-					jTextField2.setText(dateformat.format(calendarMio.getTime()));
-				} else if (propertychangeevent.getPropertyName().equals("calendar")) {
-					calendarMio = (Calendar) propertychangeevent.getNewValue();
-					DateFormat dateformat1 = DateFormat.getDateInstance(1, jCalendar1.getLocale());
-					jTextField2.setText(dateformat1.format(calendarMio.getTime()));
-					jCalendar1.setCalendar(calendarMio);
-				}
+		cityField = new JTextField();
+		cityField.setBounds(55, 49, 86, 20);
+		getContentPane().add(cityField);
+		cityField.setColumns(10);
+
+		JLabel dayLabel = new JLabel("Day:");
+		dayLabel.setBounds(333, 54, 41, 14);
+		getContentPane().add(dayLabel);
+
+		JComboBox<Object> monthComboBox = new JComboBox<Object>();
+		monthComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August",
+				"September", "October", "November", "December " }));
+		monthComboBox.setSelectedIndex(0);
+		monthComboBox.setBounds(452, 51, 79, 20);
+		getContentPane().add(monthComboBox);
+
+		JSpinner daySpinner = new JSpinner();
+		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+		updateDate(daySpinner, monthComboBox);
+		daySpinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				updateDate(daySpinner, monthComboBox);
 			}
 		});
 
-	}
+		monthComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				switch (monthComboBox.getSelectedItem().toString()) {
+				case "January":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "February":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 28, 1));
+					break;
+				case "March":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "April":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					break;
+				case "May":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "June":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					break;
+				case "July":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "August":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "September":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					break;
+				case "October":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				case "November":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 30, 1));
+					break;
+				case "December":
+					daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+					break;
+				default:
+					break;
+				}
+				updateDate(daySpinner, monthComboBox);
+			}
+		});
 
-	private Date trim(Date date) {
+		daySpinner.setModel(new SpinnerNumberModel(1, 1, 31, 1));
+		daySpinner.setBounds(363, 51, 40, 20);
+		getContentPane().add(daySpinner);
+		MonthLabel.setBounds(413, 54, 46, 14);
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.set(Calendar.MILLISECOND, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		return calendar.getTime();
-	}
+		getContentPane().add(MonthLabel);
 
-	private void jButton2_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
-	}
+		lblYear.setBounds(538, 54, 46, 14);
+		getContentPane().add(lblYear);
+		yearSpinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				updateDate(daySpinner, monthComboBox);
+			}
+		});
+		yearSpinner.setModel(new SpinnerNumberModel(new Integer(2015), null, null, new Integer(1)));
+		yearSpinner.setBounds(567, 51, 79, 20);
+		getContentPane().add(yearSpinner);
+		PriceLabel.setBounds(656, 54, 46, 14);
 
-	private void jTextField3_focusLost() {
-		try {
-			new Integer(jTextField3.getText());
-			jLabel4.setText("");
-		}
-		catch (NumberFormatException ex) {
-			jLabel4.setText("Error: Introduce a number");
-		}
-	}
-
-	private void jButton1_actionPerformed(ActionEvent e) {
-		// House object
-		RuralHouse rh = (RuralHouse) comboBox.getSelectedItem();
-		// First day removing the hour:minute:second:ms from the date
-		Date firstDay = trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
-
-		final long diams = 1000 * 60 * 60 * 24;
-		long nights = diams * Integer.parseInt(jTextField3.getText());
-		// Last day
-		Date lastDay = new Date((long) (firstDay.getTime() + nights));
-
-		try {
-
-			@SuppressWarnings("unused")
-			ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
-
-			Vector<Offer> v = rh.getOffers(firstDay, lastDay);
-
-			Enumeration<Offer> en = v.elements();
-			Offer of;
-			tableModel.setDataVector(null, columnNames);
-			if (!en.hasMoreElements()) labelNoOffers.setText("There are no offers at these dates");
-			else {
-				labelNoOffers.setText("Select an offer if you want to book");
-
-				while (en.hasMoreElements()) {
-					of = en.nextElement();
-					System.out.println("Offer retrieved: " + of.toString());
-					Vector<Object> row = new Vector<Object>();
-					row.add(of.getOfferNumber());
-					row.add(of.getRuralHouse().getHouseNumber());
-
-					// Dates are stored in db4o as java.util.Date objects
-					// instead of java.sql.Date objects
-					// They are converted to strings "dd/mm/aa"
-					DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-					String firstDayString = df.format(of.getFirstDay());
-					String lastDayString = df.format(of.getLastDay());
-					row.add(firstDayString);
-					row.add(lastDayString);
-					row.add(of.getPrice());
-
-					tableModel.addRow(row);
+		getContentPane().add(PriceLabel);
+		minSlider.setValue(400);
+		minSlider.setMaximum(10000);
+		minSlider.setSnapToTicks(true);
+		minSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				minPriceTextField.setText(Integer.toString(minSlider.getValue()));
+				if (minSlider.getValue() > maxSlider.getValue()) {
+					maxSlider.setValue(minSlider.getValue());
 				}
 			}
+		});
+		minSlider.setMajorTickSpacing(1);
+		minSlider.setBounds(743, 43, 126, 25);
 
+		getContentPane().add(minSlider);
+
+		getContentPane().add(minPriceTextField);
+		maxPriceTextField.setEditable(false);
+		maxPriceTextField.setColumns(10);
+		maxPriceTextField.setBounds(873, 54, 41, 20);
+
+		getContentPane().add(maxPriceTextField);
+		maxSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				maxPriceTextField.setText(Integer.toString(maxSlider.getValue()));
+				if (maxSlider.getValue() < minSlider.getValue()) {
+					minSlider.setValue(maxSlider.getValue());
+				}
+			}
+		});
+		maxSlider.setMaximum(10000);
+		maxSlider.setValue(7500);
+		maxSlider.setBounds(743, 65, 126, 25);
+		getContentPane().add(maxSlider);
+
+		JButton btnNewButton = new JButton("Apply Filters");
+		btnNewButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				String city = cityField.getText();
+				String numberOfNights = numberNightLabel.getText();
+				int startDay = (int) daySpinner.getValue();
+				int month = monthComboBox.getSelectedIndex() + 1;
+				int year = (int) yearSpinner.getValue();
+				Date date = new Date(year, month, startDay);
+				int minPrice = Integer.parseInt(minPriceTextField.getText());
+				int maxPrice = Integer.parseInt(maxPriceTextField.getText());
+				try {
+					if (offers != null)
+						offers.removeAll(offers);
+					List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
+					if (availableOffers.get(0).size() != 0) {
+						System.out.println(availableOffers.get(0).toString());
+						offers.add(availableOffers.get(0));
+					} else if (availableOffers.get(1).size() != 0) {
+						offers.add(availableOffers.get(1));
+					} else {
+						JOptionPane.showMessageDialog(null, "NO Offers Found");
+					}
+					updateTable(availableOffers);
+				} catch (RemoteException e) {
+					System.out.println("Error at searchAvailableOffers in QueryAvailability: " + e.getMessage());
+
+				}
+
+			}
+
+		});
+		btnNewButton.setBounds(42, 121, 853, 23);
+		getContentPane().add(btnNewButton);
+
+		JButton btnSeeOfferDetails = new JButton("See Offer Details");
+		btnSeeOfferDetails.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame ad = new AditionaOfferInfoGUI(offers.get(0).get(table.getSelectedRow()));
+				ad.setVisible(true);
+			}
+		});
+		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
+		getContentPane().add(btnSeeOfferDetails);
+	}
+
+	protected void updateTable(List<List<Offer>> availableOffers) {
+		Object[][] data = new Object[2][];
+		int row = 0;
+		for (Offer offer : availableOffers.get(0)) {
+			Object[] tmp = { new Integer(offer.getOfferNumber()), new String(offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()),
+					new String(offer.getLastDay().toString()), new Float(offer.getPrice()) };
+			data[row] = tmp;
+			row++;
 		}
-		catch (Exception e1) {
+		DefaultTableModel tabmodel = new DefaultTableModel(data, columnNames);
+		table.setModel(tabmodel);
+	}
 
-			labelNoOffers.setText(e1.getMessage());
+	protected void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
+		String day = ((int) daySpinner.getValue() >= 0 && (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
+		dateTextField.setText(day + "/" + (String) monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
+	}
+
+	class AditionaOfferInfoGUI extends JFrame {
+
+		private static final long serialVersionUID = 1L;
+		private JPanel activitiesTextField;
+		private JTextField offerTextField;
+		private JTextField lastdayTextField;
+		private JTextField firstdayTextField;
+		private JTextField priceTextField;
+		private JTextField ruralhouseTextField;
+		private JTextField offerNumTextField;
+		private JTable table;
+		private DefaultTableModel tableModel;
+
+		/**
+		 * Create the frame.
+		 */
+		public AditionaOfferInfoGUI(Offer offer) {
+			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setBounds(100, 100, 738, 355);
+			activitiesTextField = new JPanel();
+			activitiesTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(activitiesTextField);
+			activitiesTextField.setLayout(null);
+
+			JLabel lblNewLabel = new JLabel("Offer Info");
+			lblNewLabel.setBounds(5, 0, 707, 27);
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			activitiesTextField.add(lblNewLabel);
+
+			JSeparator separator = new JSeparator();
+			separator.setBounds(0, 28, 722, 11);
+			activitiesTextField.add(separator);
+
+			JLabel lblOffer = new JLabel("Offer #:");
+			lblOffer.setBounds(15, 38, 46, 14);
+			activitiesTextField.add(lblOffer);
+
+			JLabel lblFirstDay = new JLabel("First day:");
+			lblFirstDay.setBounds(15, 75, 56, 14);
+			activitiesTextField.add(lblFirstDay);
+
+			JLabel lblLastDay = new JLabel("Last day:");
+			lblLastDay.setBounds(15, 112, 56, 14);
+			activitiesTextField.add(lblLastDay);
+
+			JLabel lblPrice = new JLabel("Price:");
+			lblPrice.setBounds(351, 38, 46, 14);
+			activitiesTextField.add(lblPrice);
+
+			JLabel lblRuralhouse = new JLabel("RuralHouse:");
+			lblRuralhouse.setBounds(351, 75, 75, 14);
+			activitiesTextField.add(lblRuralhouse);
+
+			JLabel lblOptionalActivities = new JLabel("Optional Activities:");
+			lblOptionalActivities.setBounds(351, 112, 96, 14);
+			activitiesTextField.add(lblOptionalActivities);
+
+			offerTextField = new JTextField();
+			offerTextField.setEditable(false);
+			offerTextField.setBounds(81, 35, 96, 20);
+			offerTextField.setText(Integer.toString(offer.getOfferNumber()));
+			activitiesTextField.add(offerTextField);
+			offerTextField.setColumns(10);
+
+			lastdayTextField = new JTextField();
+			lastdayTextField.setEditable(false);
+			lastdayTextField.setColumns(10);
+			lastdayTextField.setBounds(81, 109, 221, 20);
+			lastdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
+			lastdayTextField.setText(offer.getLastDay().toString());
+			activitiesTextField.add(lastdayTextField);
+
+			firstdayTextField = new JTextField();
+			firstdayTextField.setEditable(false);
+			firstdayTextField.setColumns(10);
+			firstdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
+			firstdayTextField.setBounds(81, 72, 221, 20);
+			firstdayTextField.setText(offer.getFirstDay().toString());
+			activitiesTextField.add(firstdayTextField);
+
+			priceTextField = new JTextField();
+			priceTextField.setEditable(false);
+			priceTextField.setColumns(10);
+			priceTextField.setBounds(429, 38, 96, 20);
+			priceTextField.setText(Float.toString(offer.getPrice()));
+			activitiesTextField.add(priceTextField);
+
+			ruralhouseTextField = new JTextField();
+			ruralhouseTextField.setEditable(false);
+			ruralhouseTextField.setColumns(10);
+			ruralhouseTextField.setBounds(429, 72, 141, 20);
+			ruralhouseTextField.setText(offer.getRuralHouse().toString());
+			activitiesTextField.add(ruralhouseTextField);
+
+			offerNumTextField = new JTextField();
+			offerNumTextField.setEditable(false);
+			offerNumTextField.setColumns(10);
+			offerNumTextField.setBounds(453, 112, 117, 20);
+			offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
+			activitiesTextField.add(offerNumTextField);
+
+			String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
+			Object[][] data = new Object[offer.getExtraActivities().size()][];
+			for (int i = 0; i < offer.getExtraActivities().size(); i++) {
+				Object[] tmp = { new String(offer.getExtraActivities().get(i).getNombre()), new String(offer.getExtraActivities().get(i).getDescription()),
+						new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
+						new String(offer.getExtraActivities().get(i).getFecha().toString()) };
+				data[i] = tmp;
+			}
+
+			JButton closeBtn = new JButton("Close");
+			closeBtn.setBounds(10, 283, 702, 25);
+			closeBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+				}
+			});
+			activitiesTextField.add(closeBtn);
+
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 138, 702, 134);
+			activitiesTextField.add(scrollPane);
+			table = new JTable();
+			table.setEnabled(false);
+			table.setFillsViewportHeight(true);
+			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			scrollPane.setViewportView(table);
+			tableModel = new DefaultTableModel(data, columnNames);
+			table.setModel(tableModel);
+
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * @author Software Engineering teachers & Byte Breakers Team
+ * @author Software Engineering teachers
  */
 import domain.Users;
 import exceptions.DB4oManagerCreationException;
@@ -162,7 +162,7 @@ public class StartWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame b;
 				try {
-					b = new QueryAvailabilityGUI();
+					b = new QueryAvailabilityGUI(null);
 					b.setVisible(true);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

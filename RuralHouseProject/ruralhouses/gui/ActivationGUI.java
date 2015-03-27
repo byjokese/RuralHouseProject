@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -141,7 +143,6 @@ public class ActivationGUI extends JFrame {
 						if (user != null) {
 							facade.activateAccount(username, isOwner, bankaccount);
 							JOptionPane.showMessageDialog(null, "Successfully Activated.");
-							dispose();
 						} else
 							JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 					} else {

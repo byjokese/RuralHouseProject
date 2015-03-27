@@ -24,7 +24,7 @@ public class ControlDB4o {
 		this.lastHouseNumber = lastHouseNumber;
 	}
 
-	public int nextHouseNumber() {		
+	public int nextHouseNumber() {
 		return lastHouseNumber += 1;
 	}
 
@@ -42,6 +42,14 @@ public class ControlDB4o {
 
 	public void setOfferNumber(int offerNumber) {
 		this.offerNumber = offerNumber;
+	}
+
+	public int nextOffersNumber() {
+		return offerNumber += 1;
+	}
+
+	public int nextBookingNumber() {
+		return bookingNumber += 1;
 	}
 
 }

@@ -44,9 +44,41 @@
 /ActivationGUI$2.class
 /ActivationGUI.class
 /ActivationGUI$3.class
+<<<<<<< HEAD
 /EditMyHouseGUI$1.class
 /EditMyHouseGUI$2.class
 /EditMyHouseGUI.class
 /OwnerGUI$3.class
 /EditMyHouseGUI$3.class
 /EditMyHouseGUI$4.class
+=======
+/CreatenewOfferGUI$1.class
+/CreatenewOfferGUI.class
+/pruebacalendarGUI$1.class
+/pruebacalendarGUI.class
+/CreatenewOfferGUI$2.class
+/CreatenewOfferGUI$3.class
+/CreateExtraActivityGUI$1.class
+/CreateExtraActivityGUI.class
+/CreateExtraActivityGUI$2.class
+/CreatenewOfferGUI$4.class
+<<<<<<< HEAD
+/QueryAvailabilityGUI$6.class
+/QueryAvailabilityGUI$7.class
+/QueryAvailabilityGUI2$1.class
+/QueryAvailabilityGUI2$2.class
+/QueryAvailabilityGUI2$3.class
+/QueryAvailabilityGUI2$4.class
+/QueryAvailabilityGUI2$5.class
+/QueryAvailabilityGUI2.class
+=======
+/CreatenewOfferGUI$5.class
+/CreatenewOfferGUI$6.class
+/CreatenewOfferGUI$7.class
+>>>>>>> origin/djbienve
+/QueryAvailabilityGUI$AditionaOfferInfoGUI.class
+/AditionaOfferInfoGUI$1.class
+/AditionaOfferInfoGUI.class
+/QueryAvailabilityGUI$AditionaOfferInfoGUI$1.class
+/QueryAvailabilityGUI$8.class
+>>>>>>> origin/feature/Ivan

@@ -8,16 +8,26 @@ public class Owner extends Users implements Serializable {
 
 	private String bankAccount = "";
 	private Vector<RuralHouse> ruralHouses;
-
+	private Vector<ExtraActivity> ExtraActivities;
 	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner) {
 		super(name, username, password, activated, isOwner);
 		ruralHouses = new Vector<RuralHouse>();
+		ExtraActivities = new Vector<ExtraActivity>();
+	}
+	
+	public Vector<ExtraActivity> getExtraActivities() {
+		return ExtraActivities;
+	}
+
+	public void addExtraActivities(ExtraActivity extraActivity) {
+		ExtraActivities.addElement(extraActivity);
 	}
 
 	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner, String bankAccount) {
 		super(name, username, password, activated, isOwner);
 		this.bankAccount = bankAccount;
 		this.ruralHouses = new Vector<RuralHouse>();
+		this.ExtraActivities = new Vector<ExtraActivity>();
 	}
 
 	public Vector<RuralHouse> getRuralHouses() {

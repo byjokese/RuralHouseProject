@@ -151,7 +151,10 @@ public class BookRuralHouseGUI extends JFrame {
 					jLabel5.setText("Error: It is not possible to book");
 					JFrame a;
 					try {
-						a = new QueryAvailabilityGUI();
+
+						// TODO change null
+						a = new QueryAvailabilityGUI(null);
+
 						a.setVisible(true);
 					} catch (Exception e2) {
 						e2.printStackTrace();
