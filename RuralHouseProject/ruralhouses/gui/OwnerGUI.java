@@ -66,6 +66,12 @@ public class OwnerGUI extends JFrame {
 		contentPane.add(CreateNewOfferBtn);
 		
 		JButton EditMyOffersBtn = new JButton("Edit my Offers");
+		EditMyOffersBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame s = new EditMyOfferGUI((Owner) owner);
+				s.setVisible(true);
+			}
+		});
 		EditMyOffersBtn.setBounds(10, 201, 268, 43);
 		contentPane.add(EditMyOffersBtn);
 		

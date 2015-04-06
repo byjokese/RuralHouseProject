@@ -1,11 +1,8 @@
 package businessLogic;
 
 import java.rmi.*;
-
 import java.util.List;
-
 import java.util.ArrayList;
-
 import java.util.Vector;
 import java.util.Date;
 
@@ -74,6 +71,9 @@ public interface ApplicationFacadeInterface extends Remote {
 	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException;
 
 	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException;
-
+	
+	public Offer updateOffer(Offer o, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion) throws RemoteException;
+	
+	public boolean deleteOffer(Offer o) throws RemoteException;
 
 }

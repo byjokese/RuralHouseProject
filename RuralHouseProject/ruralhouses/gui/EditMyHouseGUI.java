@@ -76,7 +76,7 @@ public class EditMyHouseGUI extends JFrame {
 		separator_1.setBounds(0, 30, 434, 2);
 		contentPane.add(separator_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("Name:");
+		JLabel lblNewLabel_1 = new JLabel("City:");
 		lblNewLabel_1.setBounds(191, 39, 53, 21);
 		contentPane.add(lblNewLabel_1);
 		
