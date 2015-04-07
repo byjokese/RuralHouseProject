@@ -24,7 +24,7 @@ import exceptions.BadDates;
 public class SetAvailability2GUI extends JFrame  {
 private static final long serialVersionUID = 1L;
 	
-  private JComboBox jComboBox1;
+  private JComboBox<RuralHouse> jComboBox1;
   private JLabel jLabel1 = new JLabel();
   private JLabel jLabel2 = new JLabel();
   private JTextField jTextField1 = new JTextField();
@@ -62,7 +62,7 @@ private static final long serialVersionUID = 1L;
     this.setTitle("Set availability");
     
     
-    jComboBox1 = new JComboBox(v);
+    jComboBox1 = new JComboBox<RuralHouse>(v);
     jComboBox1.setBounds(new Rectangle(115, 30, 115, 20));
     jLabel1.setText("List of houses:");
     jLabel1.setBounds(new Rectangle(25, 30, 95, 20));
@@ -173,7 +173,8 @@ private static final long serialVersionUID = 1L;
     getContentPane().add(lblNewLabel);
   }
 
-  private void jButton1_actionPerformed(ActionEvent e)
+  @SuppressWarnings({ "unused"})
+private void jButton1_actionPerformed(ActionEvent e)
   {
 	  	RuralHouse ruralHouse=((RuralHouse)jComboBox1.getSelectedItem());
 
@@ -184,10 +185,9 @@ private static final long serialVersionUID = 1L;
 	  	Date firstDay=trim(new Date(jCalendar1.getCalendar().getTime().getTime()));
 	  	
 	  	Date lastDay=trim(new Date(jCalendar2.getCalendar().getTime().getTime()));
-	    //Removes the hour:minute:second:ms from the date 
+	    //Removes the hour:minute:second:ms from the date   	
 	  	
-	  	
-	  	try {
+	  	/*try {
 
 	  		//It could be to trigger an exception if the introduced string is not a number
 	  		float price= Float.parseFloat(jTextField3.getText());
@@ -195,12 +195,12 @@ private static final long serialVersionUID = 1L;
 	  		//Obtain the business logic from a StartWindow class (local or remote)
 	  		ApplicationFacadeInterface facade=StartWindow.getBusinessLogic();
 
-	  		Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
-	  		System.out.println("Offer created: "+o.toString());
+	  		//Offer o = facade.createOffer(ruralHouse, firstDay, lastDay, price); 
+	  		//System.out.println("Offer created: "+o.toString());
 
-	  		if (o==null)
-	  			jLabel5.setText("Bad dates or there exists an overlapping offer");
-	  		else jLabel5.setText("Offer created");
+	  		//if (o==null)
+	  	//		jLabel5.setText("Bad dates or there exists an overlapping offer");
+	  	//	else jLabel5.setText("Offer created");
 
 	  	} catch (java.lang.NumberFormatException e1) {
 	  		jLabel5.setText(jTextField3.getText()+ " is not a valid price");
@@ -212,7 +212,7 @@ private static final long serialVersionUID = 1L;
 	  	} catch (Exception e1) {
 
 	  		e1.printStackTrace();
-	  	}
+	  	}*/
   }
   
   private Date trim(Date date) {

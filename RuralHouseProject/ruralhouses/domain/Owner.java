@@ -8,41 +8,52 @@ public class Owner extends Users implements Serializable {
 
 	private String bankAccount = "";
 	private Vector<RuralHouse> ruralHouses;
-
+	private Vector<ExtraActivity> ExtraActivities;
 	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner) {
 		super(name, username, password, activated, isOwner);
 		ruralHouses = new Vector<RuralHouse>();
+		ExtraActivities = new Vector<ExtraActivity>();
+	}
+	
+	public Vector<ExtraActivity> getExtraActivities() {
+		return ExtraActivities;
 	}
 
-	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner, String bankAccount, Vector<RuralHouse> ruralHouses) {
+	public void addExtraActivities(ExtraActivity extraActivity) {
+		ExtraActivities.addElement(extraActivity);
+	}
+
+	public Owner(String name, String username, String password, Boolean activated, Boolean isOwner, String bankAccount) {
 		super(name, username, password, activated, isOwner);
 		this.bankAccount = bankAccount;
-		this.ruralHouses = ruralHouses;
+		this.ruralHouses = new Vector<RuralHouse>();
+		this.ExtraActivities = new Vector<ExtraActivity>();
 	}
-
-	/**
-	 * This method obtains an owner's(userId) rural houses
-	 * 
-	 * @param userId
-	 *            user key
-	 * @return a vector of Rural Houses
-	 */
 
 	public Vector<RuralHouse> getRuralHouses() {
 		return ruralHouses;
-	}
-
-	public RuralHouse addRuralHouse(int houseNumber, String description, String city) {
-		RuralHouse rh = new RuralHouse(houseNumber, this, description, city);
-		ruralHouses.add(rh);
-		return rh;
 	}
 
 	public RuralHouse addRuralHouse(int houseNumber, String description, String city, String address, int number) {
 		RuralHouse rh = new RuralHouse(houseNumber, this, description, city, address, number);
 		ruralHouses.add(rh);
 		return rh;
+	}
 
+	public RuralHouse addRuralHouse(RuralHouse rh) {
+		ruralHouses.add(rh);
+		return rh;
+	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, int index){
+		ruralHouses.remove(index);
+		ruralHouses.add(index, rh);
+		return rh;
+	}
+	
+	public boolean deleteRuralHouse(int index){
+		ruralHouses.remove(index);
+		return true;
 	}
 
 	public String getBankAccount() {

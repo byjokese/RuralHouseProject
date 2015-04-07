@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,9 +19,6 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
 import businessLogic.ApplicationFacadeInterface;
-import domain.Owner;
-import domain.Users;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
@@ -31,11 +26,7 @@ import java.rmi.RemoteException;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.Color;
-import javax.swing.DropMode;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-@SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -51,25 +42,14 @@ public class RegisterGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterGUI frame = new RegisterGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
+		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 310, 366);
+		setBounds(100, 100, 310, 357);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -110,12 +90,12 @@ public class RegisterGUI extends JFrame {
 		userRadBut.setSelected(true);
 		userRadBut.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonGroup.add(userRadBut);
-		userRadBut.setBounds(48, 173, 61, 23);
+		userRadBut.setBounds(48, 169, 61, 23);
 		contentPane.add(userRadBut);
 
 		JLabel insertbankLabel = new JLabel("Insert your bank account: ");
 		insertbankLabel.setEnabled(false);
-		insertbankLabel.setBounds(48, 249, 202, 22);
+		insertbankLabel.setBounds(48, 255, 202, 22);
 		contentPane.add(insertbankLabel);
 
 		JLabel lblName = new JLabel("Name:");
@@ -129,7 +109,7 @@ public class RegisterGUI extends JFrame {
 
 		JLabel errorLabel = new JLabel("");
 		errorLabel.setForeground(Color.RED);
-		errorLabel.setBounds(48, 304, 202, 14);
+		errorLabel.setBounds(48, 302, 202, 14);
 		contentPane.add(errorLabel);
 
 		JRadioButton ownerRadBut = new JRadioButton("Owner");
@@ -149,7 +129,7 @@ public class RegisterGUI extends JFrame {
 			}
 		});
 		buttonGroup.add(ownerRadBut);
-		ownerRadBut.setBounds(174, 173, 76, 23);
+		ownerRadBut.setBounds(174, 169, 76, 23);
 		contentPane.add(ownerRadBut);
 
 		confirmPasswordField = new JPasswordField();
@@ -191,12 +171,12 @@ public class RegisterGUI extends JFrame {
 		});*/
 		// bankField.setText("");
 		// bankField.setHorizontalAlignment(SwingConstants.LEFT);
-		bankField.setBounds(48, 271, 202, 22);
+		bankField.setBounds(48, 277, 202, 22);
 		contentPane.add(bankField);
 
 		JButton btnNewButton = new JButton("Register");
 		btnNewButton.addActionListener(new ActionListener() {
-			@SuppressWarnings({ "deprecation", "static-access" })
+			@SuppressWarnings({ "deprecation"})
 			public void actionPerformed(ActionEvent arg0) {
 				if (passwordField.getText().equals(confirmPasswordField.getText())) {
 					String username = usernameTextField.getText();
@@ -215,10 +195,11 @@ public class RegisterGUI extends JFrame {
 									JOptionPane.showMessageDialog(null, "Successfully Registered");
 									dispose();
 								} else if (isOwner & (bankField.getText().length() != 22 || bankField.getText().equals("0000-0000-00-000000000"))) {
-									System.out.println(bankField.getText().length());
 									errorLabel.setText("Incorrect format for Bank Account");
 								} else if (!isOwner) {
 									facade.addUserToDataBase(name, username, password, false, null);
+									JOptionPane.showMessageDialog(null, "Successfully Registered");
+									dispose();
 								}
 							} catch (RemoteException e) {
 								e.printStackTrace();
@@ -232,13 +213,23 @@ public class RegisterGUI extends JFrame {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Passwords does not match.");
+					JOptionPane.showMessageDialog(null, "Passwords do not match.");
 				}
 
 			}
 		});
-		btnNewButton.setBounds(43, 203, 207, 35);
+		btnNewButton.setBounds(43, 197, 207, 35);
 		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Activate Account");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame a = new ActivationGUI();
+				a.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(43, 235, 207, 19);
+		contentPane.add(btnNewButton_1);
 
 	}
 }

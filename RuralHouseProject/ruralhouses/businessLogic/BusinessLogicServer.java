@@ -2,8 +2,6 @@ package businessLogic;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
@@ -17,13 +15,16 @@ import configuration.ConfigXML;
 
 import javax.swing.JTextArea;
 
-import dataAccess.DB4oManager;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("deprecation")
 public class BusinessLogicServer extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	JTextArea textArea;
 	ApplicationFacadeInterface server;
