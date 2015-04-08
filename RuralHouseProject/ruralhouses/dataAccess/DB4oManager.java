@@ -316,6 +316,26 @@ public class DB4oManager {
 			return null;
 		}
 	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index){
+		
+		List<RuralHouse> list = db.queryByExample(rh);
+		list.get(0).setDescription(description);
+		owner.updateRuralHouse(list.get(0), index);
+		db.store(list.get(0));
+		db.commit();
+		return list.get(0);
+	}
+	
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index){
+		List<RuralHouse> list = db.queryByExample(rh);
+		List<Owner> listo = db.queryByExample(owner);
+		listo.get(0).deleteRuralHouse(index);
+		db.delete(list.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return true;
+	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {
 		try {
@@ -366,12 +386,36 @@ public class DB4oManager {
 		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
 		if (db.queryByExample(idem).size() == 0) {
 			idem.setOfferNumber(theDB4oManagerAux.nextOffersNumber());
+			List<RuralHouse> list = db.queryByExample(ruralHouse);
+			list.get(0).getAllOffers().add(idem);
 			db.store(theDB4oManagerAux);
 			db.store(idem);
+			db.store(list.get(0));
 			db.commit();
 			return idem;
 		} else {
 			return null;
 		}
+	}
+	
+	public Offer updateOffer(Offer o, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion){
+		List<Offer> list = db.queryByExample(o);
+		list.get(0).setExtraActivities(vectorlistSeleccion);
+		list.get(0).setFirstDay(firstDay);
+		list.get(0).setLastDay(lastDay);
+		list.get(0).setPrice(price);
+		db.store(list.get(0));
+		db.commit();
+		return list.get(0);
+	}
+	
+	public boolean deleteOffer(Offer o){
+		List<Offer> list = db.queryByExample(o);
+		List<RuralHouse> listo = db.queryByExample(o.getRuralHouse());
+		listo.get(0).getAllOffers().remove(o);
+		db.store(listo.get(0));
+		db.delete(list.get(0));
+		db.commit();
+		return true;
 	}
 }

@@ -44,6 +44,14 @@
 /ActivationGUI$2.class
 /ActivationGUI.class
 /ActivationGUI$3.class
+<<<<<<< HEAD
+/EditMyHouseGUI$1.class
+/EditMyHouseGUI$2.class
+/EditMyHouseGUI.class
+/OwnerGUI$3.class
+/EditMyHouseGUI$3.class
+/EditMyHouseGUI$4.class
+=======
 /CreatenewOfferGUI$1.class
 /CreatenewOfferGUI.class
 /pruebacalendarGUI$1.class
@@ -73,4 +81,15 @@
 /AditionaOfferInfoGUI.class
 /QueryAvailabilityGUI$AditionaOfferInfoGUI$1.class
 /QueryAvailabilityGUI$8.class
+<<<<<<< HEAD
 /QueryAvailabilityGUI$9.class
+=======
+>>>>>>> origin/feature/Ivan
+/EditMyOfferGUI$1.class
+/EditMyOfferGUI.class
+/EditMyOfferGUI$2.class
+/EditMyOfferGUI$3.class
+/EditMyOfferGUI$4.class
+/EditMyOfferGUI$5.class
+/OwnerGUI$4.class
+>>>>>>> origin/feature/Ena

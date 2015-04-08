@@ -125,6 +125,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		}
 
 	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException {
+		return dB4oManager.updateRuralHouse(rh, owner, description, index);
+	}
+	
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException {
+		return dB4oManager.deleteRuralHouse(rh, owner, index);
+	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		dB4oManager.activateAccount(username, isOwner, bank);
@@ -132,6 +140,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	public ExtraActivity storeExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) throws RemoteException {
 		return dB4oManager.storeExtraActivity(owner, nombre, lugar, fecha, description);
+	}
+	
+	public Offer updateOffer(Offer o, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion) throws RemoteException{
+		return dB4oManager.updateOffer(o, price, firstDay, lastDay, vectorlistSeleccion);
+	}
+	
+	public boolean deleteOffer(Offer o) throws RemoteException{
+		return dB4oManager.deleteOffer(o);
 	}
 
 	@SuppressWarnings({ "null", "unused" })

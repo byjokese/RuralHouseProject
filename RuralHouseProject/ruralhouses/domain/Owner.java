@@ -44,6 +44,17 @@ public class Owner extends Users implements Serializable {
 		ruralHouses.add(rh);
 		return rh;
 	}
+	
+	public RuralHouse updateRuralHouse(RuralHouse rh, int index){
+		ruralHouses.remove(index);
+		ruralHouses.add(index, rh);
+		return rh;
+	}
+	
+	public boolean deleteRuralHouse(int index){
+		ruralHouses.remove(index);
+		return true;
+	}
 
 	public String getBankAccount() {
 		return bankAccount;
