@@ -66,14 +66,16 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JSlider maxSlider = new JSlider();
 	private List<List<Offer>> availableOffers;
 	private Users intoUser = null;
+	private final JLabel infoMessagesLbl = new JLabel("");
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
+		getContentPane().setForeground(SystemColor.textHighlight);
 		intoUser = user;
 		minPriceTextField.setEditable(false);
 		minPriceTextField.setBounds(699, 54, 34, 20);
 		minPriceTextField.setColumns(10);
 		try {
-			jbInit(user);
+			jbInit(intoUser);
 		} catch (DataBaseNotInitialized e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
 		} catch (Exception e) {
@@ -84,6 +86,8 @@ public class QueryAvailabilityGUI extends JFrame {
 	private void jbInit(Users user) throws Exception {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		// wait till the database is loaded.
+		if (intoUser == null)
+			infoMessagesLbl.setText("Not loged in!");
 		try {
 			Vector<RuralHouse> rhs = facade.getAllRuralHouses();
 		} catch (NullPointerException e) {
@@ -102,23 +106,37 @@ public class QueryAvailabilityGUI extends JFrame {
 		jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (intoUser == null) {
-					if (JOptionPane.showConfirmDialog(null, "Do you want to Login-in?", "You Must Login", 0) == 0) {
-						JFrame login = new LoginGUI();
-						login.setVisible(true);
-						while (login.isVisible()) {
+					JOptionPane.showMessageDialog(null, "You Must Login");
+					dispose();
+					//****Fase 3*****
+					/**if (JOptionPane.showConfirmDialog(null, "Do you want to Login-in?", "You Must Login", 0) == 0) {
+						JFrame login = null;
+						try {
+							login = new LoginGUI(intoUser);
+							login.setVisible(true);
+							
+							while (true) {
+							}
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+							login.dispose();
 						}
-						intoUser = ((LoginGUI) login).sendUser();
+						System.out.println(intoUser.toString());
+						if (intoUser != null)
+							infoMessagesLbl.setText("");
 					} else {
 						dispose();
-					}
+					}**/
 				} else {
-					Offer offer = availableOffers.get(0).get(table.getSelectedRow());
+					JOptionPane.showMessageDialog(null, "Not Implemented yet!");
+					//****Fase 3*****
+					/**Offer offer = availableOffers.get(0).get(table.getSelectedRow());
 					System.out.println("Selected Offer:" + offer.toString());
 					try {
 						facade.bookOffer(intoUser, "", offer);
 					} catch (RemoteException e) {
 						e.printStackTrace();
-					}
+					}**/
 				}
 			}
 		});
@@ -339,6 +357,10 @@ public class QueryAvailabilityGUI extends JFrame {
 		});
 		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
 		getContentPane().add(btnSeeOfferDetails);
+		infoMessagesLbl.setForeground(SystemColor.textHighlight);
+		infoMessagesLbl.setBounds(42, 87, 430, 14);
+
+		getContentPane().add(infoMessagesLbl);
 	}
 
 	protected void updateTable(List<List<Offer>> availableOffers) {
@@ -358,7 +380,11 @@ public class QueryAvailabilityGUI extends JFrame {
 		String day = ((int) daySpinner.getValue() >= 0 && (int) daySpinner.getValue() < 10) ? "0" + daySpinner.getValue() : "" + daySpinner.getValue();
 		dateTextField.setText(day + "/" + (String) monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
 	}
-
+	
+	private void setUser(Users user) {
+		intoUser = user;
+	}
+	
 	class AditionaOfferInfoGUI extends JFrame {
 
 		private static final long serialVersionUID = 1L;
