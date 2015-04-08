@@ -65,8 +65,10 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final List<List<Offer>> offers = new Vector<>();;
 	private final JSlider maxSlider = new JSlider();
 	private List<List<Offer>> availableOffers;
+	private Users intoUser = null;
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
+		intoUser = user;
 		minPriceTextField.setEditable(false);
 		minPriceTextField.setBounds(699, 54, 34, 20);
 		minPriceTextField.setColumns(10);
@@ -99,19 +101,25 @@ public class QueryAvailabilityGUI extends JFrame {
 		jTextField3.setText("0");
 		jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*if (user == null) {
-					JPopupMenu a = new JPopupMenu();
-					a.setVisible(true);
-				} else {*/
+				if (intoUser == null) {
+					if (JOptionPane.showConfirmDialog(null, "Do you want to Login-in?", "You Must Login", 0) == 0) {
+						JFrame login = new LoginGUI();
+						login.setVisible(true);
+						while (login.isVisible()) {
+						}
+						intoUser = ((LoginGUI) login).sendUser();
+					} else {
+						dispose();
+					}
+				} else {
 					Offer offer = availableOffers.get(0).get(table.getSelectedRow());
-					String telephone = JOptionPane.showInputDialog(new JTextField(), "Insert the telephone number:");
 					System.out.println("Selected Offer:" + offer.toString());
 					try {
-						facade.bookOffer(user, telephone, offer);
+						facade.bookOffer(intoUser, "", offer);
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					}
-				//}
+				}
 			}
 		});
 		jButton1.setBounds(42, 548, 430, 30);

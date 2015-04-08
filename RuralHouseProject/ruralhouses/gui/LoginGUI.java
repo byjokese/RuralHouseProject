@@ -14,9 +14,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 
 import javax.swing.JButton;
-
 import javax.swing.JSeparator;
 
+import domain.Users;
 import businessLogic.ApplicationFacadeInterface;
 
 import java.awt.event.ActionListener;
@@ -33,17 +33,21 @@ public class LoginGUI extends JFrame {
 	private JTextField userTextField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private Users logeduser;
+
+	public Users sendUser() {
+		return logeduser;
+	}
 
 	public static ApplicationFacadeInterface facadeInterface;
 
-	
 	/**
 	 * Create the frame.
 	 */
 	@SuppressWarnings("unused")
 	public LoginGUI() {
 		ApplicationFacadeInterface facade = StartWindow.facadeInterface;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 244, 235);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,21 +98,25 @@ public class LoginGUI extends JFrame {
 				String password = passwordField.getText();
 				boolean isOwner = ownerRadBut.isSelected();
 				try {
-					if (facadeInterface.checkLogin(username, password, isOwner) != null)
+					Users user = facadeInterface.checkLogin(username, password, isOwner);
+					logeduser = user;
+					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
-					/** Redirects to User's Interface **/
-					else
+						sendUser();
+					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		loginBtn.setBounds(12, 150, 205, 39);
+		loginBtn.setBounds(15, 136, 205, 39);
 		contentPane.add(loginBtn);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 35, 247, 2);
 		contentPane.add(separator);
+
 	}
+
 }
