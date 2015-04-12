@@ -7,13 +7,8 @@ import java.util.Vector;
 
 public class RuralHouse implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
+
 	private int houseNumber;
 	private String description;
 	private Owner owner;
@@ -93,11 +88,10 @@ public class RuralHouse implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
-	public Vector<Offer> getAllOffers (){
+
+	public Vector<Offer> getAllOffers() {
 		return offers;
 	}
-
 
 	public String toString() {
 		return this.houseNumber + ": " + this.city;

@@ -1,37 +1,31 @@
 package gui;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.SwingConstants;
 
-import java.awt.Font;
-
-import javax.swing.JButton;
-
-import java.awt.Color;
-
-import javax.swing.JSeparator;
-
-import domain.Users;
 import businessLogic.ApplicationFacadeInterface;
+import domain.Users;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.rmi.RemoteException;
- 
 public class ActivationGUI extends JFrame {
 
 	/**
@@ -44,7 +38,6 @@ public class ActivationGUI extends JFrame {
 	private JFormattedTextField bankField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	
 	/**
 	 * Create the frame.
 	 */
@@ -112,7 +105,7 @@ public class ActivationGUI extends JFrame {
 		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		BannerLabel.setBounds(20, 0, 200, 37);
 		contentPane.add(BannerLabel);
-		
+
 		JLabel errorLabel = new JLabel("");
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBounds(20, 228, 200, 14);
@@ -146,7 +139,7 @@ public class ActivationGUI extends JFrame {
 						} else
 							JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 					} else {
-						errorLabel.setText("Incorrect format for Bank Account");	
+						errorLabel.setText("Incorrect format for Bank Account");
 					}
 				} catch (RemoteException e) {
 					e.printStackTrace();

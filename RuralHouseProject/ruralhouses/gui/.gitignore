@@ -81,6 +81,9 @@
 /AditionaOfferInfoGUI.class
 /QueryAvailabilityGUI$AditionaOfferInfoGUI$1.class
 /QueryAvailabilityGUI$8.class
+<<<<<<< HEAD
+/QueryAvailabilityGUI$9.class
+=======
 >>>>>>> origin/feature/Ivan
 /EditMyOfferGUI$1.class
 /EditMyOfferGUI.class
@@ -89,3 +92,12 @@
 /EditMyOfferGUI$4.class
 /EditMyOfferGUI$5.class
 /OwnerGUI$4.class
+>>>>>>> origin/feature/Ena
+/ClientGUI$1.class
+/ClientGUI.class
+/QueryAvailabilityGUI$worker.class
+/QueryAvailabilityGUI$10.class
+/QueryAvailabilityGUI$1CellRender.class
+/QueryAvailabilityGUI$CellRender.class
+/EditMyOfferGUI$6.class
+/EditMyOfferGUI$7.class
