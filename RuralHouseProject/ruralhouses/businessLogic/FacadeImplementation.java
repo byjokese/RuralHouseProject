@@ -2,9 +2,11 @@ package businessLogic;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import dataAccess.DB4oManager;
@@ -17,14 +19,10 @@ import domain.RuralHouse;
 import domain.Users;
 import exceptions.BadDates;
 import exceptions.DB4oManagerCreationException;
-import exceptions.OfferCanNotBeBooked;
 import exceptions.OverlappingOfferExists;
 
 public class FacadeImplementation extends UnicastRemoteObject implements ApplicationFacadeInterface {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	Vector<Owner> owners;
@@ -65,18 +63,13 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			return dB4oManager.createOffer(ruralHouse, firstDay, lastDay, price);
 		return null;
 	}
+	
+	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists{
+		return dB4oManager.existsOverlappingOffer(rh, firstDay, lastDay);
+	}
 
-	/**
-	 * This method creates a book with a corresponding parameters
-	 * 
-	 * @param First
-	 *            day, last day, house number and telephone
-	 * @return a book
-	 */
-	public Booking createBooking(RuralHouse ruralHouse, Date firstDate, Date lastDate, String bookTelephoneNumber) throws OfferCanNotBeBooked {
-		ruralHouses = null;
-		owners = null;
-		return dB4oManager.createBooking(ruralHouse, firstDate, lastDate, bookTelephoneNumber);
+	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
+		return dB4oManager.bookOffer(user, telephone, offer);
 	}
 
 	/**
@@ -90,6 +83,11 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			return owners;
 		} else
 			return owners = dB4oManager.getOwners();
+
+	}
+
+	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
+		return dB4oManager.getUpdatedOffers(owner);
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
@@ -116,20 +114,73 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	@Override
 	public boolean checkUserAvailability(String username) throws RemoteException {
 		return dB4oManager.checkUserAvailability(username);
+
 	}
 
-	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException {
-		return dB4oManager.storeRuralhouse(houseNumber, owner, description, city, address, aumber);
+	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException {
+		try {
+			return dB4oManager.storeRuralhouse(owner, description, city, address, aumber);
+		} catch (Exception e) {
+			System.out.println("Error at storeRuralhouse raised at Facadeimplementation: " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException {
+		return dB4oManager.updateRuralHouse(rh, owner, description, index);
+	}
+
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException {
+		return dB4oManager.deleteRuralHouse(rh, owner, index);
 	}
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException {
 		dB4oManager.activateAccount(username, isOwner, bank);
 	}
-	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException{
+
+	public ExtraActivity storeExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) throws RemoteException {
 		return dB4oManager.storeExtraActivity(owner, nombre, lugar, fecha, description);
 	}
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi) throws RemoteException{
-		
-		return dB4oManager.StoreOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
+
+	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
+			throws RemoteException {
+		return dB4oManager.updateOffer(o, rh, price, firstDay, lastDay, vectorlistSeleccion);
 	}
+
+	public boolean deleteOffer(Offer o) throws RemoteException {
+		return dB4oManager.deleteOffer(o);
+	}
+
+	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException {
+		/** Offers comes with an previous applied filter of starting date. will never show a offer previous to the given date of start. **/
+		// Calculation of the last date of the search
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date); // date of begin
+		calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(numberOfNights)); // we operate the add begin + numberOfNights
+		Date lastDate = calendar.getTime(); // Get back of the time
+		// Search and filters
+		List<Offer> offers = dB4oManager.searchEngine(date);
+		List<List<Offer>> allAvailableOffers = new Vector<>();
+		List<Offer> requestedOffers = new Vector<Offer>();
+		List<Offer> possibleOffers = new Vector<Offer>();
+		for (Offer offer : offers) {
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)) { // City Filter
+				if (offer.getPrice() >= minPrice && offer.getPrice() <= maxPrice && lastDate.compareTo(offer.getLastDay()) == 0) { // Price & last date filter
+					requestedOffers.add(offer);
+				} else if (offer.getPrice() < minPrice || lastDate.compareTo(offer.getLastDay()) != 0 || lastDate.compareTo(offer.getLastDay()) == 0) {
+					possibleOffers.add(offer);
+				}
+			}
+		}
+		allAvailableOffers.add(requestedOffers);
+		allAvailableOffers.add(possibleOffers);
+		return allAvailableOffers;
+	}
+
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
+		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
+	}
+
 }

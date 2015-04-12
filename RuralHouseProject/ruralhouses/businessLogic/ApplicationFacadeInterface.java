@@ -1,9 +1,11 @@
 package businessLogic;
 
-import java.rmi.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 
 import domain.Booking;
 import domain.ExtraActivity;
@@ -11,19 +13,9 @@ import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
 import domain.Users;
-import exceptions.OfferCanNotBeBooked;
+import exceptions.OverlappingOfferExists;
 
 public interface ApplicationFacadeInterface extends Remote {
-
-	/**
-	 * This method creates an offer with a house number, first day, last day and price
-	 * 
-	 * @param House
-	 *            number, start day, last day and price
-	 * @return None
-	 */
-
-	Offer createOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) throws RemoteException, Exception;
 
 	/**
 	 * This method creates a book with a corresponding parameters
@@ -32,7 +24,8 @@ public interface ApplicationFacadeInterface extends Remote {
 	 *            day, last day, house number and telephone
 	 * @return a book
 	 */
-	Booking createBooking(RuralHouse ruralHouse, Date firstDay, Date lastDay, String telephoneNumber) throws RemoteException, OfferCanNotBeBooked;
+
+	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException;
 
 	/**
 	 * This method retrieves the existing owners
@@ -56,10 +49,27 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String BankAcount) throws RemoteException;
 
-	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int aumber) throws RemoteException;
+	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int aumber) throws RemoteException;
+
+	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException;
+
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException;
+
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException;
+
+	public ExtraActivity storeExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) throws RemoteException;
+
+	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException;
+
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException;
+
+	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
+			throws RemoteException;
 	
-	public void activateAccount(String username, boolean isOwner, String bank)throws RemoteException;
-	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description) throws RemoteException;
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi) throws RemoteException;
+	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists;
+
+	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException;
+
+	public boolean deleteOffer(Offer o) throws RemoteException;
 
 }

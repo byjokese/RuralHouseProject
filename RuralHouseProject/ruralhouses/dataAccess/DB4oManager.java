@@ -3,19 +3,16 @@ package dataAccess;
 import java.io.File;
 // import java.util.Enumeration;
 // import java.util.Vector;
-
 import java.rmi.RemoteException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
-import com.db4o.*;
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ClientConfiguration;
@@ -29,7 +26,6 @@ import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
 import domain.Users;
-import exceptions.OfferCanNotBeBooked;
 import exceptions.OverlappingOfferExists;
 
 public class DB4oManager {
@@ -37,18 +33,15 @@ public class DB4oManager {
 	private static ObjectContainer db;
 	private static EmbeddedConfiguration configuration;
 	private static ClientConfiguration configurationCS;
-	private int bookingNumber = 0; // if it is "static" then it is not
-									// serialized
-	private int offerNumber = 0; // if it is "static" then it is not serialized
 	private static DB4oManager theDB4oManager = null;
 
-	private static DB4oManagerAux theDB4oManagerAux;
+	private static ControlDB4o theDB4oManagerAux;
 	private static boolean initialized = false;
-	private int lastHouseNumber;
 	ConfigXML c;
 
 	private DB4oManager() throws Exception {
-		theDB4oManagerAux = new DB4oManagerAux(0, 0);
+		theDB4oManagerAux = new ControlDB4o();
+
 		c = ConfigXML.getInstance();
 		System.out.println("Creating DB4oManager instance => isDatabaseLocal: " + c.isDatabaseLocal() + " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
@@ -76,7 +69,7 @@ public class DB4oManager {
 			ObjectSet<Object> res = db.queryByExample(DB4oManagerAux.class);
 			ListIterator<Object> listIter = res.listIterator();
 			if (listIter.hasNext())
-				theDB4oManagerAux = (DB4oManagerAux) res.next();
+				theDB4oManagerAux = (ControlDB4o) res.next();
 		}
 	}
 
@@ -110,23 +103,52 @@ public class DB4oManager {
 		return theDB4oManager;
 	}
 
+	@SuppressWarnings({ "deprecation" })
 	public void initializeDB() {
-		lastHouseNumber = 0;
-
+		RuralHouse rhB1 = null;
+		RuralHouse rjB2 = null;
+		RuralHouse rhJ = null;
+		RuralHouse rhJe = null;
 		try {
 			addUserToDataBase("ivan", "byjoke", "123", false, "1234-5678-12-123456789");
-			addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
+			Users bienve = addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
 			addUserToDataBase("jose", "ena_795", "123456", true, "4567-98763-25-123456789");
 
 			Users jon = addUserToDataBase("Jon", "Jonlog", "passJon", true, "4567-98763-25-122567891");
 			addUserToDataBase("Alfredo", "AlfredoLog", "passAlfredo", true, "1234-5678-12-785478963");
-			Users jesus = addUserToDataBase("Jesï¿½s", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
+			Users jesus = addUserToDataBase("Jesus", "Jesuslog", "passJesus", true, "1534-5588-32-784778963");
 			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 
-			storeRuralhouse(1, ((Owner) jon), "jon house", "Ezkio", "Ezkioko Kalea", 2);
-			storeRuralhouse(2, ((Owner) jon), "Etxetxikia", "Iruï¿½a", "berdin Kalea", 27);
-			storeRuralhouse(3, ((Owner) jesus), "Udaletxea", "Bilbo", "Udaletxeko kalea", 1);
-			storeRuralhouse(4, ((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
+			try {
+				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Tolosa2 Kalea", 2);
+				storeRuralhouse(((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 21);
+				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Udaletxeko kalea", 1);
+				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
+				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Tolosa Kalea", 27);
+				rjB2 = storeRuralhouse((Owner) bienve, "Another house", "tolosa", "7th street", 7);
+			} catch (Exception e) {
+				System.out.println("Error at initialize DataBase on: ./storeRuralHouses " + e.getMessage());
+			}
+			ArrayList<ExtraActivity> activities = new ArrayList<ExtraActivity>();
+			activities.add(storeExtraActivity((Owner) bienve, "Montar a caballo", "Tolosa2 Kalea", new Date(2015, 7, 31), "Actividad para montar a caballo"));
+			activities.add(storeExtraActivity((Owner) bienve, "Montar a bici", "kale", new Date(2015, 7, 3), "Actividad para montar en bicicleta"));
+			activities.add(storeExtraActivity((Owner) bienve, "Fiesta", "fiestakalea", new Date(2015, 7, 4), "fiesta de tolosa"));
+			ArrayList<ExtraActivity> activitiesA = new ArrayList<ExtraActivity>();
+			activitiesA.add(storeExtraActivity((Owner) jon, "Montar a caballo", "Tolosa Kalea", new Date(2015, 7, 7), "Actividad para montar a caballo"));
+			activitiesA.add(storeExtraActivity((Owner) jon, "Fiesta", "fiestakalea", new Date(2015, 7, 8), "fiesta de tolosa"));
+			ArrayList<ExtraActivity> activitiesB = new ArrayList<ExtraActivity>();
+			activitiesB.add(storeExtraActivity((Owner) bienve, "Run", "mountain", new Date(2015, 6, 31), "Runing in the mountain"));
+			activitiesB.add(storeExtraActivity((Owner) bienve, "Fiesta", "fiestakalea", new Date(2015, 7, 1), "fiesta de tolosa"));
+			try {
+				storeOffer(rhJ, new Date(2015 - 1900, 6, 30), new Date(2015 - 1900, 7, 4), 750, activitiesA); // Julio --> 6
+				storeOffer(rhB1, new Date(2015 - 1900, 6, 30), new Date(2015 - 1900, 7, 4), 1200, activities);
+				storeOffer(rjB2, new Date(2015 - 1900, 6, 30), new Date(2015 - 1900, 7, 30), 999, activitiesB);
+				storeOffer(rhJe, new Date(2015 - 1900, 6, 30), new Date(2015 - 1900, 7, 8), 1100, activitiesB);
+			} catch (Exception e1) {
+				System.out.println("Error at initialize DataBase on: ./storeOffer " + e1.getMessage());
+				e1.printStackTrace();
+			}
+
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -135,21 +157,22 @@ public class DB4oManager {
 
 	public Offer createOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) throws RemoteException, Exception {
 		try {
-
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
-
-			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, null, null);
-			ObjectSet<Object> result = db.queryByExample(proto);
-			RuralHouse rh = (RuralHouse) result.next();
-			Offer o = rh.createOffer(theDB4oManagerAux.offerNumber++, firstDay, lastDay, price);
-			db.store(theDB4oManagerAux); // To store the new value for offerNumber
-			db.store(o);
-			db.commit();
-			return o;
+			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, null, null, null, 0);
+			ObjectSet<RuralHouse> result = db.queryByExample(proto);
+			if (result.size() != 0) {
+				RuralHouse rh = (RuralHouse) result.get(0);
+				Offer o = rh.createOffer(theDB4oManagerAux.nextOffersNumber(), firstDay, lastDay, price);
+				db.store(theDB4oManagerAux); // To store the status of the control database
+				db.store(o);
+				db.commit();
+				return o;
+			}
 		} catch (com.db4o.ext.ObjectNotStorableException e) {
 			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createOffer " + e.getMessage());
 			return null;
 		}
+		return null;
 	}
 
 	public void deleteDB() {
@@ -174,35 +197,19 @@ public class DB4oManager {
 	 *            day, last day, house number and telephone
 	 * @return a book
 	 */
-	public Booking createBooking(RuralHouse ruralHouse, Date firstDate, Date lastDate, String bookTelephoneNumber) throws OfferCanNotBeBooked {
+	public Booking createBooking(Offer offer, String telephone) {
+		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer);
+		db.store(book);
+		db.commit();
+		return book;
+	}
 
-		try {
-
-			// if (c.isDatabaseLocal()==false) openObjectContainer();
-			RuralHouse proto = new RuralHouse(ruralHouse.getHouseNumber(), null, ruralHouse.getDescription(), ruralHouse.getCity());
-			ObjectSet<Object> result = db.queryByExample(proto);
-			RuralHouse rh = (RuralHouse) result.next();
-
-			Offer offer;
-			offer = rh.findOffer(firstDate, lastDate);
-
-			if (offer != null) {
-				offer.createBooking(theDB4oManagerAux.bookingNumber++, bookTelephoneNumber);
-				db.store(theDB4oManagerAux); // To store the new value for
-												// bookingNumber
-				db.store(offer);
-				db.commit();
-				return offer.getBooking();
-			}
-			return null;
-
-		} catch (com.db4o.ext.ObjectNotStorableException e) {
-			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createBooking " + e.getMessage());
-			return null;
-		} catch (Exception exc) {
-			exc.printStackTrace();
-			return null;
-		}
+	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
+		Booking book = createBooking(offer, telephone);
+		((Client) user).addBook(book);
+		db.store(book);
+		db.commit();
+		return book;
 	}
 
 	/**
@@ -210,7 +217,6 @@ public class DB4oManager {
 	 * 
 	 */
 	public Vector<Owner> getOwners() throws RemoteException, Exception {
-
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
 		// Se cogen todos los Users activados
 		try {
@@ -226,12 +232,22 @@ public class DB4oManager {
 		} finally {
 			// db.close();
 		}
+
+	}
+
+	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
+		List<Owner> list = db.queryByExample(owner);
+		ArrayList<Offer> listO = new ArrayList<Offer>();
+		for (RuralHouse rh : list.get(0).getRuralHouses()) {
+			for (Offer o : rh.getAllOffers()) {
+				listO.add(o);
+			}
+		}
+		return listO;
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
-
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
-
 		try {
 			RuralHouse proto = new RuralHouse(0, null, null, null);
 			ObjectSet<Object> result = db.queryByExample(proto);
@@ -293,37 +309,68 @@ public class DB4oManager {
 
 	}
 
-	private boolean checkRural(String city, String address, int number) {
+	private boolean checkRural(String city, String address, int number) throws RemoteException {
 		return db.queryByExample(new RuralHouse(0, null, null, city, address, number)).size() == 0;
 	}
 
-	public RuralHouse storeRuralhouse(int houseNumber, Owner owner, String description, String city, String address, int number) throws RemoteException {
-		RuralHouse rh = new RuralHouse(houseNumber, owner, description, city, address, number);
-		if (checkRural(city, address, number)) {
-			owner.addRuralHouse(rh);
-			db.store(rh);			
-			db.commit();
-			return rh;
-		} else {
+	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int number) throws RemoteException, Exception {
+		try {
+			RuralHouse rh = new RuralHouse(theDB4oManagerAux.nextHouseNumber(), owner, description, city, address, number);
+			if (checkRural(city, address, number)) {
+				owner.addRuralHouse(rh);
+				db.store(owner);
+				db.store(rh);
+				db.store(theDB4oManagerAux);
+				db.commit();
+				return rh;
+			} else {
+				return null;
+			}
+		} catch (com.db4o.ext.ObjectNotStorableException e) {
+			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in storeRuralhouse " + e.getMessage());
 			return null;
 		}
+	}
+
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException {
+		List<RuralHouse> list = db.queryByExample(rh);
+		list.get(0).setDescription(description);
+		owner.updateRuralHouse(list.get(0), index);
+		db.store(list.get(0));
+		db.commit();
+		return list.get(0);
+	}
+
+	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException {
+		List<RuralHouse> list = db.queryByExample(rh);
+		List<Owner> listo = db.queryByExample(owner);
+		listo.get(0).deleteRuralHouse(index);
+		db.delete(list.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return true;
 	}
 
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {
 		try {
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
-
-			RuralHouse rhn = (RuralHouse) db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null)).next();
+			RuralHouse rhn = (RuralHouse) db.queryByExample(rh).get(0);
 			if (rhn.overlapsWith(firstDay, lastDay) != null)
-				throw new OverlappingOfferExists();
+				throw new OverlappingOfferExists("Overlaping Offer");
 			else
 				return false;
 		} finally {
 			// db.close();
 		}
 	}
-	
-	private int nextHouseNumber(){
+
+	public List<Offer> searchEngine(Date date) throws RemoteException {
+		Offer offer = new Offer(0, null, date, null, 0);
+		return db.queryByExample(offer);
+	}
+
+	@SuppressWarnings("unused")
+	private int nextHouseNumber() {
 		return nextHouseNumber() + 1;
 	}
 
@@ -333,35 +380,67 @@ public class DB4oManager {
 	}
 
 	public String toString() {
-		return "bookingNumber=" + bookingNumber + " offerNumber=" + offerNumber;
+		return "bookingNumber=" + theDB4oManagerAux.getBookingNumber() + " offerNumber=" + theDB4oManagerAux.getOfferNumber();
 	}
-	public ExtraActivity storeExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description){
 
+	public ExtraActivity storeExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) throws RemoteException {
 		ExtraActivity actividad = new ExtraActivity(owner, nombre, lugar, fecha, description);
 		List<ExtraActivity> data = db.queryByExample(actividad);
-		if(data.size()==0){
+		if (data.size() == 0) {
 			owner.addExtraActivities(actividad);
+			db.store(owner);
 			db.store(actividad);
 			db.commit();
 			return actividad;
-		}else{
-			
-		return null;} //implementar el almacenamienro.
+		} else {
+			return null;
+		} // implementar el almacenamienro.
 	}
-	public Offer StoreOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price,ArrayList<ExtraActivity> ExtraActi){
+
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
-		if(db.queryByExample(idem).size() == 0){
-			idem.setOfferNumber(theDB4oManagerAux.offerNumber++);
-			db.store(theDB4oManagerAux); 
-			db.store(idem);
+		if (db.queryByExample(idem).size() == 0) {
+			idem.setOfferNumber(theDB4oManagerAux.nextOffersNumber());
+			List<RuralHouse> list = db.queryByExample(ruralHouse);
+			list.get(0).getAllOffers().add(idem);
+			db.store(theDB4oManagerAux); // Db4o Control
+			db.store(idem); // Offer
+			db.store(list.get(0)); // Ruralhouse
 			db.commit();
-			
 			return idem;
-		}else{
+		} else {
 			return null;
 		}
-		
-	}	
-	
-	
+	}
+
+	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
+			throws RemoteException {
+		System.out.println("DATA BASE: " + vectorlistSeleccion);
+		List<Offer> list = db.queryByExample(o);
+		list.get(0).setExtraActivities(vectorlistSeleccion);
+		list.get(0).setFirstDay(firstDay);
+		list.get(0).setLastDay(lastDay);
+		list.get(0).setPrice(price);
+		db.store(list.get(0));
+		List<RuralHouse> listR = db.queryByExample(rh);
+		List<Owner> listO = db.queryByExample(listR.get(0).getOwner());
+		listO.get(0).getRuralHouses().remove(listR.get(0));
+		listR.get(0).getAllOffers().remove(o);
+		listR.get(0).getAllOffers().add(list.get(0));
+		listO.get(0).getRuralHouses().add(listR.get(0));
+		db.store(listO.get(0));
+		db.store(listR.get(0));
+		db.commit();
+		return list.get(0);
+	}
+
+	public boolean deleteOffer(Offer o) throws RemoteException {
+		List<Offer> list = db.queryByExample(o);
+		List<RuralHouse> listo = db.queryByExample(o.getRuralHouse());
+		listo.get(0).getAllOffers().remove(o);
+		db.store(listo.get(0));
+		db.delete(list.get(0));
+		db.commit();
+		return true;
+	}
 }
