@@ -18,7 +18,6 @@ public class ExtraActivity implements Serializable {
 		this.lugar = lugar;
 		this.fecha = fecha;
 		this.description = description;
-
 	}
 
 	public String getDescription() {
