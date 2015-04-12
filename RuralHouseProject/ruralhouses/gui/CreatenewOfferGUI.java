@@ -31,6 +31,7 @@ import com.toedter.calendar.JCalendar;
 import domain.ExtraActivity;
 import domain.Owner;
 import domain.RuralHouse;
+import exceptions.OverlappingOfferExists;
 
 public class CreatenewOfferGUI extends JFrame {
 
@@ -232,23 +233,26 @@ public class CreatenewOfferGUI extends JFrame {
 				if (precio >= 0) {
 					// control para obligar seleccionar una casa
 					if (RHouseslist.getSelectedIndex() == -1) {
-						JOptionPane.showMessageDialog(null, "Yoiu must select a house for the offer.");
+						JOptionPane.showMessageDialog(null, "You must select a house for the offer.");
 					} else {
 						// control de validez de fecha
-						Date firsDay = trim(new Date(FirstDaycalendar.getCalendar().getTime().getTime()));
+						Date firstDay = trim(new Date(FirstDaycalendar.getCalendar().getTime().getTime()));
 						Date lastDay = trim(new Date(LastDaycalendar.getCalendar().getTime().getTime()));
-						int res = firsDay.compareTo(lastDay);
+						int res = firstDay.compareTo(lastDay);
 						if (res <= 0) {
 							try {
-								if (facade.storeOffer(RHouseslist.getSelectedValue(), firsDay, lastDay, precio, listaSeleccion) == null) {
-									JOptionPane.showMessageDialog(null, "This offer alredy exits");
-								} else {
-									JOptionPane.showMessageDialog(null, "OFFER CREATED");
-									dispose();
+								if (!facade.existsOverlappingOffer(RHouseslist.getSelectedValue(), firstDay, lastDay)) {
+									if (facade.storeOffer(RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion) == null) {
+										JOptionPane.showMessageDialog(null, "This offer alredy exits");
+									} else {
+										JOptionPane.showMessageDialog(null, "OFFER CREATED");
+										dispose();
+									}
 								}
 							} catch (HeadlessException | RemoteException e1) {
-								e1.printStackTrace();
-								System.out.println("ERROR in FACADE during CreateOffer");
+								System.out.println("ERROR in FACADE during CreateOffer: " + e1.getMessage());
+							} catch (OverlappingOfferExists e2) {
+								JOptionPane.showMessageDialog(null, "This offer overlays with another.");
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Date not valid.");
