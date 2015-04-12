@@ -3,6 +3,8 @@ package gui;
 /**
  * @author Software Engineering teachers
  */
+import domain.Client;
+import domain.Owner;
 import domain.Users;
 import exceptions.DB4oManagerCreationException;
 
@@ -52,7 +54,6 @@ public class StartWindow extends JFrame {
 					if (c.isBusinessLogicLocal())
 						facade.close();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					System.out.println("Error: " + e1.toString() + " , probably problems with Business Logic or Database");
 				}
 				System.exit(1);
@@ -129,11 +130,11 @@ public class StartWindow extends JFrame {
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 						if (isOwner) {
-							JFrame o = new OwnerGUI(user);
+							JFrame o = new OwnerGUI((Owner) user);
 							o.setVisible(true);
 						} else {
-							/** ClientGUI **/
-							JOptionPane.showMessageDialog(null, "NOT Implemented yet");
+							JFrame c = new ClientGUI((Client) user);
+							c.setVisible(true);
 						}
 					} else
 						JOptionPane.showMessageDialog(null, "Username or password incorrect.");
@@ -162,7 +163,7 @@ public class StartWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame b;
 				try {
-					b = new QueryAvailabilityGUI();
+					b = new QueryAvailabilityGUI(null);
 					b.setVisible(true);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
