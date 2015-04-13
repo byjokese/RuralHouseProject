@@ -3,12 +3,12 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -18,8 +18,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import domain.Offer;
-
-import javax.swing.JScrollPane;
 
 public class AditionaOfferInfoGUI extends JFrame {
 
@@ -32,6 +30,7 @@ public class AditionaOfferInfoGUI extends JFrame {
 	private JTextField ruralhouseTextField;
 	private JTextField offerNumTextField;
 	private JTable table;
+	@SuppressWarnings("unused")
 	private DefaultTableModel tableModel;
 
 	/**
@@ -122,17 +121,16 @@ public class AditionaOfferInfoGUI extends JFrame {
 		offerNumTextField.setBounds(453, 112, 117, 20);
 		offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
 		activitiesTextField.add(offerNumTextField);
-		
-		
+
 		String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
 		Object[][] data = new Object[offer.getExtraActivities().size()][];
-		for(int i=0;i<offer.getExtraActivities().size();i++){
+		for (int i = 0; i < offer.getExtraActivities().size(); i++) {
 			Object[] tmp = { new String(offer.getExtraActivities().get(i).getNombre()), new String(offer.getExtraActivities().get(i).getDescription()),
-							new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
-							new String(offer.getExtraActivities().get(i).getFecha().toString())};
+					new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
+					new String(offer.getExtraActivities().get(i).getFecha().toString()) };
 			data[i] = tmp;
 		}
-		DefaultTableModel tabmodel = new DefaultTableModel(data, columnNames);
+		new DefaultTableModel(data, columnNames);
 
 		JButton closeBtn = new JButton("Close");
 		closeBtn.setBounds(10, 283, 702, 25);
@@ -142,7 +140,7 @@ public class AditionaOfferInfoGUI extends JFrame {
 			}
 		});
 		activitiesTextField.add(closeBtn);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 138, 702, 134);
 		activitiesTextField.add(scrollPane);
@@ -153,13 +151,7 @@ public class AditionaOfferInfoGUI extends JFrame {
 
 		scrollPane.setViewportView(table);
 		tableModel = new DefaultTableModel(null, columnNames);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Name", "Description", "Owner", "Place", "Date"
-			}
-		));
-				
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Description", "Owner", "Place", "Date" }));
+
 	}
 }

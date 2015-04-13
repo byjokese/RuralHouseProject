@@ -1,23 +1,19 @@
 package gui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JSeparator;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import domain.Client;
 import exceptions.DataBaseNotInitialized;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ClientGUI extends JFrame {
 
@@ -29,7 +25,7 @@ public class ClientGUI extends JFrame {
 	 */
 	public ClientGUI(Client client) {
 		setTitle("Rural House System");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 307, 288);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

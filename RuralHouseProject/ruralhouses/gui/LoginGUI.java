@@ -31,7 +31,7 @@ public class LoginGUI extends JFrame {
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	public LoginGUI(Users intoUser) throws Exception{
+	public LoginGUI(Users intoUser) throws Exception {
 		synchronized (this) {
 			ApplicationFacadeInterface facade = StartWindow.facadeInterface;
 			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,7 +95,6 @@ public class LoginGUI extends JFrame {
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

@@ -1,48 +1,45 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import domain.Owner;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
 
 import businessLogic.ApplicationFacadeInterface;
 
 import com.toedter.calendar.JCalendar;
 
-import java.awt.Rectangle;
-
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.rmi.RemoteException;
-import java.util.Calendar;
-import java.util.Date;
-
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
-import javax.swing.border.CompoundBorder;
+import domain.ExtraActivity;
+import domain.Owner;
 
 public class CreateExtraActivityGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField NametextField;
 	private JTextField LugartextField_1;
+	private ExtraActivity extraActivity;
 
-		/**
+	/**
 	 * Create the frame.
 	 */
-	public CreateExtraActivityGUI(Owner owner) {
+	public CreateExtraActivityGUI(Owner owner, JFrame parent) {
+		CreatenewOfferGUI createnewOfferGUI = (parent.getClass() == CreatenewOfferGUI.class) ? (CreatenewOfferGUI) parent : null;
+		EditMyOfferGUI editMyOfferGUI = (parent.getClass() == EditMyOfferGUI.class) ? (EditMyOfferGUI) parent : null;
 
 		setTitle("Rural House System");
 		setBounds(100, 100, 613, 379);
@@ -79,11 +76,11 @@ public class CreateExtraActivityGUI extends JFrame {
 
 		JLabel lblDescription = new JLabel("Description:");
 
-		lblDescription.setBounds(72, 172, 144, 15);
+		lblDescription.setBounds(60, 180, 144, 15);
 		contentPane.add(lblDescription);
 
 		JTextArea DescriptiontextArea = new JTextArea();
-		DescriptiontextArea.setBounds(12, 199, 266, 137);
+		DescriptiontextArea.setBounds(12, 199, 266, 130);
 
 		contentPane.add(DescriptiontextArea);
 
@@ -105,25 +102,26 @@ public class CreateExtraActivityGUI extends JFrame {
 				 * controlamos que no dejen los campos vacios
 				 */
 				if (NametextField.getText().isEmpty() || LugartextField_1.getText().isEmpty() || DescriptiontextArea.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(contentPane, "Campos vacios");
+					JOptionPane.showMessageDialog(contentPane, "Fields are emphy.");
 				} else {
 					Date fecha = trim(new Date(Datecalendar.getCalendar().getTime().getTime()));
 					String name = NametextField.getText();
 					String lugar = LugartextField_1.getText();
 					String description = DescriptiontextArea.getText();
-					// JOptionPane.showMessageDialog(contentPane,"la fecha es"+ fecha);
-					// JOptionPane.showMessageDialog(contentPane,"el nombre es"+ name);
-					// JOptionPane.showMessageDialog(contentPane,"el lugar es"+ lugar);
-					// JOptionPane.showMessageDialog(contentPane,"la descripcion es"+ description);
 					try {
-						if (facade.storeExtraActivity(owner, name, lugar, fecha, description) != null) {
-							JOptionPane.showMessageDialog(contentPane, "Actividad Añadida");
+						extraActivity = facade.storeExtraActivity(owner, name, lugar, fecha, description);
+						if (extraActivity != null) {
+							JOptionPane.showMessageDialog(contentPane, "Activity added.");
+							if (parent.getClass() == CreatenewOfferGUI.class){
+								createnewOfferGUI.addActivity(extraActivity);
+							}
+							else
+								editMyOfferGUI.addActivity(extraActivity);
 							dispose();
 						} else {
-							JOptionPane.showMessageDialog(contentPane, "Actividad EXISTENTE");
+							JOptionPane.showMessageDialog(contentPane, "Activity alredy Exist.");
 						}
 					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -131,27 +129,25 @@ public class CreateExtraActivityGUI extends JFrame {
 			}
 		});
 
-		btnCreateActivity.setBounds(302, 275, 175, 54);
+		btnCreateActivity.setBounds(302, 269, 272, 60);
 		contentPane.add(btnCreateActivity);
 
 		JLabel lblCreateAnExtra = new JLabel("Create an Extra Activity");
-		lblCreateAnExtra.setBounds(302, 243, 175, 15);
+		lblCreateAnExtra.setBounds(302, 250, 175, 15);
 		contentPane.add(lblCreateAnExtra);
-		
+
 		JLabel lblCreateANew = new JLabel("Create a new Extra Activity");
 		lblCreateANew.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCreateANew.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreateANew.setBounds(0, 0, 597, 25);
+		lblCreateANew.setBounds(0, 0, 597, 31);
 		contentPane.add(lblCreateANew);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 26, 597, 15);
-		contentPane.add(separator);
 
+		JSeparator separator = new JSeparator();
+		separator.setBounds(0, 30, 597, 15);
+		contentPane.add(separator);
 	}
 
 	private Date trim(Date date) {
-
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.set(Calendar.MILLISECOND, 0);

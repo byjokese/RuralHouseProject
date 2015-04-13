@@ -2,65 +2,63 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Vector;
 
 @SuppressWarnings("serial")
-public class ExtraActivity implements Serializable{
+public class ExtraActivity implements Serializable {
 
 	private String description;
 	private Owner owner;
 	private String lugar;
 	private String nombre;
 	private Date fecha;
-	
-public ExtraActivity(Owner owner,String nombre,String lugar,Date fecha,String description){
-	this.owner = owner;
-	this.nombre = nombre;
-	this.lugar = lugar;
-	this.fecha = fecha;
-	this.description = description;
-	
-}
 
-public String getDescription() {
-	return description;
-}
+	public ExtraActivity(Owner owner, String nombre, String lugar, Date fecha, String description) {
+		this.owner = owner;
+		this.nombre = nombre;
+		this.lugar = lugar;
+		this.fecha = fecha;
+		this.description = description;
 
-public void setDescription(String description) {
-	this.description = description;
-}
+	}
 
-public Owner getOwner() {
-	return owner;
-}
+	public String getDescription() {
+		return description;
+	}
 
-public void setOwner(Owner owner) {
-	this.owner = owner;
-}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-public String getLugar() {
-	return lugar;
-}
+	public Owner getOwner() {
+		return owner;
+	}
 
-public void setLugar(String lugar) {
-	this.lugar = lugar;
-}
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 
-public String getNombre() {
-	return nombre;
-}
+	public String getLugar() {
+		return lugar;
+	}
 
-public void setNombre(String nombre) {
-	this.nombre = nombre;
-}
+	public void setLugar(String lugar) {
+		this.lugar = lugar;
+	}
 
-public Date getFecha() {
-	return fecha;
-}
+	public String getNombre() {
+		return nombre;
+	}
 
-public void setFecha(Date fecha) {
-	this.fecha = fecha;
-}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 
 }
