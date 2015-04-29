@@ -63,6 +63,10 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			return dB4oManager.createOffer(ruralHouse, firstDay, lastDay, price);
 		return null;
 	}
+	
+	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists{
+		return dB4oManager.existsOverlappingOffer(rh, firstDay, lastDay);
+	}
 
 	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
 		return dB4oManager.bookOffer(user, telephone, offer);
@@ -82,10 +86,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	}
 
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
-		return dB4oManager.getUpdatedOffers(owner);
-	}
-
+	
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
 		if (ruralHouses != null) {
 			System.out.println("RuralHouses obtained directly from business logic layer");

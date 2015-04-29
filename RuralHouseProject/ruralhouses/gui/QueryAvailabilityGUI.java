@@ -344,7 +344,7 @@ public class QueryAvailabilityGUI extends JFrame {
 				try {
 					int index = table.getSelectedRow();
 					Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-					JFrame ad = new AditionaOfferInfoGUI(offer);
+					JFrame ad = new AditionalOfferInfoGUI(offer);
 					ad.setVisible(true);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					JOptionPane.showMessageDialog(null, "Select an Offer");
@@ -432,7 +432,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	 * private void setUser(Users user) { intoUser = user; }
 	 **/
 
-	class AditionaOfferInfoGUI extends JFrame {
+	class AditionalOfferInfoGUI extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private JPanel activitiesTextField;
@@ -448,7 +448,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		/**
 		 * Create the frame.
 		 */
-		public AditionaOfferInfoGUI(Offer offer) {
+		public AditionalOfferInfoGUI(Offer offer) {
 			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 738, 355);
 			activitiesTextField = new JPanel();

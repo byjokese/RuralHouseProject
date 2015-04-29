@@ -13,6 +13,7 @@ import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
 import domain.Users;
+import exceptions.OverlappingOfferExists;
 
 public interface ApplicationFacadeInterface extends Remote {
 
@@ -64,8 +65,8 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException;
-
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException;
+	
+	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists;
 
 	public boolean deleteOffer(Offer o) throws RemoteException;
 

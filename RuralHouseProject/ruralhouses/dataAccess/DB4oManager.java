@@ -109,7 +109,6 @@ public class DB4oManager {
 		RuralHouse rjB2 = null;
 		RuralHouse rhJ = null;
 		RuralHouse rhJe = null;
-		RuralHouse rhJn = null;
 		try {
 			addUserToDataBase("ivan", "byjoke", "123", false, "1234-5678-12-123456789");
 			Users bienve = addUserToDataBase("bienvenido", "bienve", "12345", true, "9876-5432-10-123456789");
@@ -124,7 +123,7 @@ public class DB4oManager {
 				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Tolosa2 Kalea", 2);
 				storeRuralhouse(((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 21);
 				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Udaletxeko kalea", 1);
-				rhJn = storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
+				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
 				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Tolosa Kalea", 27);
 				rjB2 = storeRuralhouse((Owner) bienve, "Another house", "tolosa", "7th street", 7);
 			} catch (Exception e) {
@@ -236,17 +235,6 @@ public class DB4oManager {
 
 	}
 
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
-		List<Owner> list = db.queryByExample(owner);
-		ArrayList<Offer> listO = new ArrayList<Offer>();
-		for (RuralHouse rh : list.get(0).getRuralHouses()) {
-			for (Offer o : rh.getAllOffers()) {
-				listO.add(o);
-			}
-		}
-		return listO;
-	}
-
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
 		try {
@@ -334,7 +322,6 @@ public class DB4oManager {
 	}
 
 	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException {
-
 		List<RuralHouse> list = db.queryByExample(rh);
 		list.get(0).setDescription(description);
 		owner.updateRuralHouse(list.get(0), index);
@@ -356,9 +343,9 @@ public class DB4oManager {
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {
 		try {
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
-			RuralHouse rhn = (RuralHouse) db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null)).next();
+			RuralHouse rhn = (RuralHouse) db.queryByExample(rh).get(0);
 			if (rhn.overlapsWith(firstDay, lastDay) != null)
-				throw new OverlappingOfferExists();
+				throw new OverlappingOfferExists("Overlaping Offer");
 			else
 				return false;
 		} finally {
@@ -369,11 +356,6 @@ public class DB4oManager {
 	public List<Offer> searchEngine(Date date) throws RemoteException {
 		Offer offer = new Offer(0, null, date, null, 0);
 		return db.queryByExample(offer);
-	}
-
-	@SuppressWarnings("unused")
-	private int nextHouseNumber() {
-		return nextHouseNumber() + 1;
 	}
 
 	public void close() {
@@ -417,7 +399,6 @@ public class DB4oManager {
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException {
-		System.out.println("DATA BASE: " + vectorlistSeleccion);
 		List<Offer> list = db.queryByExample(o);
 		list.get(0).setExtraActivities(vectorlistSeleccion);
 		list.get(0).setFirstDay(firstDay);
