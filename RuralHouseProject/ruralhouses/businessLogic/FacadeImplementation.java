@@ -86,10 +86,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	}
 
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
-		return dB4oManager.getUpdatedOffers(owner);
-	}
-
+	
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
 		if (ruralHouses != null) {
 			System.out.println("RuralHouses obtained directly from business logic layer");
