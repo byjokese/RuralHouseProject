@@ -1,59 +1,73 @@
 package gui;
 
-import exceptions.DataBaseNotInitialized;
-import businessLogic.ApplicationFacadeInterface;
-
-import com.toedter.calendar.JCalendar;
-
-import domain.Booking;
-import domain.Offer;
-import domain.Owner;
-import domain.RuralHouse;
-import domain.Users;
-
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.util.*;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.GroupLayout.Alignment;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeListener;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import businessLogic.ApplicationFacadeInterface;
+import domain.ExtraActivity;
+import domain.Offer;
+import domain.Users;
+import exceptions.DataBaseNotInitialized;
 
 public class QueryAvailabilityGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField dateTextField = new JTextField();
 	private JLabel numberNightLabel = new JLabel();
-	private JTextField jTextField3 = new JTextField();
+	private JTextField NumberOfNightTextField = new JTextField();
 	private JButton jButton1 = new JButton();
 	private JButton jButton2 = new JButton();
-	private JLabel jLabel4 = new JLabel();
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable table;
-	private DefaultTableModel tableModel;
-	private final JLabel labelNoOffers = new JLabel("");
-	private String[] columnNames = new String[] { "Offer#", "Rural House", "First Day", "Last Day", "Price" };
+	private DefaultTableModel tablemodel;
+	private CellRender renderer;
+	private final JLabel infoLabel = new JLabel(
+			"The offers are divided by a red line: Offers with inserted filters (up) and other similar offers you could be interested in (down) respectively.");
+	private String[] columnNames = new String[] { "Offer#", "Nights", "Rural House", "First Day", "Last Day", "Price" };
 
-	@SuppressWarnings("unused")
-	private static configuration.ConfigXML c;
 	private final JLabel lblQueryMenu = new JLabel("Query Menu / Look for Offers");
 	private final JSeparator separator = new JSeparator();
-	private Object comboBox;
 	private JTextField cityField;
 	private final JLabel MonthLabel = new JLabel("Month:");
 	private final JLabel lblYear = new JLabel("Year:");
@@ -62,18 +76,19 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JSlider minSlider = new JSlider();
 	private final JTextField minPriceTextField = new JTextField();
 	private final JTextField maxPriceTextField = new JTextField();
-	private final List<List<Offer>> offers = new Vector<>();;
+	private final Vector<List<Offer>> offers = new Vector<List<Offer>>();;
 	private final JSlider maxSlider = new JSlider();
-	private List<List<Offer>> availableOffers;
 	private Users intoUser = null;
+	private final JLabel infoMessagesLbl = new JLabel("");
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
+		getContentPane().setForeground(SystemColor.textHighlight);
 		intoUser = user;
 		minPriceTextField.setEditable(false);
 		minPriceTextField.setBounds(699, 54, 34, 20);
 		minPriceTextField.setColumns(10);
 		try {
-			jbInit(user);
+			jbInit(intoUser);
 		} catch (DataBaseNotInitialized e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
 		} catch (Exception e) {
@@ -84,41 +99,42 @@ public class QueryAvailabilityGUI extends JFrame {
 	private void jbInit(Users user) throws Exception {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		// wait till the database is loaded.
-		try {
-			Vector<RuralHouse> rhs = facade.getAllRuralHouses();
-		} catch (NullPointerException e) {
-			throw new DataBaseNotInitialized("Data Base not intialized");
-		}
+		if (intoUser == null)
+			infoMessagesLbl.setText("Not loged in!");
+		/*
+		 * try { facade.getAllRuralHouses(); } catch (NullPointerException e) { throw new DataBaseNotInitialized("Data Base not intialized"); }
+		 */
 		this.setSize(new Dimension(940, 628));
 		this.setTitle("Rural House System");
+		dateTextField.setToolTipText("Date of Start\r\n");
 		dateTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		dateTextField.setBounds(491, 82, 155, 25);
 		dateTextField.setEditable(false);
 		dateTextField.setText("1/January/2015");
 		numberNightLabel.setBounds(151, 52, 100, 19);
 		numberNightLabel.setText("Number of nights:");
-		jTextField3.setBounds(261, 52, 54, 19);
-		jTextField3.setText("0");
+		NumberOfNightTextField.setBounds(261, 52, 54, 19);
+		NumberOfNightTextField.setText("1");
 		jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (intoUser == null) {
-					if (JOptionPane.showConfirmDialog(null, "Do you want to Login-in?", "You Must Login", 0) == 0) {
-						JFrame login = new LoginGUI();
-						login.setVisible(true);
-						while (login.isVisible()) {
-						}
-						intoUser = ((LoginGUI) login).sendUser();
-					} else {
-						dispose();
-					}
+					JOptionPane.showMessageDialog(null, "You Must Login");
+					dispose();
+					// ****Fase 3****
+					/**
+					 * if (JOptionPane.showConfirmDialog(null, "Do you want to Login-in?", "You Must Login", 0) == 0) { JFrame login = null; try { login = new
+					 * LoginGUI(intoUser); login.setVisible(true);
+					 * 
+					 * while (true) { } } catch (Exception e) { System.out.println(e.getMessage()); login.dispose(); } System.out.println(intoUser.toString());
+					 * if (intoUser != null) infoMessagesLbl.setText(""); } else { dispose(); }
+					 **/
 				} else {
-					Offer offer = availableOffers.get(0).get(table.getSelectedRow());
-					System.out.println("Selected Offer:" + offer.toString());
-					try {
-						facade.bookOffer(intoUser, "", offer);
-					} catch (RemoteException e) {
-						e.printStackTrace();
-					}
+					JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
+					// ****Fase 3****
+					/**
+					 * Offer offer = availableOffers.get(0).get(table.getSelectedRow()); System.out.println("Selected Offer:" + offer.toString()); try {
+					 * facade.bookOffer(intoUser, "", offer); } catch (RemoteException e) { e.printStackTrace(); }
+					 **/
 				}
 			}
 		});
@@ -133,18 +149,18 @@ public class QueryAvailabilityGUI extends JFrame {
 		});
 		jButton2.setBounds(482, 548, 413, 30);
 
-		jLabel4.setBounds(55, 390, 305, 30);
-		jLabel4.setForeground(Color.red);
-
 		table = new JTable();
+		infoLabel.setEnabled(false);
+		infoLabel.setForeground(Color.GRAY);
+		infoLabel.setLabelFor(table);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFillsViewportHeight(true);
+		tablemodel = new DefaultTableModel(null, columnNames);
+		table.setModel(tablemodel);
+
 		scrollPane.setBounds(42, 166, 853, 321);
 
 		scrollPane.setViewportView(table);
-		tableModel = new DefaultTableModel(null, columnNames);
-
-		table.setModel(tableModel);
 		lblQueryMenu.setBounds(0, 0, 924, 41);
 		lblQueryMenu.setForeground(Color.BLACK);
 		lblQueryMenu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -157,13 +173,12 @@ public class QueryAvailabilityGUI extends JFrame {
 		getContentPane().add(cityLabel);
 		getContentPane().add(dateTextField);
 		getContentPane().add(scrollPane);
-		labelNoOffers.setBounds(42, 498, 265, 14);
-		getContentPane().add(labelNoOffers);
+		infoLabel.setBounds(42, 494, 853, 14);
+		getContentPane().add(infoLabel);
 		getContentPane().add(jButton1);
 		getContentPane().add(jButton2);
-		getContentPane().add(jLabel4);
 		getContentPane().add(numberNightLabel);
-		getContentPane().add(jTextField3);
+		getContentPane().add(NumberOfNightTextField);
 		separator.setBounds(0, 37, 924, 14);
 		getContentPane().add(separator);
 
@@ -294,64 +309,101 @@ public class QueryAvailabilityGUI extends JFrame {
 		maxSlider.setBounds(743, 65, 126, 25);
 		getContentPane().add(maxSlider);
 
-		JButton btnNewButton = new JButton("Apply Filters");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton applyFilterBtn = new JButton("Apply Filters");
+		applyFilterBtn.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				String city = cityField.getText();
-				String numberOfNights = numberNightLabel.getText();
+				String numberOfNights = NumberOfNightTextField.getText();
 				int startDay = (int) daySpinner.getValue();
-				int month = monthComboBox.getSelectedIndex() + 1;
+				int month = monthComboBox.getSelectedIndex();
 				int year = (int) yearSpinner.getValue();
-				Date date = new Date(year, month, startDay);
+				Date date = new Date(year - 1900, month, startDay);
 				int minPrice = Integer.parseInt(minPriceTextField.getText());
 				int maxPrice = Integer.parseInt(maxPriceTextField.getText());
-				try {
-					if (offers != null)
-						offers.removeAll(offers);
-					List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
-					if (availableOffers.get(0).size() != 0) {
-						System.out.println(availableOffers.get(0).toString());
+				if (!city.equals("") && !numberOfNights.equals("")) {
+					try {
+						if (offers != null)
+							offers.removeAll(offers);
+						List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
 						offers.add(availableOffers.get(0));
-					} else if (availableOffers.get(1).size() != 0) {
 						offers.add(availableOffers.get(1));
-					} else {
-						JOptionPane.showMessageDialog(null, "NO Offers Found");
+						if (availableOffers.get(0).size() == 0 && availableOffers.get(1).size() == 0) {
+							JOptionPane.showMessageDialog(null, "No Offers Found");
+						}
+						updateTable(availableOffers);
+					} catch (RemoteException e) {
+						System.out.println("Error at searchAvailableOffers in QueryAvailability: " + e.getMessage());
 					}
-					updateTable(availableOffers);
-				} catch (RemoteException e) {
-					System.out.println("Error at searchAvailableOffers in QueryAvailability: " + e.getMessage());
-
-				}
+				} else
+					JOptionPane.showMessageDialog(applyFilterBtn, "Select the city and the Number of nights");
 
 			}
 
 		});
-		btnNewButton.setBounds(42, 121, 853, 23);
-		getContentPane().add(btnNewButton);
+		applyFilterBtn.setBounds(42, 121, 853, 23);
+		getContentPane().add(applyFilterBtn);
 
-		JButton btnSeeOfferDetails = new JButton("See Offer Details");
-		btnSeeOfferDetails.addActionListener(new ActionListener() {
+		JButton seeOfferDetailsBtn = new JButton("See Offer Details");
+		seeOfferDetailsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame ad = new AditionaOfferInfoGUI(offers.get(0).get(table.getSelectedRow()));
-				ad.setVisible(true);
+				try {
+					int index = table.getSelectedRow();
+					Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
+					JFrame ad = new AditionalOfferInfoGUI(offer);
+					ad.setVisible(true);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					JOptionPane.showMessageDialog(null, "Select an Offer");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
-		btnSeeOfferDetails.setBounds(42, 514, 853, 23);
-		getContentPane().add(btnSeeOfferDetails);
+		seeOfferDetailsBtn.setBounds(42, 514, 853, 23);
+		getContentPane().add(seeOfferDetailsBtn);
+		infoMessagesLbl.setForeground(SystemColor.textHighlight);
+		infoMessagesLbl.setBounds(42, 87, 430, 14);
+
+		getContentPane().add(infoMessagesLbl);
 	}
 
 	protected void updateTable(List<List<Offer>> availableOffers) {
-		Object[][] data = new Object[2][];
+		Object[][] data = new Object[availableOffers.get(0).size() + availableOffers.get(1).size()][];
+		Calendar a = Calendar.getInstance();
+		Calendar b = Calendar.getInstance();
+
 		int row = 0;
 		for (Offer offer : availableOffers.get(0)) {
-			Object[] tmp = { new Integer(offer.getOfferNumber()), new String(offer.getRuralHouse().toString()), new String(offer.getFirstDay().toString()),
-					new String(offer.getLastDay().toString()), new Float(offer.getPrice()) };
+			a.setTime(offer.getFirstDay());
+			b.setTime(offer.getLastDay());
+			Object[] tmp = { new String(Integer.toString(offer.getOfferNumber())),
+					new String(Integer.toString(b.get(Calendar.DAY_OF_YEAR) - a.get(Calendar.DAY_OF_YEAR))), new String(offer.getRuralHouse().toString()),
+					new String(offer.getFirstDay().toString()), new String(offer.getLastDay().toString()), new String(Float.toString(offer.getPrice())) };
 			data[row] = tmp;
 			row++;
 		}
-		DefaultTableModel tabmodel = new DefaultTableModel(data, columnNames);
-		table.setModel(tabmodel);
+		for (Offer offer : availableOffers.get(1)) {
+			a.setTime(offer.getFirstDay());
+			b.setTime(offer.getLastDay());
+			Object[] tmp = { new String(Integer.toString(offer.getOfferNumber())),
+					new String(Integer.toString(b.get(Calendar.DAY_OF_YEAR) - a.get(Calendar.DAY_OF_YEAR))), new String(offer.getRuralHouse().toString()),
+					new String(offer.getFirstDay().toString()), new String(offer.getLastDay().toString()), new String(Float.toString(offer.getPrice())) };
+			data[row] = tmp;
+			row++;
+		}
+		tablemodel = new DefaultTableModel(data, columnNames);
+		table.setModel(tablemodel);
+		setRenderer();
+	}
+
+	private void setRenderer() {
+		renderer = new CellRender();
+		table.getColumnModel().getColumn(0).setCellRenderer(renderer);
+		table.getColumnModel().getColumn(1).setCellRenderer(renderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(renderer);
+		table.getColumnModel().getColumn(3).setCellRenderer(renderer);
+		table.getColumnModel().getColumn(4).setCellRenderer(renderer);
+		table.getColumnModel().getColumn(5).setCellRenderer(renderer);
 	}
 
 	protected void updateDate(JSpinner daySpinner, JComboBox<Object> monthComboBox) {
@@ -359,7 +411,36 @@ public class QueryAvailabilityGUI extends JFrame {
 		dateTextField.setText(day + "/" + (String) monthComboBox.getSelectedItem() + "/" + yearSpinner.getValue());
 	}
 
-	class AditionaOfferInfoGUI extends JFrame {
+	class CellRender extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			JComponent c = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			int bottom = 0;
+			int top = 0;
+			try {
+				if (row == offers.get(0).size() - 1) {
+					bottom = 2;
+				}
+				if ((offers.get(0).size() == 0 || offers.get(0) == null) && row == 0) {
+					top = 2;
+					bottom = 0;
+				}
+			} catch (Exception e) {
+				JOptionPane.showConfirmDialog(null, "Complete Filter for the search");
+			}
+			c.setBorder(new MatteBorder(top, 0, bottom, 0, Color.RED));
+			return c;
+		}
+	}
+
+	// ****FASE 3****
+	/**
+	 * private void setUser(Users user) { intoUser = user; }
+	 **/
+
+	class AditionalOfferInfoGUI extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private JPanel activitiesTextField;
@@ -375,22 +456,85 @@ public class QueryAvailabilityGUI extends JFrame {
 		/**
 		 * Create the frame.
 		 */
-		public AditionaOfferInfoGUI(Offer offer) {
+		public AditionalOfferInfoGUI(Offer offer) throws IOException {
 			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 738, 355);
+			setBounds(100, 100, 1075, 355);
 			activitiesTextField = new JPanel();
 			activitiesTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(activitiesTextField);
 			activitiesTextField.setLayout(null);
 
+			JLabel ownerRating = new JLabel("Owner Rating:");
+			ownerRating.setBounds(611, 82, 85, 14);
+			activitiesTextField.add(ownerRating);
+
+			String path_1_Star = "images/rating_stars/1_stars.png";
+			String path_2_Star = "images/rating_stars/2_stars.png";
+			String path_3_Star = "images/rating_stars/3_stars.png";
+			String path_4_Star = "images/rating_stars/4_stars.png";
+			String path_5_Star = "images/rating_stars/5_stars.png";
+
+			File houseRatingFile = null;
+			File ownerRatingFile = null;
+
+			switch (offer.getRuralHouse().getMark()) {
+			case 1:
+				houseRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				houseRatingFile = new File(path_2_Star);
+				break;
+			case 3:
+				houseRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				houseRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				houseRatingFile = new File(path_5_Star);
+				break;
+			}
+
+			switch (offer.getRuralHouse().getOwner().getMark()) {
+			case 1:
+				ownerRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				ownerRatingFile = new File(path_2_Star);
+				break;
+			case 3:
+				ownerRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				ownerRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				ownerRatingFile = new File(path_5_Star);
+				break;
+			}
+
+			BufferedImage ownerRatingImg = ImageIO.read(ownerRatingFile);
+			JLabel ownerRatingImglbl = new JLabel(new ImageIcon(ownerRatingImg));
+			ownerRatingImglbl.setBounds(611, 100, 140, 25);
+			activitiesTextField.add(ownerRatingImglbl);
+
+			JLabel houseRating = new JLabel("House Rating:");
+			houseRating.setBounds(611, 38, 85, 14);
+			activitiesTextField.add(houseRating);
+
+			BufferedImage houseRatingImg = ImageIO.read(houseRatingFile);
+			JLabel houseRatingImgLbl = new JLabel(new ImageIcon(houseRatingImg));
+			houseRatingImgLbl.setBounds(611, 55, 140, 25);
+			activitiesTextField.add(houseRatingImgLbl);
+
 			JLabel lblNewLabel = new JLabel("Offer Info");
-			lblNewLabel.setBounds(5, 0, 707, 27);
+			lblNewLabel.setBounds(5, 0, 844, 27);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			activitiesTextField.add(lblNewLabel);
 
 			JSeparator separator = new JSeparator();
-			separator.setBounds(0, 28, 722, 11);
+			separator.setBounds(0, 28, 849, 11);
 			activitiesTextField.add(separator);
 
 			JLabel lblOffer = new JLabel("Offer #:");
@@ -463,10 +607,11 @@ public class QueryAvailabilityGUI extends JFrame {
 
 			String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
 			Object[][] data = new Object[offer.getExtraActivities().size()][];
-			for (int i = 0; i < offer.getExtraActivities().size(); i++) {
-				Object[] tmp = { new String(offer.getExtraActivities().get(i).getNombre()), new String(offer.getExtraActivities().get(i).getDescription()),
-						new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
-						new String(offer.getExtraActivities().get(i).getFecha().toString()) };
+			Vector<ExtraActivity> activityList = offer.getExtraActivities();
+			for (int i = 0; i < activityList.size(); i++) {
+				Object[] tmp = { new String(activityList.get(i).getNombre()), new String(activityList.get(i).getDescription()),
+						new String(activityList.get(i).getOwner().getName()), new String(activityList.get(i).getLugar()),
+						new String(activityList.get(i).getFecha().toString()) };
 				data[i] = tmp;
 			}
 
@@ -489,6 +634,18 @@ public class QueryAvailabilityGUI extends JFrame {
 			scrollPane.setViewportView(table);
 			tableModel = new DefaultTableModel(data, columnNames);
 			table.setModel(tableModel);
+
+			JLabel lblComments = new JLabel("Comments:");
+			lblComments.setBounds(760, 38, 75, 14);
+			activitiesTextField.add(lblComments);
+
+			JTextArea textArea = new JTextArea();
+			textArea.setEditable(false);
+			textArea.setBounds(761, 58, 288, 80);
+			activitiesTextField.add(textArea);
+			for (String[] commet : offer.getRuralHouse().getComments()) {
+				textArea.append(commet[0] + " - " + commet[1] + "\n");
+			}
 
 		}
 	}

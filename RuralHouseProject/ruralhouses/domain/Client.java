@@ -23,7 +23,7 @@ public class Client extends Users implements Serializable {
 	}
 
 
-	public Vector<Booking> getOffers() {
+	public Vector<Booking> getBooks() {
 		return this.books;
 	}
 

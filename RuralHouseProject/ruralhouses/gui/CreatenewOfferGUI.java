@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
@@ -32,19 +31,24 @@ import com.toedter.calendar.JCalendar;
 import domain.ExtraActivity;
 import domain.Owner;
 import domain.RuralHouse;
+import exceptions.OverlappingOfferExists;
 
 public class CreatenewOfferGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField OffersPricetextField;
 	private JLabel lblListOfHouses;
+	private JList<String> activityList;
+	private DefaultListModel<String> activities;
+	private ArrayList<ExtraActivity> lista;
 
 	/**
 	 * Create the frame.
 	 */
 	public CreatenewOfferGUI(Owner owner) {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		CreatenewOfferGUI thisFrame = this;
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		setTitle("Rural House System");
 		setBounds(100, 100, 1118, 735);
@@ -64,7 +68,7 @@ public class CreatenewOfferGUI extends JFrame {
 		OffersPricetextField.setColumns(10);
 
 		lblListOfHouses = new JLabel("List of Houses: ");
-		lblListOfHouses.setBounds(906, 48, 114, 15);
+		lblListOfHouses.setBounds(892, 48, 114, 15);
 		contentPane.add(lblListOfHouses);
 
 		JLabel lblFirstDay = new JLabel("First Day:");
@@ -98,7 +102,7 @@ public class CreatenewOfferGUI extends JFrame {
 		for (RuralHouse rh : owner.getRuralHouses()) {
 			houses.addElement(rh);
 		}
-		JList RHouseslist = new JList();
+		JList<RuralHouse> RHouseslist = new JList<RuralHouse>();
 		RHouseslist.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				String adres = houses.elementAt(RHouseslist.getSelectedIndex()).getAddress();
@@ -108,21 +112,21 @@ public class CreatenewOfferGUI extends JFrame {
 			}
 		});
 		RHouseslist.setModel(houses);
-		RHouseslist.setBounds(906, 64, 200, 494);
+		RHouseslist.setBounds(892, 64, 200, 494);
 		contentPane.add(RHouseslist);
 
 		// rellenamos las actividades
-		DefaultListModel<String> Activities = new DefaultListModel<String>();
-		ArrayList<ExtraActivity> lista = new ArrayList<ExtraActivity>();
-		for (ExtraActivity rh : owner.getExtraActivities()) {
-			Activities.addElement(rh.getNombre());
-			lista.add(rh);
+		activities = new DefaultListModel<String>(); //
+		lista = new ArrayList<ExtraActivity>();
+		for (ExtraActivity e : owner.getExtraActivities()) {
+			activities.addElement(e.getNombre());
+			lista.add(e);
 		}
 
-		JList list = new JList();
-		list.setModel(Activities);
-		list.setBounds(12, 64, 200, 494);
-		contentPane.add(list);
+		activityList = new JList<String>();
+		activityList.setModel(activities);
+		activityList.setBounds(12, 64, 200, 494);
+		contentPane.add(activityList);
 
 		JLabel lblAvailablesActivities = new JLabel("Availables Activities:");
 
@@ -137,10 +141,8 @@ public class CreatenewOfferGUI extends JFrame {
 		JButton btnCreateActivity = new JButton("Create Activity");
 		btnCreateActivity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a = new CreateExtraActivityGUI(owner);
+				CreateExtraActivityGUI a = new CreateExtraActivityGUI(owner, thisFrame);
 				a.setVisible(true);
-//CONTINUAR!!!!!!!!!!!!!!!!!!!
-				System.out.println("Cerrada");
 			}
 		});
 
@@ -155,13 +157,13 @@ public class CreatenewOfferGUI extends JFrame {
 				a.setVisible(true);
 			}
 		});
-		btnCreateHouse.setBounds(906, 573, 200, 50);
+		btnCreateHouse.setBounds(892, 573, 200, 50);
 		contentPane.add(btnCreateHouse);
 		// lista de actividades seleccionadas
 		DefaultListModel<String> seleccion = new DefaultListModel<String>();
 		ArrayList<ExtraActivity> listaSeleccion = new ArrayList<ExtraActivity>();
 
-		JList Selectedlist = new JList();
+		JList<String> Selectedlist = new JList<String>();
 		Selectedlist.setBounds(290, 387, 549, 171);
 		Selectedlist.setModel(seleccion);
 		contentPane.add(Selectedlist);
@@ -171,17 +173,17 @@ public class CreatenewOfferGUI extends JFrame {
 		AddActivitybutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// mostrar datos de las actividades
-				if (list.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(null, " Seleccione Una Actividad para aÃ±adir a la lista");
+				if (activityList.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(null, " Seleccione Una Actividad para aÃñadir a la lista");
 				} else {
 					// JOptionPane.showMessageDialog(null,lista.get(list.getSelectedIndex()).getNombre());
-					String nombre = lista.get(list.getSelectedIndex()).getNombre();
-					String lugar = lista.get(list.getSelectedIndex()).getLugar();
-					String fecha = lista.get(list.getSelectedIndex()).getFecha().toString();
+					String nombre = lista.get(activityList.getSelectedIndex()).getNombre();
+					String lugar = lista.get(activityList.getSelectedIndex()).getLugar();
+					String fecha = lista.get(activityList.getSelectedIndex()).getFecha().toString();
 					String entrada = nombre + " || " + lugar + " || " + fecha;
 					if (!validar(entrada, seleccion)) {
 						seleccion.addElement(entrada);
-						listaSeleccion.add(lista.get(list.getSelectedIndex()));
+						listaSeleccion.add(lista.get(activityList.getSelectedIndex()));
 					} else {
 
 						JOptionPane.showMessageDialog(null, "YA SE A SELECCIONADO ESTA ACTIVIDAD");
@@ -201,8 +203,7 @@ public class CreatenewOfferGUI extends JFrame {
 		DropSelectionbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Selectedlist.getSelectedIndex() == -1) {
-
-					JOptionPane.showMessageDialog(null, "Seleccione la actividad que quiere quitar");
+					JOptionPane.showMessageDialog(null, "Select the activity you want to quit");
 				} else {
 					int index = Selectedlist.getSelectedIndex();
 					listaSeleccion.remove(index);
@@ -232,34 +233,37 @@ public class CreatenewOfferGUI extends JFrame {
 				if (precio >= 0) {
 					// control para obligar seleccionar una casa
 					if (RHouseslist.getSelectedIndex() == -1) {
-						JOptionPane.showMessageDialog(null, "Debes seleccionar Una casa para La Offer");
+						JOptionPane.showMessageDialog(null, "You must select a house for the offer.");
 					} else {
 						// control de validez de fecha
-						Date firsDay = trim(new Date(FirstDaycalendar.getCalendar().getTime().getTime()));
+						Date firstDay = trim(new Date(FirstDaycalendar.getCalendar().getTime().getTime()));
 						Date lastDay = trim(new Date(LastDaycalendar.getCalendar().getTime().getTime()));
-						int res = firsDay.compareTo(lastDay);
+						int res = firstDay.compareTo(lastDay);
 						if (res <= 0) {
 							try {
-								if (facade.storeOffer((RuralHouse) RHouseslist.getSelectedValue(), firsDay, lastDay, precio, listaSeleccion) == null) {
-									JOptionPane.showMessageDialog(null, "Esta Oferta ya existe");
-								} else {
-									JOptionPane.showMessageDialog(null, "OFFER CREATED");
+								if (!facade.existsOverlappingOffer(RHouseslist.getSelectedValue(), firstDay, lastDay)) {
+									if (facade.storeOffer(RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion) == null) {
+										JOptionPane.showMessageDialog(null, "This offer alredy exits");
+									} else {
+										JOptionPane.showMessageDialog(null, "OFFER CREATED");
+										dispose();
+									}
 								}
 							} catch (HeadlessException | RemoteException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-								System.out.println("ERROR en el FACADE de create Offer");
+								System.out.println("ERROR in FACADE during CreateOffer: " + e1.getMessage());
+							} catch (OverlappingOfferExists e2) {
+								JOptionPane.showMessageDialog(null, "This offer overlays with another.");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "FECHA NO VALIDA");
+							JOptionPane.showMessageDialog(null, "Date not valid.");
 						}
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El precio es incorrecto");
+					JOptionPane.showMessageDialog(null, "Price is incorrect.");
 				}
 			}
 		});
-		btnCreateOffer.setBounds(501, 651, 181, 44);
+		btnCreateOffer.setBounds(503, 634, 181, 44);
 		contentPane.add(btnCreateOffer);
 
 		JLabel lblCreateANew = new JLabel("Create a new Offer");
@@ -270,9 +274,13 @@ public class CreatenewOfferGUI extends JFrame {
 	}
 
 	private boolean validar(String nuevo, DefaultListModel<String> lista) {
-
 		return lista.contains(nuevo);
+	}
 
+	public void addActivity(ExtraActivity extra) throws RemoteException {
+		activities.addElement(extra.getNombre());
+		activityList.setModel(activities);
+		lista.add(extra);
 	}
 
 	private Date trim(Date date) {

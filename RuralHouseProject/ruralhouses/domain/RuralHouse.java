@@ -1,19 +1,16 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 public class RuralHouse implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
+
 	private int houseNumber;
 	private String description;
 	private Owner owner;
@@ -21,19 +18,16 @@ public class RuralHouse implements Serializable {
 	private String address;
 	private int number;
 	private Vector<Offer> offers;
+	private int mark;
+	private int numVotes;
+	private List<String[]> comments; // [0] comments, [1] author.
+
+	public void setComments(List<String[]> comments) {
+		this.comments = comments;
+	}
 
 	public RuralHouse() {
 		super();
-	}
-
-	public RuralHouse(int houseNumber, Owner owner, String description, String city) {
-		this.houseNumber = houseNumber;
-		this.description = description;
-		this.owner = owner;
-		this.city = city;
-		this.address = "";
-		this.number = 0;
-		offers = new Vector<Offer>();
 	}
 
 	public RuralHouse(int houseNumber, Owner owner, String description, String city, String address, int number) {
@@ -43,6 +37,9 @@ public class RuralHouse implements Serializable {
 		this.city = city;
 		this.address = address;
 		this.number = number;
+		this.mark = 3;
+		this.numVotes = 1;
+		this.comments = (new ArrayList<String[]>());
 		offers = new Vector<Offer>();
 	}
 
@@ -93,11 +90,10 @@ public class RuralHouse implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
-	public Vector<Offer> getAllOffers (){
+
+	public Vector<Offer> getAllOffers() {
 		return offers;
 	}
-
 
 	public String toString() {
 		return this.houseNumber + ": " + this.city;
@@ -175,7 +171,6 @@ public class RuralHouse implements Serializable {
 				availableOffers.add(offer);
 		}
 		return availableOffers;
-
 	}
 
 	/**
@@ -197,7 +192,6 @@ public class RuralHouse implements Serializable {
 				return offer;
 		}
 		return null;
-
 	}
 
 	/**
@@ -220,7 +214,22 @@ public class RuralHouse implements Serializable {
 				return offer;
 		}
 		return null;
+	}
 
+	public int getMark() {
+		return mark;
+	}
+
+	public void setMark(int mark) {
+		this.mark = ((this.mark*numVotes)+mark)/(numVotes++);
+	}
+
+	public List<String[]> getComments() {
+		return comments;
+	}
+
+	public void addComments(String comment, String author) {
+		this.comments.add(new String[] { comment, author });
 	}
 
 }

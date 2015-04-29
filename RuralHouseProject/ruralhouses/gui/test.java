@@ -1,14 +1,25 @@
-package gui;
+/*package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -17,42 +28,121 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import domain.ExtraActivity;
 import domain.Offer;
+import javax.swing.JTextArea;
 
-import javax.swing.JScrollPane;
+public class test extends JFrame {
 
-public class AditionaOfferInfoGUI extends JFrame {
 
+	 
 	private static final long serialVersionUID = 1L;
-	private JPanel activitiesTextField;
-	private JTextField offerTextField;
-	private JTextField lastdayTextField;
-	private JTextField firstdayTextField;
-	private JTextField priceTextField;
-	private JTextField ruralhouseTextField;
-	private JTextField offerNumTextField;
-	private JTable table;
+	private JPanel contentPane;
+	private Container activitiesTextField;
+	private Component table;
 	private DefaultTableModel tableModel;
+	private Component ruralhouseTextField;
+	private AbstractButton priceTextField;
+	private Component offerNumTextField;
+	private JTextField firstdayTextField;
+	private Component lastdayTextField;
+	private AbstractButton offerTextField;
 
-	/**
-	 * Create the frame.
-	 */
-	public AditionaOfferInfoGUI(Offer offer) {
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					test frame = new test(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+
+	public test(Offer offer) throws IOException {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 738, 355);
+		setBounds(100, 100, 1075, 355);
 		activitiesTextField = new JPanel();
 		activitiesTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(activitiesTextField);
 		activitiesTextField.setLayout(null);
+		
+		JLabel ownerRating = new JLabel("Owner Rating:");
+		ownerRating.setBounds(611, 82, 85, 14);
+		activitiesTextField.add(ownerRating);
+		
+		String path_1_Star = "images/rating_stars/1_stars.png";
+		String path_2_Star = "images/rating_stars/2_stars.png";
+		String path_3_Star = "images/rating_stars/3_stars.png";
+		String path_4_Star = "images/rating_stars/4_stars.png";
+		String path_5_Star = "images/rating_stars/5_stars.png";
+		
+		File houseRatingFile = null;
+		File ownerRatingFile = null;
+		
+		switch (offer.getRuralHouse().getMark()) {
+			case 1:
+				houseRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				houseRatingFile = new File(path_2_Star);	
+				break;
+			case 3:
+				houseRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				houseRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				houseRatingFile = new File(path_5_Star);
+				break;
+		}
+		
+		switch (offer.getRuralHouse().getOwner().getMark()) {
+			case 1:
+				ownerRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				ownerRatingFile = new File(path_2_Star);	
+				break;
+			case 3:
+				ownerRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				ownerRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				ownerRatingFile = new File(path_5_Star);
+				break;
+		}
+		
+	    BufferedImage ownerRatingImg = ImageIO.read(ownerRatingFile);
+	    JLabel ownerRatingImglbl = new JLabel(new ImageIcon(ownerRatingImg));
+	    ownerRatingImglbl.setBounds(611, 100, 140, 25);
+	    activitiesTextField.add(ownerRatingImglbl);
+	    
+	    JLabel houseRating = new JLabel("House Rating:");
+	    houseRating.setBounds(611, 38, 85, 14);
+		activitiesTextField.add(houseRating);
+		
 
+	    BufferedImage houseRatingImg = ImageIO.read(houseRatingFile);
+	    JLabel houseRatingImgLbl = new JLabel(new ImageIcon(houseRatingImg));
+	    houseRatingImgLbl.setBounds(611, 55, 140, 25);
+	    activitiesTextField.add(houseRatingImgLbl); 
+	    
 		JLabel lblNewLabel = new JLabel("Offer Info");
-		lblNewLabel.setBounds(5, 0, 707, 27);
+		lblNewLabel.setBounds(5, 0, 1054, 27);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		activitiesTextField.add(lblNewLabel);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 28, 722, 11);
+		separator.setBounds(0, 28, 1059, 11);
 		activitiesTextField.add(separator);
 
 		JLabel lblOffer = new JLabel("Offer #:");
@@ -122,17 +212,17 @@ public class AditionaOfferInfoGUI extends JFrame {
 		offerNumTextField.setBounds(453, 112, 117, 20);
 		offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
 		activitiesTextField.add(offerNumTextField);
-		
-		
+				
+
 		String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
 		Object[][] data = new Object[offer.getExtraActivities().size()][];
-		for(int i=0;i<offer.getExtraActivities().size();i++){
-			Object[] tmp = { new String(offer.getExtraActivities().get(i).getNombre()), new String(offer.getExtraActivities().get(i).getDescription()),
-							new String(offer.getExtraActivities().get(i).getOwner().getName()), new String(offer.getExtraActivities().get(i).getLugar()),
-							new String(offer.getExtraActivities().get(i).getFecha().toString())};
+		Vector<ExtraActivity> activityList = offer.getExtraActivities();
+		for (int i = 0; i < activityList.size(); i++) {
+			Object[] tmp = { new String(activityList.get(i).getNombre()), new String(activityList.get(i).getDescription()),
+					new String(activityList.get(i).getOwner().getName()), new String(activityList.get(i).getLugar()),
+					new String(activityList.get(i).getFecha().toString()) };
 			data[i] = tmp;
 		}
-		DefaultTableModel tabmodel = new DefaultTableModel(data, columnNames);
 
 		JButton closeBtn = new JButton("Close");
 		closeBtn.setBounds(10, 283, 702, 25);
@@ -142,7 +232,7 @@ public class AditionaOfferInfoGUI extends JFrame {
 			}
 		});
 		activitiesTextField.add(closeBtn);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 138, 702, 134);
 		activitiesTextField.add(scrollPane);
@@ -150,16 +240,23 @@ public class AditionaOfferInfoGUI extends JFrame {
 		table.setEnabled(false);
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		tableModel = new DefaultTableModel(data, columnNames);
+		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
-		tableModel = new DefaultTableModel(null, columnNames);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Name", "Description", "Owner", "Place", "Date"
-			}
-		));
-				
+		
+		JLabel lblComments = new JLabel("Comments:");
+		lblComments.setBounds(760, 38, 75, 14);
+		activitiesTextField.add(lblComments);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setBounds(761, 58, 288, 80);
+		activitiesTextField.add(textArea);
+		for (String[] commet : offer.getRuralHouse().getComments()){
+			textArea.append(commet[1]+ " - " + commet[2] + "\n");
+		}
+		
+
 	}
-}
+
+}*/

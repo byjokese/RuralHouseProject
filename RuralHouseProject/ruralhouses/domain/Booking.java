@@ -33,7 +33,6 @@ public class Booking implements Serializable {
 		System.out.println(bookingDate);
 		System.out.println(telephone);
 		System.out.println(offer);
-		
 	}
 
 	
