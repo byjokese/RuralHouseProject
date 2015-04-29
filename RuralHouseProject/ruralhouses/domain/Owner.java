@@ -64,5 +64,16 @@ public class Owner extends Users implements Serializable {
 	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
+	
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, int index){
+		extraActivities.remove(index);
+		extraActivities.add(index, ex);
+		return ex;
+	}
+	
+	public boolean deleteExtraActivity(int index){
+		extraActivities.remove(index);
+		return true;
+	}
 
 }

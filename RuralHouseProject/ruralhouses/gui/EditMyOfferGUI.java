@@ -289,7 +289,7 @@ public class EditMyOfferGUI extends JFrame {
 				}
 			}
 		});
-		Savebtn.setBounds(466, 520, 115, 30);
+		Savebtn.setBounds(443, 520, 115, 30);
 		contentPane.add(Savebtn);
 
 		JButton Deletebtn = new JButton("Delete");
@@ -319,8 +319,36 @@ public class EditMyOfferGUI extends JFrame {
 			}
 
 		});
-		Deletebtn.setBounds(815, 520, 108, 30);
+		Deletebtn.setBounds(568, 520, 108, 30);
 		contentPane.add(Deletebtn);
+		
+		
+		JButton deletePassedOffersBtn = new JButton("Delete passed offers");
+		deletePassedOffersBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Calendar calendario = Calendar.getInstance();
+				Date today = calendario.getTime();
+				try {
+					offerlist.clearSelection();
+					facade.deletePassedOffers(owner, today);
+					JOptionPane.showMessageDialog(Deletebtn, "Deleted Correctly");
+					offersDataString = new DefaultListModel<String>();
+					offerArray = new ArrayList<Offer>();
+					for (RuralHouse h : owner.getRuralHouses()) {
+						for (Offer o : h.getAllOffers()) {
+							offersDataString.addElement(o.getOfferNumber() + " || " + o.getPrice());
+							offerArray.add(o);
+						}
+					}
+					offerlist.setModel(offersDataString);
+				} catch (HeadlessException e1) {
+					e1.printStackTrace();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+			}});
+		deletePassedOffersBtn.setBounds(811, 520, 141, 30);
+		contentPane.add(deletePassedOffersBtn);
 
 		JLabel availableActivitiesLbl = new JLabel("Available Activities:");
 		availableActivitiesLbl.setBounds(190, 41, 164, 15);
@@ -336,7 +364,7 @@ public class EditMyOfferGUI extends JFrame {
 				dispose();
 			}
 		});
-		btnClose.setBounds(642, 520, 115, 30);
+		btnClose.setBounds(686, 520, 115, 30);
 		contentPane.add(btnClose);
 
 		JButton createActivityBtn = new JButton("Create Activity");
@@ -348,6 +376,7 @@ public class EditMyOfferGUI extends JFrame {
 		});
 		createActivityBtn.setBounds(191, 521, 191, 30);
 		contentPane.add(createActivityBtn);
+		
 	}
 
 	private boolean validar(String nuevo, DefaultListModel<String> lista) {

@@ -25,7 +25,7 @@ public class OwnerGUI extends JFrame {
 	 */
 	public OwnerGUI(Owner owner) {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 307, 288);
+		setBounds(100, 100, 309, 353);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,5 +85,15 @@ public class OwnerGUI extends JFrame {
 		});
 		EditMyHouseBtn.setBounds(10, 93, 268, 43);
 		contentPane.add(EditMyHouseBtn);
+		
+		JButton EditMyActivityBtn = new JButton("Edit my Activity");
+		EditMyActivityBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame s = new EditMyActivityGUI(owner);
+				s.setVisible(true);
+			}
+		});
+		EditMyActivityBtn.setBounds(10, 255, 268, 43);
+		contentPane.add(EditMyActivityBtn);
 	}
 }

@@ -179,5 +179,17 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
+	
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate) throws RemoteException {
+		return dB4oManager.updateExtraActivity(ex, owner, description, index, place, activityDate);
+	}
+	
+	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException{
+		return dB4oManager.deleteExtraActivity(ex, owner, index);
+	}
+	
+	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException{
+		return dB4oManager.deletePassedOffers(owner, today);
+	}
 
 }

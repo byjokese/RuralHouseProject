@@ -69,5 +69,11 @@ public interface ApplicationFacadeInterface extends Remote {
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists;
 
 	public boolean deleteOffer(Offer o) throws RemoteException;
+	
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate) throws RemoteException;
+	
+	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException;
+	
+	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException;
 
 }
