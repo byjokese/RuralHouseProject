@@ -124,6 +124,7 @@ public class QualifyGUI extends JFrame {
 
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setEnabled(false);
 		initializeTable();
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
@@ -132,11 +133,15 @@ public class QualifyGUI extends JFrame {
 
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				Booking book = client.getBooks().get(table.getSelectedRow());
-				ownerSlider.setEnabled(true);
-				houseSlider.setEnabled(true);
-				ownerContentLbl.setText(book.getOffer().getRuralHouse().getOwner().getName());
-				houseContentLbl.setText(book.getOffer().getRuralHouse().toString());
+				if (!e.getValueIsAdjusting() && table.isEnabled()) { // This line prevents double events
+					System.out.println("Index: " + table.getSelectedRow());
+					System.out.println("Books size: " + client.getBooks().size());
+					Booking book = client.getBooks().get(table.getSelectedRow());
+					ownerSlider.setEnabled(true);
+					houseSlider.setEnabled(true);
+					ownerContentLbl.setText(book.getOffer().getRuralHouse().getOwner().getName());
+					houseContentLbl.setText(book.getOffer().getRuralHouse().toString());
+				}
 			}
 		});
 
@@ -163,10 +168,14 @@ public class QualifyGUI extends JFrame {
 				boolean anonious = anonimouschckbx.isSelected();
 				String comment = commentTextArea.getText();
 				try {
-					if (!commentTextArea.equals("")) {
-						facade.qualify(ownermark, housemark, anonious, comment, client.getName(), client.getBooks().get(table.getSelectedRow()));
+					if (!commentTextArea.getText().equals("")) {
+						Booking bo = client.getBooks().get(table.getSelectedRow());
+						table.setEnabled(false);						
+						facade.qualify(ownermark, housemark, anonious, comment, client, bo); // [0] RuralHouse [1] Owner [2] Client
+						JOptionPane.showMessageDialog(null, "Thanks for qualifiying!");
+						initializeTable();
 					} else
-						JOptionPane.showMessageDialog(null, "Inserte un comentaio.");
+						JOptionPane.showMessageDialog(null, "Insert a commetary.");
 				} catch (RemoteException e1) {
 					System.out.println(e1.getMessage());
 				}
@@ -186,8 +195,22 @@ public class QualifyGUI extends JFrame {
 
 	}
 
+	private int availableBookings() {
+		Calendar b = Calendar.getInstance();
+		Calendar current = Calendar.getInstance();
+		int i = 0;
+		for (Booking book : client.getBooks()) {
+			b.setTime(book.getOffer().getLastDay());
+			if (b.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR) && !client.getQualifiedBookings().contains(book)) {
+				i++;
+			}
+		}
+		return i;
+
+	}
+
 	private void initializeTable() {
-		Object[][] data = new Object[client.getBooks().size()][];
+		Object[][] data = new Object[availableBookings()][];
 		int row = 0;
 		Calendar a = Calendar.getInstance();
 		Calendar b = Calendar.getInstance();
@@ -195,7 +218,7 @@ public class QualifyGUI extends JFrame {
 		for (Booking book : client.getBooks()) {
 			a.setTime(book.getOffer().getFirstDay());
 			b.setTime(book.getOffer().getLastDay());
-			if (b.getTime().compareTo(current.getTime()) < 0) {
+			if (b.get(Calendar.DAY_OF_YEAR) < current.get(Calendar.DAY_OF_YEAR) && !client.getQualifiedBookings().contains(book)) {
 				Object[] tmp = { new String(Integer.toString(book.getBookingNumber())),
 						new String(Integer.toString(b.get(Calendar.DAY_OF_YEAR) - a.get(Calendar.DAY_OF_YEAR))),
 						new String(book.getOffer().getRuralHouse().toString()), new String(book.getOffer().getFirstDay().toString()),
@@ -204,6 +227,9 @@ public class QualifyGUI extends JFrame {
 				row++;
 			}
 		}
-		table.setModel(new DefaultTableModel(data, new String[] { "Book#", "Nights", "Rural House", "First Day", "Last Day", "Price" }));
+		DefaultTableModel tablemodel = new DefaultTableModel((data == null) ? null : data, new String[] { "Book#", "Nights", "Rural House", "First Day",
+				"Last Day", "Price" });
+		table.setModel(tablemodel);
+		table.setEnabled(true);
 	}
 }

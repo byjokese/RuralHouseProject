@@ -100,7 +100,7 @@ public class Owner extends Users implements Serializable {
 	}
 
 	public void setMark(int mark) {
-		this.mark = ((this.mark*numVotes)+mark)/(numVotes++);
+		this.mark = ((this.mark*numVotes)+mark)/(numVotes+1);
 	}
 
 }

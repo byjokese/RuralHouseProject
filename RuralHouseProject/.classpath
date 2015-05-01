@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="ruralhouses"/>
-	<classpathentry kind="lib" path="additionalLibs/jcalendar.jar"/>
-	<classpathentry kind="lib" path="db4o/lib/db4o-8.0.249.16098-all-java5.jar"/>
+	<classpathentry exported="true" kind="lib" path="additionalLibs/jcalendar.jar"/>
+	<classpathentry exported="true" kind="lib" path="db4o/lib/db4o-8.0.249.16098-all-java5.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/java-json.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/commons-io-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpcore-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/commons-codec-1.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/fluent-hc-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpclient-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpclient-cache-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpclient-win-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpmime-4.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/jna-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/jna-platform-4.1.0.jar"/>
 	<classpathentry kind="output" path="ruralhouses"/>
 </classpath>

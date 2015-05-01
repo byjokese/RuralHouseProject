@@ -180,16 +180,22 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.updateOwner(owner, bankAccount, ruralHouses, extraActivities, mark);
 	}
 
+	public Client updateClient(Client client, Vector<Booking> books, Vector<Booking> qualifiedBookings) throws RemoteException {
+		return dB4oManager.updateClient(client, books, qualifiedBookings);
+	}
+
 	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
-	public boolean qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, String name, Booking book) throws RemoteException {
-		book.getOffer().getRuralHouse().addComments(comment, (isAnonmous) ? "Anonimous" : name);
-		dB4oManager.updateRuralHouse(book.getOffer().getRuralHouse(), book.getOffer().getRuralHouse().getOwner(), book.getOffer().getRuralHouse()
-				.getDescription(), houseMark, book.getOffer().getRuralHouse().getComments());
-		dB4oManager.updateOwner(book.getOffer().getRuralHouse().getOwner(), book.getOffer().getRuralHouse().getOwner().getBankAccount(), book.getOffer()
-				.getRuralHouse().getOwner().getRuralHouses(), book.getOffer().getRuralHouse().getOwner().getExtraActivities(), ownerMark);
-		return true;
+	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException {
+		book.getOffer().getRuralHouse().addComments(comment, (isAnonmous) ? "Anonimous" : client.getName());
+		List<Object> result = new ArrayList<Object>();
+		result.add(dB4oManager.updateRuralHouse(book.getOffer().getRuralHouse(), book.getOffer().getRuralHouse().getOwner(), book.getOffer().getRuralHouse()
+				.getDescription(), houseMark, book.getOffer().getRuralHouse().getComments()));
+		result.add(dB4oManager.updateOwner(book.getOffer().getRuralHouse().getOwner(), book.getOffer().getRuralHouse().getOwner().getBankAccount(), book
+				.getOffer().getRuralHouse().getOwner().getRuralHouses(), book.getOffer().getRuralHouse().getOwner().getExtraActivities(), ownerMark));
+		result.add(dB4oManager.updateClient(client, client.getBooks(), client.addQualifiedBookings(book)));
+		return result;
 	}
 }
