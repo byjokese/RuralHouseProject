@@ -122,12 +122,12 @@ public class DB4oManager {
 			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 
 			try {
-				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Tolosa2 Kalea", 2);
-				storeRuralhouse(((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 21);
-				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Udaletxeko kalea", 1);
-				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
-				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Tolosa Kalea", 27);
-				rjB2 = storeRuralhouse((Owner) bienve, "Another house", "tolosa", "7th street", 7);
+				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Rondilla Kalea", 15);
+				storeRuralhouse(((Owner) jon), "Etxetxikia", "Tolosa", "San Joan Kalea", 10);
+				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Beotibar Kalea", 3);
+				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Geltokiko Kalea", 12);
+				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Letxuga Kalea", 9);
+				rjB2 = storeRuralhouse((Owner) bienve, "Another house", "tolosa", "Ibaiondo Kalea", 12);
 			} catch (Exception e) {
 				System.out.println("Error at initialize DataBase on: ./storeRuralHouses " + e.getMessage());
 			}

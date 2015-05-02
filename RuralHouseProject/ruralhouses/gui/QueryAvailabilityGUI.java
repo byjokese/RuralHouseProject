@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +19,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -40,6 +43,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
@@ -48,6 +53,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -56,7 +62,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
+import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
+import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+
 import businessLogic.ApplicationFacadeInterface;
+import domain.ExtraActivity;
 import domain.Offer;
 import domain.Users;
 import exceptions.DataBaseNotInitialized;
@@ -453,7 +465,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	class AditionalOfferInfoGUI extends JFrame {
 
 		private static final long serialVersionUID = 1L;
-		private JPanel activitiesTextField;
+		private JPanel jpanel;
 		private JTextField offerTextField;
 		private JTextField lastdayTextField;
 		private JTextField firstdayTextField;
@@ -475,17 +487,18 @@ public class QueryAvailabilityGUI extends JFrame {
 		/**
 		 * Create the frame.
 		 */
+		@SuppressWarnings("deprecation")
 		public AditionalOfferInfoGUI(Offer offer) throws IOException {
 			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 1075, 587);
-			activitiesTextField = new JPanel();
-			activitiesTextField.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(activitiesTextField);
-			activitiesTextField.setLayout(null);
+			jpanel = new JPanel();
+			jpanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			setContentPane(jpanel);
+			jpanel.setLayout(null);
 
 			JLabel ownerRating = new JLabel("Owner Rating:");
 			ownerRating.setBounds(611, 82, 85, 14);
-			activitiesTextField.add(ownerRating);
+			jpanel.add(ownerRating);
 
 			String path_1_Star = "images/rating_stars/1_stars.png";
 			String path_2_Star = "images/rating_stars/2_stars.png";
@@ -493,69 +506,101 @@ public class QueryAvailabilityGUI extends JFrame {
 			String path_4_Star = "images/rating_stars/4_stars.png";
 			String path_5_Star = "images/rating_stars/5_stars.png";
 
-			/*
-			 * File houseRatingFile = null; File ownerRatingFile = null;
-			 * 
-			 * switch (offer.getRuralHouse().getMark()) { case 1: houseRatingFile = new File(path_1_Star); break; case 2: houseRatingFile = new
-			 * File(path_2_Star); break; case 3: houseRatingFile = new File(path_3_Star); break; case 4: houseRatingFile = new File(path_4_Star); break; case 5:
-			 * houseRatingFile = new File(path_5_Star); break; default: System.out.println("No hay Opcion! a 0"); }
-			 * 
-			 * switch (offer.getRuralHouse().getOwner().getMark()) { case 1: ownerRatingFile = new File(path_1_Star); break; case 2: ownerRatingFile = new
-			 * File(path_2_Star); break; case 3: ownerRatingFile = new File(path_3_Star); break; case 4: ownerRatingFile = new File(path_4_Star); break; case 5:
-			 * ownerRatingFile = new File(path_5_Star); break; default: System.out.println("No hay Opcion! a 0"); }
-			 * 
-			 * BufferedImage ownerRatingImg = ImageIO.read(ownerRatingFile); JLabel ownerRatingImglbl = new JLabel(new ImageIcon(ownerRatingImg));
-			 * ownerRatingImglbl.setBounds(611, 100, 140, 25); activitiesTextField.add(ownerRatingImglbl);
-			 */
+			File houseRatingFile = null;
+			File ownerRatingFile = null;
+			switch (offer.getRuralHouse().getMark()) {
+			case 1:
+				houseRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				houseRatingFile = new File(path_2_Star);
+				break;
+			case 3:
+				houseRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				houseRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				houseRatingFile = new File(path_5_Star);
+				break;
+			default:
+				System.out.println("No hay Opcion! a 0");
+			}
+
+			switch (offer.getRuralHouse().getOwner().getMark()) {
+			case 1:
+				ownerRatingFile = new File(path_1_Star);
+				break;
+			case 2:
+				ownerRatingFile = new File(path_2_Star);
+				break;
+			case 3:
+				ownerRatingFile = new File(path_3_Star);
+				break;
+			case 4:
+				ownerRatingFile = new File(path_4_Star);
+				break;
+			case 5:
+				ownerRatingFile = new File(path_5_Star);
+				break;
+			default:
+				System.out.println("No hay Opcion! a 0");
+			}
+
+			BufferedImage ownerRatingImg = ImageIO.read(ownerRatingFile);
+			JLabel ownerRatingImglbl = new JLabel(new ImageIcon(ownerRatingImg));
+			ownerRatingImglbl.setBounds(611, 100, 140, 25);
+			jpanel.add(ownerRatingImglbl);
 
 			JLabel houseRating = new JLabel("House Rating:");
 			houseRating.setBounds(611, 38, 85, 14);
-			activitiesTextField.add(houseRating);
+			jpanel.add(houseRating);
 
-			/*
-			 * BufferedImage houseRatingImg = ImageIO.read(houseRatingFile); JLabel houseRatingImgLbl = new JLabel(new ImageIcon(houseRatingImg));
-			 * houseRatingImgLbl.setBounds(611, 55, 140, 25); activitiesTextField.add(houseRatingImgLbl);
-			 */
+			BufferedImage houseRatingImg = ImageIO.read(houseRatingFile);
+			JLabel houseRatingImgLbl = new JLabel(new ImageIcon(houseRatingImg));
+			houseRatingImgLbl.setBounds(611, 55, 140, 25);
+			jpanel.add(houseRatingImgLbl);
 
 			JLabel lblNewLabel = new JLabel("Offer Info");
-			lblNewLabel.setBounds(5, 0, 1054, 27);
+			lblNewLabel.setBounds(0, 0, 1059, 27);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			activitiesTextField.add(lblNewLabel);
+			jpanel.add(lblNewLabel);
 
 			JSeparator separator = new JSeparator();
 			separator.setBounds(0, 28, 1059, 11);
-			activitiesTextField.add(separator);
+			jpanel.add(separator);
 
 			JLabel lblOffer = new JLabel("Offer #:");
 			lblOffer.setBounds(15, 38, 46, 14);
-			activitiesTextField.add(lblOffer);
+			jpanel.add(lblOffer);
 
 			JLabel lblFirstDay = new JLabel("First day:");
 			lblFirstDay.setBounds(15, 75, 56, 14);
-			activitiesTextField.add(lblFirstDay);
+			jpanel.add(lblFirstDay);
 
 			JLabel lblLastDay = new JLabel("Last day:");
 			lblLastDay.setBounds(15, 112, 56, 14);
-			activitiesTextField.add(lblLastDay);
+			jpanel.add(lblLastDay);
 
 			JLabel lblPrice = new JLabel("Price:");
 			lblPrice.setBounds(351, 38, 46, 14);
-			activitiesTextField.add(lblPrice);
+			jpanel.add(lblPrice);
 
 			JLabel lblRuralhouse = new JLabel("RuralHouse:");
 			lblRuralhouse.setBounds(351, 75, 75, 14);
-			activitiesTextField.add(lblRuralhouse);
+			jpanel.add(lblRuralhouse);
 
 			JLabel lblOptionalActivities = new JLabel("Optional Activities:");
 			lblOptionalActivities.setBounds(351, 112, 96, 14);
-			activitiesTextField.add(lblOptionalActivities);
+			jpanel.add(lblOptionalActivities);
 
 			offerTextField = new JTextField();
 			offerTextField.setEditable(false);
 			offerTextField.setBounds(81, 35, 96, 20);
-			// offerTextField.setText(Integer.toString(offer.getOfferNumber()));
-			activitiesTextField.add(offerTextField);
+			offerTextField.setText(Integer.toString(offer.getOfferNumber()));
+			jpanel.add(offerTextField);
 			offerTextField.setColumns(10);
 
 			lastdayTextField = new JTextField();
@@ -563,45 +608,48 @@ public class QueryAvailabilityGUI extends JFrame {
 			lastdayTextField.setColumns(10);
 			lastdayTextField.setBounds(81, 109, 221, 20);
 			lastdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
-			// lastdayTextField.setText(offer.getLastDay().toString());
-			activitiesTextField.add(lastdayTextField);
+			lastdayTextField.setText(offer.getLastDay().toString());
+			jpanel.add(lastdayTextField);
 
 			firstdayTextField = new JTextField();
 			firstdayTextField.setEditable(false);
 			firstdayTextField.setColumns(10);
 			firstdayTextField.setHorizontalAlignment(SwingConstants.LEFT);
 			firstdayTextField.setBounds(81, 72, 221, 20);
-			// firstdayTextField.setText(offer.getFirstDay().toString());
-			activitiesTextField.add(firstdayTextField);
+			firstdayTextField.setText(offer.getFirstDay().toString());
+			jpanel.add(firstdayTextField);
 
 			priceTextField = new JTextField();
 			priceTextField.setEditable(false);
 			priceTextField.setColumns(10);
 			priceTextField.setBounds(429, 38, 96, 20);
-			// priceTextField.setText(Float.toString(offer.getPrice()));
-			activitiesTextField.add(priceTextField);
+			priceTextField.setText(Float.toString(offer.getPrice()));
+			jpanel.add(priceTextField);
 
 			ruralhouseTextField = new JTextField();
 			ruralhouseTextField.setEditable(false);
 			ruralhouseTextField.setColumns(10);
 			ruralhouseTextField.setBounds(429, 72, 141, 20);
-			// ruralhouseTextField.setText(offer.getRuralHouse().toString());
-			activitiesTextField.add(ruralhouseTextField);
+			ruralhouseTextField.setText(offer.getRuralHouse().toString());
+			jpanel.add(ruralhouseTextField);
 
 			offerNumTextField = new JTextField();
 			offerNumTextField.setEditable(false);
 			offerNumTextField.setColumns(10);
 			offerNumTextField.setBounds(453, 112, 117, 20);
-			// offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
-			activitiesTextField.add(offerNumTextField);
+			offerNumTextField.setText(offer.getExtraActivities().size() + ": Activities");
+			jpanel.add(offerNumTextField);
 
 			String columnNames[] = new String[] { "Name", "Description", "Owner", "Place", "Date" };
-			/*
-			 * Object[][] data = new Object[offer.getExtraActivities().size()][]; Vector<ExtraActivity> activityList = offer.getExtraActivities(); for (int i =
-			 * 0; i < activityList.size(); i++) { Object[] tmp = { new String(activityList.get(i).getNombre()), new
-			 * String(activityList.get(i).getDescription()), new String(activityList.get(i).getOwner().getName()), new String(activityList.get(i).getLugar()),
-			 * new String(activityList.get(i).getFecha().toString()) }; data[i] = tmp; }
-			 */
+
+			Object[][] data = new Object[offer.getExtraActivities().size()][];
+			Vector<ExtraActivity> activityList = offer.getExtraActivities();
+			for (int i = 0; i < activityList.size(); i++) {
+				Object[] tmp = { new String(activityList.get(i).getNombre()), new String(activityList.get(i).getDescription()),
+						new String(activityList.get(i).getOwner().getName()), new String(activityList.get(i).getLugar()),
+						new String(activityList.get(i).getFecha().toString()) };
+				data[i] = tmp;
+			}
 
 			JButton closeBtn = new JButton("Close");
 			closeBtn.setBounds(5, 512, 1039, 25);
@@ -610,276 +658,335 @@ public class QueryAvailabilityGUI extends JFrame {
 					dispose();
 				}
 			});
-			activitiesTextField.add(closeBtn);
+			jpanel.add(closeBtn);
 
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(15, 170, 702, 134);
-			activitiesTextField.add(scrollPane);
+			jpanel.add(scrollPane);
 			table = new JTable();
 			table.setEnabled(false);
 			table.setFillsViewportHeight(true);
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			scrollPane.setViewportView(table);
-			// tableModel = new DefaultTableModel(data, columnNames);
-			tableModel = new DefaultTableModel(null, columnNames); // FOR TEST CLASS
+			tableModel = new DefaultTableModel(data, columnNames);
+			// tableModel = new DefaultTableModel(null, columnNames); // FOR TEST CLASS
 			table.setModel(tableModel);
 
 			JLabel lblComments = new JLabel("Comments:");
 			lblComments.setBounds(760, 38, 75, 14);
-			activitiesTextField.add(lblComments);
+			jpanel.add(lblComments);
 
 			JTextArea textArea = new JTextArea();
 			textArea.setEditable(false);
 			textArea.setBounds(761, 58, 288, 82);
-			activitiesTextField.add(textArea);
+			jpanel.add(textArea);
 
 			JLabel lblOptionalActivities_1 = new JLabel("Optional Activities:");
 			lblOptionalActivities_1.setBounds(15, 151, 104, 14);
-			activitiesTextField.add(lblOptionalActivities_1);
+			jpanel.add(lblOptionalActivities_1);
 
 			JLabel lblWeatherForecast = new JLabel("Weather forecast: ");
 			lblWeatherForecast.setBounds(760, 151, 167, 14);
-			activitiesTextField.add(lblWeatherForecast);
+			jpanel.add(lblWeatherForecast);
 
 			weathericonlbl1 = new JLabel();
 			weathericonlbl1.setBounds(871, 177, 46, 32);
-			activitiesTextField.add(weathericonlbl1);
+			jpanel.add(weathericonlbl1);
 
 			JLabel dayLbl1 = new JLabel("Day 1:");
 			dayLbl1.setFont(new Font("Tahoma", Font.BOLD, 13));
 			dayLbl1.setBounds(760, 172, 56, 27);
-			activitiesTextField.add(dayLbl1);
+			jpanel.add(dayLbl1);
 
 			JLabel tmpMax1Lbl = new JLabel("Tmp Max: ");
 			tmpMax1Lbl.setBounds(789, 220, 61, 14);
-			activitiesTextField.add(tmpMax1Lbl);
+			jpanel.add(tmpMax1Lbl);
 
 			tmpMax1 = new JLabel("");
 			tmpMax1.setEnabled(false);
 			tmpMax1.setBounds(871, 220, 46, 14);
-			activitiesTextField.add(tmpMax1);
+			jpanel.add(tmpMax1);
 
 			JLabel tmpMinLbl1 = new JLabel("Tmp Min: ");
 			tmpMinLbl1.setBounds(789, 235, 61, 14);
-			activitiesTextField.add(tmpMinLbl1);
+			jpanel.add(tmpMinLbl1);
 
 			tmpMin1 = new JLabel("");
 			tmpMin1.setEnabled(false);
 			tmpMin1.setBounds(871, 235, 46, 14);
-			activitiesTextField.add(tmpMin1);
+			jpanel.add(tmpMin1);
 
 			JLabel humidityLbl1 = new JLabel("Humidity:");
 			humidityLbl1.setBounds(789, 250, 61, 14);
-			activitiesTextField.add(humidityLbl1);
+			jpanel.add(humidityLbl1);
 
 			humidity1 = new JLabel("");
 			humidity1.setEnabled(false);
 			humidity1.setBounds(871, 250, 46, 14);
-			activitiesTextField.add(humidity1);
+			jpanel.add(humidity1);
 
 			description1 = new JLabel("");
 			description1.setEnabled(false);
 			description1.setBounds(927, 189, 122, 14);
-			activitiesTextField.add(description1);
+			jpanel.add(description1);
 
 			JLabel rainLbl1 = new JLabel("Rain:");
 			rainLbl1.setBounds(920, 220, 46, 14);
-			activitiesTextField.add(rainLbl1);
+			jpanel.add(rainLbl1);
 
 			rain1 = new JLabel("");
 			rain1.setEnabled(false);
-			rain1.setBounds(964, 220, 46, 14);
-			activitiesTextField.add(rain1);
+			rain1.setBounds(964, 220, 64, 14);
+			jpanel.add(rain1);
 
 			JLabel windLbl1 = new JLabel("Wind:");
 			windLbl1.setBounds(920, 235, 46, 14);
-			activitiesTextField.add(windLbl1);
+			jpanel.add(windLbl1);
 
 			wind1 = new JLabel("");
 			wind1.setEnabled(false);
-			wind1.setBounds(964, 235, 46, 14);
-			activitiesTextField.add(wind1);
+			wind1.setBounds(964, 235, 64, 14);
+			jpanel.add(wind1);
 
 			JLabel lblClouds = new JLabel("Clouds:");
 			lblClouds.setBounds(920, 250, 46, 14);
-			activitiesTextField.add(lblClouds);
+			jpanel.add(lblClouds);
 
 			clouds1 = new JLabel("");
 			clouds1.setEnabled(false);
-			clouds1.setBounds(964, 250, 46, 14);
-			activitiesTextField.add(clouds1);
+			clouds1.setBounds(964, 250, 64, 14);
+			jpanel.add(clouds1);
 
 			JSeparator separator1 = new JSeparator();
 			separator1.setBounds(766, 272, 293, 2);
-			activitiesTextField.add(separator1);
+			jpanel.add(separator1);
 
 			weathericonlbl2 = new JLabel((Icon) null);
 			weathericonlbl2.setBounds(871, 280, 46, 32);
-			activitiesTextField.add(weathericonlbl2);
+			jpanel.add(weathericonlbl2);
 
 			JLabel tmpMaxLbl2 = new JLabel("Tmp Max: ");
 			tmpMaxLbl2.setBounds(789, 323, 61, 14);
-			activitiesTextField.add(tmpMaxLbl2);
+			jpanel.add(tmpMaxLbl2);
 
 			tmpMax2 = new JLabel("");
 			tmpMax2.setEnabled(false);
 			tmpMax2.setBounds(871, 323, 46, 14);
-			activitiesTextField.add(tmpMax2);
+			jpanel.add(tmpMax2);
 
 			JLabel tmpMinLbl2 = new JLabel("Tmp Min: ");
 			tmpMinLbl2.setBounds(789, 338, 61, 14);
-			activitiesTextField.add(tmpMinLbl2);
+			jpanel.add(tmpMinLbl2);
 
 			tmpMin2 = new JLabel("");
 			tmpMin2.setEnabled(false);
 			tmpMin2.setBounds(871, 338, 46, 14);
-			activitiesTextField.add(tmpMin2);
+			jpanel.add(tmpMin2);
 
 			JLabel humidityLbl2 = new JLabel("Humidity:");
 			humidityLbl2.setBounds(789, 353, 61, 14);
-			activitiesTextField.add(humidityLbl2);
+			jpanel.add(humidityLbl2);
 
 			humidity2 = new JLabel("");
 			humidity2.setEnabled(false);
 			humidity2.setBounds(871, 353, 46, 14);
-			activitiesTextField.add(humidity2);
+			jpanel.add(humidity2);
 
 			description2 = new JLabel("");
 			description2.setEnabled(false);
 			description2.setBounds(927, 292, 122, 14);
-			activitiesTextField.add(description2);
+			jpanel.add(description2);
 
 			JLabel rainLbl2 = new JLabel("Rain:");
 			rainLbl2.setBounds(920, 323, 46, 14);
-			activitiesTextField.add(rainLbl2);
+			jpanel.add(rainLbl2);
 
 			rain2 = new JLabel("");
 			rain2.setEnabled(false);
-			rain2.setBounds(964, 323, 46, 14);
-			activitiesTextField.add(rain2);
+			rain2.setBounds(964, 323, 64, 14);
+			jpanel.add(rain2);
 
 			JLabel windLbl2 = new JLabel("Wind:");
 			windLbl2.setBounds(920, 338, 46, 14);
-			activitiesTextField.add(windLbl2);
+			jpanel.add(windLbl2);
 
 			wind2 = new JLabel("");
 			wind2.setEnabled(false);
-			wind2.setBounds(964, 338, 46, 14);
-			activitiesTextField.add(wind2);
+			wind2.setBounds(964, 338, 64, 14);
+			jpanel.add(wind2);
 
 			JLabel cloudsLbl2 = new JLabel("Clouds:");
 			cloudsLbl2.setBounds(920, 353, 46, 14);
-			activitiesTextField.add(cloudsLbl2);
+			jpanel.add(cloudsLbl2);
 
 			clouds2 = new JLabel("");
 			clouds2.setEnabled(false);
-			clouds2.setBounds(964, 353, 46, 14);
-			activitiesTextField.add(clouds2);
+			clouds2.setBounds(964, 353, 64, 14);
+			jpanel.add(clouds2);
 
 			JSeparator separator_1 = new JSeparator();
 			separator_1.setBounds(766, 375, 293, 2);
-			activitiesTextField.add(separator_1);
+			jpanel.add(separator_1);
 
 			JLabel dayLbl2 = new JLabel("Day 2:");
 			dayLbl2.setFont(new Font("Tahoma", Font.BOLD, 13));
 			dayLbl2.setBounds(760, 275, 56, 27);
-			activitiesTextField.add(dayLbl2);
+			jpanel.add(dayLbl2);
 
 			weathericonlbl3 = new JLabel((Icon) null);
 			weathericonlbl3.setBounds(871, 383, 46, 32);
-			activitiesTextField.add(weathericonlbl3);
+			jpanel.add(weathericonlbl3);
 
 			JLabel tmpMaxLbl3 = new JLabel("Tmp Max: ");
 			tmpMaxLbl3.setBounds(789, 426, 61, 14);
-			activitiesTextField.add(tmpMaxLbl3);
+			jpanel.add(tmpMaxLbl3);
 
 			tmpMax3 = new JLabel("");
 			tmpMax3.setEnabled(false);
 			tmpMax3.setBounds(871, 426, 46, 14);
-			activitiesTextField.add(tmpMax3);
+			jpanel.add(tmpMax3);
 
 			JLabel tmpMinLbl3 = new JLabel("Tmp Min: ");
 			tmpMinLbl3.setBounds(789, 441, 61, 14);
-			activitiesTextField.add(tmpMinLbl3);
+			jpanel.add(tmpMinLbl3);
 
 			tmpMin3 = new JLabel("");
 			tmpMin3.setEnabled(false);
 			tmpMin3.setBounds(871, 441, 46, 14);
-			activitiesTextField.add(tmpMin3);
+			jpanel.add(tmpMin3);
 
 			JLabel humidityLbl3 = new JLabel("Humidity:");
 			humidityLbl3.setBounds(789, 456, 61, 14);
-			activitiesTextField.add(humidityLbl3);
+			jpanel.add(humidityLbl3);
 
 			humidity3 = new JLabel("");
 			humidity3.setEnabled(false);
 			humidity3.setBounds(871, 456, 46, 14);
-			activitiesTextField.add(humidity3);
+			jpanel.add(humidity3);
 
 			description3 = new JLabel("");
 			description3.setEnabled(false);
 			description3.setBounds(927, 395, 122, 14);
-			activitiesTextField.add(description3);
+			jpanel.add(description3);
 
 			JLabel rainLbl3 = new JLabel("Rain:");
 			rainLbl3.setBounds(920, 426, 46, 14);
-			activitiesTextField.add(rainLbl3);
+			jpanel.add(rainLbl3);
 
 			rain3 = new JLabel("");
 			rain3.setEnabled(false);
-			rain3.setBounds(964, 426, 46, 14);
-			activitiesTextField.add(rain3);
+			rain3.setBounds(964, 426, 64, 14);
+			jpanel.add(rain3);
 
 			JLabel windLbl3 = new JLabel("Wind:");
 			windLbl3.setBounds(920, 441, 46, 14);
-			activitiesTextField.add(windLbl3);
+			jpanel.add(windLbl3);
 
 			wind3 = new JLabel("");
 			wind3.setEnabled(false);
-			wind3.setBounds(964, 441, 46, 14);
-			activitiesTextField.add(wind3);
+			wind3.setBounds(964, 441, 64, 14);
+			jpanel.add(wind3);
 
 			JLabel cloudsLbl3 = new JLabel("Clouds:");
 			cloudsLbl3.setBounds(920, 456, 46, 14);
-			activitiesTextField.add(cloudsLbl3);
+			jpanel.add(cloudsLbl3);
 
 			clouds3 = new JLabel("");
 			clouds3.setEnabled(false);
-			clouds3.setBounds(964, 456, 46, 14);
-			activitiesTextField.add(clouds3);
+			clouds3.setBounds(964, 456, 64, 14);
+			jpanel.add(clouds3);
 
 			JSeparator separator_2 = new JSeparator();
 			separator_2.setBounds(766, 478, 293, 2);
-			activitiesTextField.add(separator_2);
+			jpanel.add(separator_2);
 
 			JLabel dayLbl3 = new JLabel("Day 3:");
 			dayLbl3.setFont(new Font("Tahoma", Font.BOLD, 13));
 			dayLbl3.setBounds(760, 378, 56, 27);
-			activitiesTextField.add(dayLbl3);
+			jpanel.add(dayLbl3);
 
-			/*
-			 * for (String[] commet : offer.getRuralHouse().getComments()) { textArea.append(commet[0] + " - " + commet[1] + "\n"); }
-			 */
+			for (String[] commet : offer.getRuralHouse().getComments()) {
+				textArea.append(commet[0] + " - " + commet[1] + "\n");
+			}
 
-			/* ___________________________________________MANUAL MODE__________________________________________________ */
+			/* ____________________________________________MANUAL MODE__________________________________________________ */
+			// There's another way to do it with owm library.
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			JSONObject json = null;
 			try {
 				// Example URL: http://api.openweathermap.org/data/2.5/weather?q=London,uk
 				// APPID=880c1d9d2518e01b6dfe8175ec6c4196
 				// &units=metric
-				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + offer.getRuralHouse().getCity()
-						+ ",Es&cnt=3&mode=json&units=metric");
+				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + "tolosa" + ",Es&cnt=3&mode=json&units=metric");
 				request.addHeader("x-api-key:", "880c1d9d2518e01b6dfe8175ec6c4196");
 				HttpResponse response = httpClient.execute(request);
 				String json_string = EntityUtils.toString(response.getEntity());
 				json = new JSONObject(json_string);
-				updateWeatherInfo(json);
+				if (json.getString("cod").equals("200"))
+					updateWeatherInfo(json);
+				else
+					System.out.println("Error:" + json.getString("cod") + " at connecting Open Weather Maps Service.");
 			} catch (Exception ex) {
-				// handle exception here
+
 			} finally {
 				httpClient.getConnectionManager().shutdown();
+				System.out.println("HTTP Client Clear and Down.");
 			}
+
+			/* ____________________________________________GOOGLE_MAPS_API______________________________________________ */
+
+			// EXAMPLE: http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true_or_false
+			final Browser browser = new Browser();
+			BrowserView browserView = new BrowserView(browser);
+			browserView.setSize(702, 186);
+			browserView.setLocation(15, 315);
+			browserView.setEnabled(false);
+			browserView.setDragAndDropEnabled(true);
+			jpanel.add(browserView);
+			browser.loadURL("file:///C:/Users/PcCom/Documents/GitHub/RuralHouseProject/RuralHouseProject/web/map.html");
+			browserView.getBrowser().addLoadListener(new LoadAdapter() {
+				public void onFinishLoadingFrame(FinishLoadingEvent event) {
+					if (event.isMainFrame()) {
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+
+								JSONObject json = null;
+								try {
+									HttpClient httpClient = HttpClientBuilder.create().build();
+									int number = offer.getRuralHouse().getHouseNumber();
+									String street = offer.getRuralHouse().getAddress();
+									String city = offer.getRuralHouse().getCity();
+									// street.replaceAll("[\\s]", "+");
+									Pattern p = Pattern.compile("[\\s]");
+									Matcher m = p.matcher(street);
+									street = m.replaceAll("+");
+									System.out.println(street);
+									HttpGet request = new HttpGet("http://maps.googleapis.com/maps/api/geocode/json?address=" + number + "," + street + ","
+											+ city + ",+Es&sensor=true");
+									HttpResponse response = httpClient.execute(request);
+									String json_string = EntityUtils.toString(response.getEntity());
+									json = new JSONObject(json_string);
+									JSONArray results = json.getJSONArray("results");
+									JSONObject address_components = results.getJSONObject(0);
+									JSONObject geometry = address_components.getJSONObject("geometry");
+									JSONObject location = geometry.getJSONObject("location");
+									System.out.println(location);
+									String lat = Double.toString(location.getDouble("lat"));
+									String lng = Double.toString(location.getDouble("lng"));
+									browser.executeJavaScript("var myLatlng = new google.maps.LatLng(" + lat + "," + lng
+											+ ");var marker = new google.maps.Marker({position: myLatlng,map: map,title: 'Hello World!'});");
+								} catch (ClientProtocolException e) {
+									e.printStackTrace();
+								} catch (IOException e) {
+									e.printStackTrace();
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+							}
+						});
+					}
+				}
+			});
 
 		}
 
@@ -892,6 +999,8 @@ public class QueryAvailabilityGUI extends JFrame {
 			JSONObject daytemp;
 			JSONObject dayWeather;
 			String icon = null;
+
+			// Exception: org.json.JSONException
 			try {
 				JSONArray jsonlist = jsonContent.getJSONArray("list");
 				for (int i = 0; i <= 2; i++) {
@@ -907,8 +1016,16 @@ public class QueryAvailabilityGUI extends JFrame {
 						icon = dayWeather.getString("icon");
 						wind1.setText(Double.toString(jsonday.getDouble("speed")) + " m/s");
 						clouds1.setText(Double.toString(jsonday.getDouble("clouds")) + "%");
-						rain1.setText(Double.toString(jsonday.getDouble("rain")) + "%");
-						humidity1.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						try {
+							rain1.setText(Double.toString(jsonday.getDouble("rain")) + "%");
+						} catch (org.json.JSONException e) {
+							rain1.setText("--" + " m/s");
+						}
+						try {
+							humidity1.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						} catch (org.json.JSONException e) {
+							humidity1.setText("--" + "%");
+						}
 						try {
 							iconPath1 = new URL("http://openweathermap.org/img/w/" + icon + ".png");
 						} catch (MalformedURLException e) {
@@ -926,8 +1043,16 @@ public class QueryAvailabilityGUI extends JFrame {
 						icon = dayWeather.getString("icon");
 						wind2.setText(Double.toString(jsonday.getDouble("speed")) + " m/s");
 						clouds2.setText(Double.toString(jsonday.getDouble("clouds")) + "%");
-						rain2.setText(Double.toString(jsonday.getDouble("rain")) + "%");
-						humidity2.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						try {
+							rain2.setText(Double.toString(jsonday.getDouble("rain")) + "%");
+						} catch (org.json.JSONException e) {
+							rain2.setText("--" + " m/s");
+						}
+						try {
+							humidity2.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						} catch (org.json.JSONException e) {
+							humidity2.setText("--" + "%");
+						}
 						try {
 							iconPath2 = new URL("http://openweathermap.org/img/w/" + icon + ".png");
 						} catch (MalformedURLException e) {
@@ -945,8 +1070,16 @@ public class QueryAvailabilityGUI extends JFrame {
 						icon = dayWeather.getString("icon");
 						wind3.setText(Double.toString(jsonday.getDouble("speed")) + " m/s");
 						clouds3.setText(Double.toString(jsonday.getDouble("clouds")) + "%");
-						rain3.setText(Double.toString(jsonday.getDouble("rain")) + "%");
-						humidity3.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						try {
+							rain3.setText(Double.toString(jsonday.getDouble("rain")) + "%");
+						} catch (org.json.JSONException e) {
+							rain3.setText("--" + " m/s");
+						}
+						try {
+							humidity3.setText(Double.toString(jsonday.getDouble("humidity")) + "%");
+						} catch (org.json.JSONException e) {
+							humidity3.setText("--" + "%");
+						}
 						try {
 							iconPath3 = new URL("http://openweathermap.org/img/w/" + icon + ".png");
 						} catch (MalformedURLException e) {
@@ -955,7 +1088,6 @@ public class QueryAvailabilityGUI extends JFrame {
 						break;
 					}
 				}
-
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -972,6 +1104,7 @@ public class QueryAvailabilityGUI extends JFrame {
 			weathericonlbl1.setIcon(new ImageIcon(weathericon1));
 			weathericonlbl2.setIcon(new ImageIcon(weathericon2));
 			weathericonlbl3.setIcon(new ImageIcon(weathericon3));
+
 		}
 	}
 }

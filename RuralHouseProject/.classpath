@@ -17,5 +17,12 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/httpmime-4.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/jna-4.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/httpcomponents-client-4.4.1/lib/jna-platform-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/google-maps-services-0.1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/lib/jxbrowser-win-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/lib/jxbrowser-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/lib/jxbrowser-linux32-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/lib/jxbrowser-linux64-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/lib/jxbrowser-mac-5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/PcCom/Documents/MEGAsync/Codigos/Java/Libraries/JxBrowser/license.jar"/>
 	<classpathentry kind="output" path="ruralhouses"/>
 </classpath>
