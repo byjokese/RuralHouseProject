@@ -102,6 +102,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JSlider maxSlider = new JSlider();
 	private Users intoUser = null;
 	private final JLabel infoMessagesLbl = new JLabel("");
+	private List<List<Offer>> availableOffers;
 
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
 		getContentPane().setForeground(SystemColor.textHighlight);
@@ -152,6 +153,9 @@ public class QueryAvailabilityGUI extends JFrame {
 					 **/
 				} else {
 					JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
+					int index = table.getSelectedRow();
+					Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
+					 System.out.println("Selected Offer:" + offer.toString());
 					// ****Fase 3****
 					/**
 					 * Offer offer = availableOffers.get(0).get(table.getSelectedRow()); System.out.println("Selected Offer:" + offer.toString()); try {
@@ -347,7 +351,7 @@ public class QueryAvailabilityGUI extends JFrame {
 					try {
 						if (offers != null)
 							offers.removeAll(offers);
-						List<List<Offer>> availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
+						availableOffers = facade.searchAvailableOffers(city, numberOfNights, date, minPrice, maxPrice);
 						offers.add(availableOffers.get(0));
 						offers.add(availableOffers.get(1));
 						if (availableOffers.get(0).size() == 0 && availableOffers.get(1).size() == 0) {
@@ -917,7 +921,7 @@ public class QueryAvailabilityGUI extends JFrame {
 				// Example URL: http://api.openweathermap.org/data/2.5/weather?q=London,uk
 				// APPID=880c1d9d2518e01b6dfe8175ec6c4196
 				// &units=metric
-				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + "tolosa" + ",Es&cnt=3&mode=json&units=metric");
+				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + offer.getRuralHouse().getCity() + ",Es&cnt=3&mode=json&units=metric");
 				request.addHeader("x-api-key:", "880c1d9d2518e01b6dfe8175ec6c4196");
 				HttpResponse response = httpClient.execute(request);
 				String json_string = EntityUtils.toString(response.getEntity());
@@ -972,7 +976,7 @@ public class QueryAvailabilityGUI extends JFrame {
 									String lat = Double.toString(location.getDouble("lat"));
 									String lng = Double.toString(location.getDouble("lng"));
 									browser.executeJavaScript("var mapOptions = {center: new google.maps.LatLng(" + lat + "," + lng
-											+ "),zoom: 6};map = new google.maps.Map(document.getElementById(\"map-canvas\"), mapOptions);");
+											+ "),zoom: 7};map = new google.maps.Map(document.getElementById(\"map-canvas\"), mapOptions);");
 									browser.executeJavaScript("var myLatlng = new google.maps.LatLng(" + lat + "," + lng
 											+ ");var marker = new google.maps.Marker({position: myLatlng,map: map,title: 'RuralHouse'});");
 								} catch (ClientProtocolException e) {
@@ -1105,7 +1109,6 @@ public class QueryAvailabilityGUI extends JFrame {
 			weathericonlbl1.setIcon(new ImageIcon(weathericon1));
 			weathericonlbl2.setIcon(new ImageIcon(weathericon2));
 			weathericonlbl3.setIcon(new ImageIcon(weathericon3));
-
 		}
 	}
 }
