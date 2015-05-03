@@ -130,7 +130,7 @@ public class QueryAvailabilityGUI extends JFrame {
 					try {
 						int index = table.getSelectedRow();
 						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-						JFrame ad = new BookRuralHouseGUI(offer, (Client)intoUser);
+						JFrame ad = new RuralHouseBookGUI(offer, (Client)intoUser);
 						ad.setVisible(true);
 					} catch (ArrayIndexOutOfBoundsException e) {
 						JOptionPane.showMessageDialog(null, "Select an Offer");
