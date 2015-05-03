@@ -45,7 +45,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -62,12 +61,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import businessLogic.ApplicationFacadeInterface;
+
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
-import businessLogic.ApplicationFacadeInterface;
 import domain.ExtraActivity;
 import domain.Offer;
 import domain.Users;
@@ -949,7 +949,6 @@ public class QueryAvailabilityGUI extends JFrame {
 					if (event.isMainFrame()) {
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-
 								JSONObject json = null;
 								try {
 									HttpClient httpClient = HttpClientBuilder.create().build();
@@ -960,7 +959,6 @@ public class QueryAvailabilityGUI extends JFrame {
 									Pattern p = Pattern.compile("[\\s]");
 									Matcher m = p.matcher(street);
 									street = m.replaceAll("+");
-									System.out.println(street);
 									HttpGet request = new HttpGet("http://maps.googleapis.com/maps/api/geocode/json?address=" + number + "," + street + ","
 											+ city + ",+Es&sensor=true");
 									HttpResponse response = httpClient.execute(request);
@@ -973,9 +971,12 @@ public class QueryAvailabilityGUI extends JFrame {
 									System.out.println(location);
 									String lat = Double.toString(location.getDouble("lat"));
 									String lng = Double.toString(location.getDouble("lng"));
+									browser.executeJavaScript("var mapOptions = {center: new google.maps.LatLng(" + lat + "," + lng
+											+ "),zoom: 6};map = new google.maps.Map(document.getElementById(\"map-canvas\"), mapOptions);");
 									browser.executeJavaScript("var myLatlng = new google.maps.LatLng(" + lat + "," + lng
-											+ ");var marker = new google.maps.Marker({position: myLatlng,map: map,title: 'Hello World!'});");
+											+ ");var marker = new google.maps.Marker({position: myLatlng,map: map,title: 'RuralHouse'});");
 								} catch (ClientProtocolException e) {
+									System.out.println("Error Conecting with the Google Maps Geo API");
 									e.printStackTrace();
 								} catch (IOException e) {
 									e.printStackTrace();
