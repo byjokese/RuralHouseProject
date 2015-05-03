@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import domain.Booking;
+import domain.Client;
 import domain.ExtraActivity;
 import domain.Offer;
 import domain.Owner;
@@ -71,5 +72,6 @@ public interface ApplicationFacadeInterface extends Remote {
 	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException;
 
 	public boolean deleteOffer(Offer o) throws RemoteException;
+	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException;
 
 }

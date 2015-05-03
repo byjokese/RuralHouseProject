@@ -121,7 +121,7 @@ public class DB4oManager {
 
 			try {
 				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Tolosa2 Kalea", 2);
-				storeRuralhouse(((Owner) jon), "Etxetxikia", "Iruña", "berdin Kalea", 21);
+				storeRuralhouse(((Owner) jon), "Etxetxikia", "Iruï¿½a", "berdin Kalea", 21);
 				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Udaletxeko kalea", 1);
 				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Renteriko kalea", 5);
 				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Tolosa Kalea", 27);
@@ -443,4 +443,26 @@ public class DB4oManager {
 		db.commit();
 		return true;
 	}
+	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException{
+		List<Offer> list = db.queryByExample(o);
+		
+		if(!list.isEmpty()){
+			list.get(0).setChoosed(true);
+			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0));
+			
+			List<Client> listc = db.queryByExample(client);
+			if(!listc.isEmpty()){
+				listc.get(0).addBook(book);
+				db.store(list.get(0));
+				db.store(book);
+				db.store(listc.get(0));
+				db.commit();
+				return book;
+			}
+			
+		}
+		
+		return null;
+	}
+	
 }

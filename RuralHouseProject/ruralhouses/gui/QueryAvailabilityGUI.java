@@ -40,6 +40,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import businessLogic.ApplicationFacadeInterface;
+import domain.Client;
 import domain.ExtraActivity;
 import domain.Offer;
 import domain.Users;
@@ -74,7 +75,7 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JSlider maxSlider = new JSlider();
 	private Users intoUser = null;
 	private final JLabel infoMessagesLbl = new JLabel("");
-
+	private List<List<Offer>> availableOffers;
 	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
 		getContentPane().setForeground(SystemColor.textHighlight);
 		intoUser = user;
@@ -123,12 +124,19 @@ public class QueryAvailabilityGUI extends JFrame {
 					 * if (intoUser != null) infoMessagesLbl.setText(""); } else { dispose(); }
 					 **/
 				} else {
-					JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
+					//JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
 					// ****Fase 3****
-					/**
-					 * Offer offer = availableOffers.get(0).get(table.getSelectedRow()); System.out.println("Selected Offer:" + offer.toString()); try {
-					 * facade.bookOffer(intoUser, "", offer); } catch (RemoteException e) { e.printStackTrace(); }
-					 **/
+
+					try {
+						int index = table.getSelectedRow();
+						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
+						JFrame ad = new BookRuralHouseGUI(offer, (Client)intoUser);
+						ad.setVisible(true);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						JOptionPane.showMessageDialog(null, "Select an Offer");
+					}
+					
+					
 				}
 			}
 		});

@@ -15,10 +15,11 @@ public class Offer implements Serializable {
 	private Booking booking; // That is: java.sql.Date is a subclass (or extends) java.util.Date
 	private RuralHouse ruralHouse;
 	private Vector<ExtraActivity> ExtraActivities;
-
+	private boolean choosed;
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
+		this.choosed = false;
 		this.price = price;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
@@ -29,12 +30,21 @@ public class Offer implements Serializable {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.price = price;
+		this.choosed = false;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
 		ExtraActivities = new Vector<ExtraActivity>();
 		for (ExtraActivity act : ExtraActi) {
 			ExtraActivities.add(act);
 		}
+	}
+
+	public boolean isChoosed() {
+		return choosed;
+	}
+
+	public void setChoosed(boolean choosed) {
+		this.choosed = choosed;
 	}
 
 	public Vector<ExtraActivity> getExtraActivities() {

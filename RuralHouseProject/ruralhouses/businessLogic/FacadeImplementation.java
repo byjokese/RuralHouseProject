@@ -183,4 +183,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
+	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException{
+		return dB4oManager.bookOffer(client, o, activieties, telephon);
+	}
+	
 }
