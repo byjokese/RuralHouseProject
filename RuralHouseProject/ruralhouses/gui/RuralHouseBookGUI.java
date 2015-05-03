@@ -27,9 +27,9 @@ import java.awt.event.ActionEvent;
 public class RuralHouseBookGUI extends JFrame {
 
 	private JPanel contentPane;
-	private DefaultListModel<String> availLis;
-	private DefaultListModel<String> selectes;
-	private ArrayList<ExtraActivity> selected;
+	private DefaultListModel<String> availLis = new DefaultListModel<String>();
+	private DefaultListModel<String> selectes = new DefaultListModel<String>();
+	private ArrayList<ExtraActivity> selected = new ArrayList<ExtraActivity>();
 	
 
 	/**
