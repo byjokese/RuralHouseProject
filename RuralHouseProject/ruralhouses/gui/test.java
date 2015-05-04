@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.http.HttpResponse;
@@ -37,17 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.*;
-import com.sun.javafx.fxml.LoadListener;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import domain.Offer;
-
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.BevelBorder;
 
 public class test extends JFrame {
 
