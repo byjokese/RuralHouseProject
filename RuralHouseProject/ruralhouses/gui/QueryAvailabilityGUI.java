@@ -53,8 +53,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -915,7 +915,7 @@ public class QueryAvailabilityGUI extends JFrame {
 
 			/* ____________________________________________MANUAL MODE__________________________________________________ */
 			// There's another way to do it with owm library.
-			HttpClient httpClient = HttpClientBuilder.create().build();
+			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 			JSONObject json = null;
 			try {
 				// Example URL: http://api.openweathermap.org/data/2.5/weather?q=London,uk
@@ -933,7 +933,7 @@ public class QueryAvailabilityGUI extends JFrame {
 			} catch (Exception ex) {
 
 			} finally {
-				httpClient.getConnectionManager().shutdown();
+				httpClient.close();
 				System.out.println("HTTP Client Clear and Down.");
 			}
 
@@ -947,7 +947,7 @@ public class QueryAvailabilityGUI extends JFrame {
 			browserView.setEnabled(false);
 			browserView.setDragAndDropEnabled(true);
 			jpanel.add(browserView);
-			browser.loadURL("file:///C:/Users/PcCom/Documents/GitHub/RuralHouseProject/RuralHouseProject/web/map.html");
+			browser.loadURL("file:///C:/Users/ivan/Documents/GitHub/RuralHouseProject/RuralHouseProject/web/map.html");
 			browserView.getBrowser().addLoadListener(new LoadAdapter() {
 				public void onFinishLoadingFrame(FinishLoadingEvent event) {
 					if (event.isMainFrame()) {
@@ -955,7 +955,7 @@ public class QueryAvailabilityGUI extends JFrame {
 							public void run() {
 								JSONObject json = null;
 								try {
-									HttpClient httpClient = HttpClientBuilder.create().build();
+									CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 									int number = offer.getRuralHouse().getHouseNumber();
 									String street = offer.getRuralHouse().getAddress();
 									String city = offer.getRuralHouse().getCity();
@@ -979,6 +979,7 @@ public class QueryAvailabilityGUI extends JFrame {
 											+ "),zoom: 7};map = new google.maps.Map(document.getElementById(\"map-canvas\"), mapOptions);");
 									browser.executeJavaScript("var myLatlng = new google.maps.LatLng(" + lat + "," + lng
 											+ ");var marker = new google.maps.Marker({position: myLatlng,map: map,title: 'RuralHouse'});");
+									httpClient.close();
 								} catch (ClientProtocolException e) {
 									System.out.println("Error Conecting with the Google Maps Geo API");
 									e.printStackTrace();
