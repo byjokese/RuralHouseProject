@@ -5,6 +5,7 @@ import java.io.File;
 // import java.util.Vector;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
@@ -467,6 +468,55 @@ public class DB4oManager {
 		listo.get(0).getAllOffers().remove(o);
 		db.store(listo.get(0));
 		db.delete(list.get(0));
+		db.commit();
+		return true;
+	}
+
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate)
+			throws RemoteException {
+		List<ExtraActivity> list = db.queryByExample(ex);
+		List<Owner> listo = db.queryByExample(owner);
+		list.get(0).setDescription(description);
+		list.get(0).setFecha(activityDate);
+		list.get(0).setLugar(place);
+		listo.get(0).updateExtraActivity(list.get(0), index);
+		db.store(list.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return list.get(0);
+	}
+
+	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException {
+		List<ExtraActivity> list = db.queryByExample(ex);
+		List<Owner> listo = db.queryByExample(owner);
+		listo.get(0).deleteExtraActivity(index);
+		for (RuralHouse rh : owner.getRuralHouses()) {
+			for (Offer o : rh.getAllOffers()) {
+				List<Offer> listito = db.queryByExample(o);
+				listito.get(0).getExtraActivities().remove(ex);
+				db.store(listito.get(0));
+			}
+		}
+		db.delete(list.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return true;
+	}
+
+	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException {
+		for (RuralHouse rh : owner.getRuralHouses()) {
+			List<RuralHouse> list = db.queryByExample(rh);
+			@SuppressWarnings("unchecked")
+			Vector<Offer> vector = (Vector<Offer>) rh.getAllOffers().clone();
+			for (Offer o : vector) {
+				if (o.getLastDay().compareTo(today) < 0) {
+					List<Offer> listo = db.queryByExample(o);
+					db.delete(listo.get(0));
+					list.get(0).getAllOffers().remove(o);
+				}
+			}
+			db.store(list.get(0));
+		}
 		db.commit();
 		return true;
 	}

@@ -63,7 +63,7 @@ public class CreateExtraActivityGUI extends JFrame {
 		contentPane.add(NametextField);
 		NametextField.setColumns(10);
 
-		JLabel lblLugar = new JLabel("Lugar:");
+		JLabel lblLugar = new JLabel("Place:");
 
 		lblLugar.setBounds(12, 102, 70, 15);
 		contentPane.add(lblLugar);

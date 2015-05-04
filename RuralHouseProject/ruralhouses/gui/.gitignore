@@ -103,6 +103,7 @@
 /EditMyOfferGUI$7.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI$1.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI.class
+<<<<<<< HEAD
 /ClientGUI$2.class
 /QualifyGUI.class
 /QualifyGUI$1.class
@@ -122,3 +123,12 @@
 /test$3$1.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI$2$1.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI$2.class
+=======
+/EditMyActivityGUI$1.class
+/EditMyActivityGUI$2.class
+/EditMyActivityGUI$3.class
+/EditMyActivityGUI$4.class
+/EditMyActivityGUI.class
+/OwnerGUI$5.class
+/EditMyOfferGUI$8.class
+>>>>>>> origin/feature/Ena
