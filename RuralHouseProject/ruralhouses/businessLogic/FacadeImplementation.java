@@ -200,6 +200,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.deletePassedOffers(owner, today);
 	}
 
+
 	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException {
 		book.getOffer().getRuralHouse().addComments(comment, (isAnonmous) ? "Anonimous" : client.getName());
 		List<Object> result = new ArrayList<Object>();
@@ -210,4 +211,9 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		result.add(dB4oManager.updateClient(client, client.getBooks(), client.addQualifiedBookings(book)));
 		return result;
 	}
+
+	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException{
+		return dB4oManager.bookOffer(client, o, activieties, telephon);
+	}
+
 }

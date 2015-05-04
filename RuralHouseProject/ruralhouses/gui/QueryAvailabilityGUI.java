@@ -63,10 +63,13 @@ import org.json.JSONObject;
 
 import businessLogic.ApplicationFacadeInterface;
 
+
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+
+import domain.Client;
 
 import domain.ExtraActivity;
 import domain.Offer;
@@ -152,15 +155,18 @@ public class QueryAvailabilityGUI extends JFrame {
 					 * if (intoUser != null) infoMessagesLbl.setText(""); } else { dispose(); }
 					 **/
 				} else {
-					JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
-					int index = table.getSelectedRow();
-					Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-					System.out.println("Selected Offer:" + offer.toString());
-					// ****Fase 3****
-					/**
-					 * Offer offer = availableOffers.get(0).get(table.getSelectedRow()); System.out.println("Selected Offer:" + offer.toString()); try {
-					 * facade.bookOffer(intoUser, "", offer); } catch (RemoteException e) { e.printStackTrace(); }
-					 **/
+
+
+					try {
+						int index = table.getSelectedRow();
+						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
+						JFrame ad = new RuralHouseBookGUI(offer, (Client)intoUser);
+						ad.setVisible(true);
+					} catch (ArrayIndexOutOfBoundsException e) {
+						JOptionPane.showMessageDialog(null, "Select an Offer");
+					}
+					
+					
 				}
 			}
 		});

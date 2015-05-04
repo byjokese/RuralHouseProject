@@ -77,6 +77,7 @@ public interface ApplicationFacadeInterface extends Remote {
 
 
 	public boolean deleteOffer(Offer o) throws RemoteException;
+
 	
 	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate) throws RemoteException;
 	
@@ -85,5 +86,8 @@ public interface ApplicationFacadeInterface extends Remote {
 	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException;
 
 	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException;
+
+	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException;
+
 
 }

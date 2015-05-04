@@ -101,6 +101,7 @@
 /QueryAvailabilityGUI$CellRender.class
 /EditMyOfferGUI$6.class
 /EditMyOfferGUI$7.class
+<<<<<<< HEAD
 /QueryAvailabilityGUI$AditionalOfferInfoGUI$1.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI.class
 <<<<<<< HEAD
@@ -132,3 +133,9 @@
 /OwnerGUI$5.class
 /EditMyOfferGUI$8.class
 >>>>>>> origin/feature/Ena
+=======
+/RuralHouseBookGUI$1.class
+/RuralHouseBookGUI.class
+/RuralHouseBookGUI$2.class
+/RuralHouseBookGUI$3.class
+>>>>>>> origin/djbienve

@@ -123,12 +123,14 @@ public class DB4oManager {
 			Users josean = addUserToDataBase("Josean", "JoseanLog", "passJosean", true, "1234-5678-12-788589639");
 
 			try {
+
 				rhJ = storeRuralhouse(((Owner) jon), "jon house", "Tolosa", "Rondilla Kalea", 15);
 				storeRuralhouse(((Owner) jon), "Etxetxikia", "Tolosa", "San Joan Kalea", 10);
 				rhJe = storeRuralhouse(((Owner) jesus), "Udaletxea", "Tolosa", "Beotibar Kalea", 3);
 				storeRuralhouse(((Owner) josean), "Gaztetxea", "Renteria", "Geltokiko Kalea", 12);
 				rhB1 = storeRuralhouse(((Owner) bienve), "CasaBienve", "Tolosa", "Letxuga Kalea", 9);
 				rjB2 = storeRuralhouse((Owner) bienve, "Another house", "tolosa", "Ibaiondo Kalea", 12);
+
 			} catch (Exception e) {
 				System.out.println("Error at initialize DataBase on: ./storeRuralHouses " + e.getMessage());
 			}
@@ -520,4 +522,27 @@ public class DB4oManager {
 		db.commit();
 		return true;
 	}
+
+	public Booking bookOffer(Client client, Offer o, ArrayList<ExtraActivity> activieties, String telephon) throws RemoteException {
+		List<Offer> list = db.queryByExample(o);
+
+		if (!list.isEmpty()) {
+			list.get(0).setChoosed(true);
+			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0));
+
+			List<Client> listc = db.queryByExample(client);
+			if (!listc.isEmpty()) {
+				listc.get(0).addBook(book);
+				db.store(list.get(0));
+				db.store(book);
+				db.store(listc.get(0));
+				db.commit();
+				return book;
+			}
+
+		}
+
+		return null;
+	}
+
 }
