@@ -155,7 +155,7 @@ public class QueryAvailabilityGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Not Implemented yet! -- Booking > Fase 3");
 					int index = table.getSelectedRow();
 					Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-					 System.out.println("Selected Offer:" + offer.toString());
+					System.out.println("Selected Offer:" + offer.toString());
 					// ****Fase 3****
 					/**
 					 * Offer offer = availableOffers.get(0).get(table.getSelectedRow()); System.out.println("Selected Offer:" + offer.toString()); try {
@@ -492,7 +492,6 @@ public class QueryAvailabilityGUI extends JFrame {
 		 * Create the frame.
 		 */
 
-		@SuppressWarnings("deprecation")
 		public AditionalOfferInfoGUI(Offer offer) throws IOException {
 
 			// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -923,7 +922,8 @@ public class QueryAvailabilityGUI extends JFrame {
 				// Example URL: http://api.openweathermap.org/data/2.5/weather?q=London,uk
 				// APPID=880c1d9d2518e01b6dfe8175ec6c4196
 				// &units=metric
-				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + offer.getRuralHouse().getCity() + ",Es&cnt=3&mode=json&units=metric");
+				HttpGet request = new HttpGet("http://api.openweathermap.org/data/2.5/forecast/daily?q=" + offer.getRuralHouse().getCity()
+						+ ",Es&cnt=3&mode=json&units=metric");
 				request.addHeader("x-api-key:", "880c1d9d2518e01b6dfe8175ec6c4196");
 				HttpResponse response = httpClient.execute(request);
 				String json_string = EntityUtils.toString(response.getEntity());
