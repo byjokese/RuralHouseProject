@@ -2,6 +2,7 @@ package domain;
 
 import java.io.*;
 import java.util.Date;
+import java.util.Vector;
 
 
 @SuppressWarnings("serial")
@@ -11,6 +12,7 @@ public class Booking implements Serializable {
 	private Date bookingDate;
 	private String telephone;
 	private Offer offer;
+	private Vector<ExtraActivity> activieties;
 	
 	public Booking() {
 	}
@@ -137,6 +139,14 @@ public class Booking implements Serializable {
 	 */
 	public boolean isPaid() {
 		return isPaid;
+	}
+
+	public Vector<ExtraActivity> getActivieties() {
+		return activieties;
+	}
+
+	public void setActivieties(Vector<ExtraActivity> activieties) {
+		this.activieties = activieties;
 	}
 	
 }

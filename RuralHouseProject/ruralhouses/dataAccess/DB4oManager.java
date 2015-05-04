@@ -476,8 +476,9 @@ public class DB4oManager {
 
 	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate)
 			throws RemoteException {
-		List<ExtraActivity> list = db.queryByExample(ex);
-		List<Owner> listo = db.queryByExample(owner);
+		List<ExtraActivity> list = db.queryByExample(new ExtraActivity(new Owner(null, owner.getUsername(), null, true, true, null), ex.getNombre(), ex
+				.getLugar(), ex.getFecha(), null));
+		List<Owner> listo = db.queryByExample(new Owner(null, owner.getUsername(), null, true, true, null));
 		list.get(0).setDescription(description);
 		list.get(0).setFecha(activityDate);
 		list.get(0).setLugar(place);
@@ -505,15 +506,18 @@ public class DB4oManager {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException {
 		for (RuralHouse rh : owner.getRuralHouses()) {
-			List<RuralHouse> list = db.queryByExample(rh);
-			@SuppressWarnings("unchecked")
+			List<RuralHouse> list = db.queryByExample(new RuralHouse(0, null, null, null, null, rh.getNumber()));
 			Vector<Offer> vector = (Vector<Offer>) rh.getAllOffers().clone();
 			for (Offer o : vector) {
+				System.out.println("Today: " + today);
+				System.out.println("Offer: " + o.getLastDay());
 				if (o.getLastDay().compareTo(today) < 0) {
-					List<Offer> listo = db.queryByExample(o);
+					List<Offer> listo = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 					db.delete(listo.get(0));
+					System.out.println(list.get(0));
 					list.get(0).getAllOffers().remove(o);
 				}
 			}
@@ -523,25 +527,27 @@ public class DB4oManager {
 		return true;
 	}
 
-	public Booking bookOffer(Client client, Offer o, ArrayList<ExtraActivity> activieties, String telephon) throws RemoteException {
-		List<Offer> list = db.queryByExample(o);
-
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
+		System.out.println("Book offer");
+		System.out.println(client.getUsername());
+		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		if (!list.isEmpty()) {
-			list.get(0).setChoosed(true);
+			list.get(0).setReserved(true);
 			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0));
-
-			List<Client> listc = db.queryByExample(client);
+			o.setReservedActivities(activieties);
+			book.setActivieties(activieties);
+			List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
 			if (!listc.isEmpty()) {
+				System.out.println("Client found");
 				listc.get(0).addBook(book);
-				db.store(list.get(0));
+				db.store(list.get(0)); // offer
 				db.store(book);
+				db.store(o);
 				db.store(listc.get(0));
 				db.commit();
 				return book;
 			}
-
 		}
-
 		return null;
 	}
 

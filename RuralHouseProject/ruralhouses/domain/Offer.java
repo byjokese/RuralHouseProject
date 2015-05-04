@@ -14,45 +14,48 @@ public class Offer implements Serializable {
 	private float price; // This is coherent because objects of java.sql.Date are objects of java.util.Date
 	private Booking booking; // That is: java.sql.Date is a subclass (or extends) java.util.Date
 	private RuralHouse ruralHouse;
-	private Vector<ExtraActivity> ExtraActivities;
-	private boolean choosed;
+	private Vector<ExtraActivity> extraActivities;
+	private Vector<ExtraActivity> reservedActivities;
+	private boolean isRerserved;
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
-		this.choosed = false;
+		this.isRerserved = false;
 		this.price = price;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
-		ExtraActivities = new Vector<ExtraActivity>();
+		extraActivities = new Vector<ExtraActivity>();
+		this.isRerserved = false;
 	}
 
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.price = price;
-		this.choosed = false;
+		this.isRerserved = false;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
-		ExtraActivities = new Vector<ExtraActivity>();
+		extraActivities = new Vector<ExtraActivity>();
 		for (ExtraActivity act : ExtraActi) {
-			ExtraActivities.add(act);
+			extraActivities.add(act);
 		}
+		this.isRerserved = false;
 	}
 
-	public boolean isChoosed() {
-		return choosed;
+	public boolean isRerserved() {
+		return isRerserved;
 	}
 
-	public void setChoosed(boolean choosed) {
-		this.choosed = choosed;
+	public void setReserved(boolean choosed) {
+		this.isRerserved = choosed;
 	}
 
 	public Vector<ExtraActivity> getExtraActivities() {
-		return ExtraActivities;
+		return extraActivities;
 	}
 
 	public void setExtraActivities(Vector<ExtraActivity> extraActivities) {
-		ExtraActivities = extraActivities;
+		extraActivities = extraActivities;
 	}
 
 	/**
@@ -182,5 +185,13 @@ public class Offer implements Serializable {
 
 	public String toString() {
 		return offerNumber + ";" + firstDay.toString() + ";" + lastDay.toString() + ";" + price + ";" + ruralHouse;
+	}
+
+	public Vector<ExtraActivity> getReservedActivities() {
+		return reservedActivities;
+	}
+
+	public void setReservedActivities(Vector<ExtraActivity> reservedActivities) {
+		this.reservedActivities = reservedActivities;
 	}
 }

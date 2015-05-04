@@ -63,7 +63,6 @@ import org.json.JSONObject;
 
 import businessLogic.ApplicationFacadeInterface;
 
-
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
@@ -156,17 +155,14 @@ public class QueryAvailabilityGUI extends JFrame {
 					 **/
 				} else {
 
-
 					try {
 						int index = table.getSelectedRow();
 						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-						JFrame ad = new RuralHouseBookGUI(offer, (Client)intoUser);
+						JFrame ad = new RuralHouseBookGUI(offer, (Client) intoUser);
 						ad.setVisible(true);
 					} catch (ArrayIndexOutOfBoundsException e) {
 						JOptionPane.showMessageDialog(null, "Select an Offer");
 					}
-					
-					
 				}
 			}
 		});

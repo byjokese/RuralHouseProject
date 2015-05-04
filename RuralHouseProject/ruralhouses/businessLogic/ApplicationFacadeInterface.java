@@ -72,22 +72,19 @@ public interface ApplicationFacadeInterface extends Remote {
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException;
 
-
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists;
-
 
 	public boolean deleteOffer(Offer o) throws RemoteException;
 
-	
-	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate) throws RemoteException;
-	
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate)
+			throws RemoteException;
+
 	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException;
-	
+
 	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException;
 
 	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException;
 
-	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException;
-
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException;
 
 }

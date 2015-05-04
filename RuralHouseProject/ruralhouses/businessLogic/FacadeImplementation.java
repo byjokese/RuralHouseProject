@@ -162,7 +162,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		List<Offer> requestedOffers = new Vector<Offer>();
 		List<Offer> possibleOffers = new Vector<Offer>();
 		for (Offer offer : offers) {
-			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)) { // City Filter
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)&& !offer.isRerserved()) { // City Filter
 				if (offer.getPrice() >= minPrice && offer.getPrice() <= maxPrice && lastDate.compareTo(offer.getLastDay()) == 0) { // Price & last date filter
 					requestedOffers.add(offer);
 				} else if (offer.getPrice() < minPrice || lastDate.compareTo(offer.getLastDay()) != 0 || lastDate.compareTo(offer.getLastDay()) == 0) {
@@ -187,19 +187,19 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
 		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
-	
-	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate) throws RemoteException {
+
+	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate)
+			throws RemoteException {
 		return dB4oManager.updateExtraActivity(ex, owner, description, index, place, activityDate);
 	}
-	
-	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException{
+
+	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException {
 		return dB4oManager.deleteExtraActivity(ex, owner, index);
 	}
-	
-	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException{
+
+	public boolean deletePassedOffers(Owner owner, Date today) throws RemoteException {
 		return dB4oManager.deletePassedOffers(owner, today);
 	}
-
 
 	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException {
 		book.getOffer().getRuralHouse().addComments(comment, (isAnonmous) ? "Anonimous" : client.getName());
@@ -212,7 +212,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return result;
 	}
 
-	public Booking bookOffer(Client client,Offer o,ArrayList<ExtraActivity> activieties,String telephon) throws RemoteException{
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
 		return dB4oManager.bookOffer(client, o, activieties, telephon);
 	}
 
