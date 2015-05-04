@@ -124,12 +124,11 @@ public class EditMyHouseGUI extends JFrame {
 				RuralHouse rh = (RuralHouse) list.getSelectedValue();
 				if (rh != null) {
 					String description = textArea.getText();
-					int index = list.getSelectedIndex();
 					if (description.equals("")) {
 						JOptionPane.showMessageDialog(Savebtn, "You have to insert a description");
 					} else {
 						try {
-							facade.updateRuralHouse(rh, owner, description, index);
+							facade.updateRuralHouse(rh, owner, description, rh.getMark(), rh.getComments());
 							JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 						} catch (HeadlessException e1) {
 							e1.printStackTrace();
@@ -177,7 +176,7 @@ public class EditMyHouseGUI extends JFrame {
 		});
 		Deletebtn.setBounds(316, 220, 108, 30);
 		contentPane.add(Deletebtn);
-		
+
 		JButton closebtn = new JButton("Close");
 		closebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

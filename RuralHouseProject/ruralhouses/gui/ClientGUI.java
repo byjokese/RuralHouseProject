@@ -26,7 +26,7 @@ public class ClientGUI extends JFrame {
 	public ClientGUI(Client client) {
 		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 307, 288);
+		setBounds(100, 100, 307, 243);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,5 +59,16 @@ public class ClientGUI extends JFrame {
 		JButton editBookingBtn = new JButton("Edit my Bookings");
 		editBookingBtn.setBounds(10, 93, 268, 43);
 		contentPane.add(editBookingBtn);
+		
+		JButton qualifyBtn = new JButton("Qualify My Books");
+		qualifyBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame q = new QualifyGUI(client);
+				q.setVisible(true);
+				
+			}
+		});
+		qualifyBtn.setBounds(10, 147, 271, 43);
+		contentPane.add(qualifyBtn);
 	}
 }

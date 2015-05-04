@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import domain.Booking;
+import domain.Client;
 import domain.ExtraActivity;
 import domain.Offer;
 import domain.Owner;
@@ -53,7 +54,12 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException;
 
-	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int index) throws RemoteException;
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException;
+
+	public Owner updateOwner(Owner owner, String bankAccount, Vector<RuralHouse> ruralHouses, Vector<ExtraActivity> extraActivities, int mark)
+			throws RemoteException;
+
+	public Client updateClient(Client client, Vector<Booking> books, Vector<Booking> qualifiedBookings) throws RemoteException;
 
 	public boolean deleteRuralHouse(RuralHouse rh, Owner owner, int index) throws RemoteException;
 
@@ -65,11 +71,11 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException;
-	
+
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists;
 
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException;
-
 	public boolean deleteOffer(Offer o) throws RemoteException;
+
+	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException;
 
 }

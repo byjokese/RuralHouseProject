@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
-import javax.sql.rowset.Joinable;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,8 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import java.lang.Thread;
 
 import businessLogic.ApplicationFacadeInterface;
 
@@ -182,21 +179,6 @@ public class EditMyOfferGUI extends JFrame {
 
 						Offer o = offerArray.get(index);
 
-						System.out.println("___________");
-						System.out.println("Thread: " + Thread.currentThread().getId());
-						System.out.println("Size: " + offerArray.get(index).getExtraActivities().size());
-						System.out.println("index:" + index);
-						System.out.println("Array: " + offerArray);
-						System.out.println("List: " + offerlist);
-						System.out.println("AllOffers: ");
-						for (Offer of : offerArray) {
-							System.out.println(of);
-						}
-						System.out.println("Activities: ");
-						for (ExtraActivity a : offerArray.get(index).getExtraActivities()) {
-							System.out.println(a);
-						}
-
 						FirstDaycalendar.getDayChooser().setDay(o.getFirstDay().getDay());
 						FirstDaycalendar.getMonthChooser().setMonth(o.getFirstDay().getMonth());
 						FirstDaycalendar.getYearChooser().setYear(o.getFirstDay().getYear());
@@ -279,14 +261,15 @@ public class EditMyOfferGUI extends JFrame {
 							} else {
 								try {
 									RuralHouse rh = getHouse(o);
-									System.out.println(selectedActivitiesVector);
-									Offer offer = facade.updateOffer(o, rh, price, firstDay, lastDay, selectedActivitiesVector);
+									Offer offer = facade.updateOffer(o, rh, price, firstDay, lastDay, new Vector<ExtraActivity>(selectedActivitiesVector));
+									System.out.println(offer.getExtraActivities());
 									if (offer != null) {
 										offerlist.clearSelection();
 										availableActivitieslist.clearSelection();
 										selectedActivitiesVector.clear();
 										selectedDataString.clear();
-										updateOffers();
+										updateOffers(offer, index);
+										System.out.println(offerArray.toString());
 										JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 									}
 								} catch (HeadlessException e1) {
@@ -371,10 +354,6 @@ public class EditMyOfferGUI extends JFrame {
 		return lista.contains(nuevo);
 	}
 
-	private ArrayList<Offer> getOffers() {
-		return this.offerArray;
-	}
-
 	public void addActivity(ExtraActivity extra) throws RemoteException {
 		availableDataString.addElement(extra.getNombre() + " || " + extra.getLugar() + " || " + extra.getFecha());
 		availableActivitieslist.setModel(availableDataString);
@@ -389,13 +368,11 @@ public class EditMyOfferGUI extends JFrame {
 		return null;
 	}
 
-	private void updateOffers() throws RemoteException {
-		offerArray.clear();
-		offersDataString.clear();
-		for (Offer o : facade.getUpdatedOffers(ownerI)) {
-			offerArray.add(o);
-			offersDataString.addElement(new String(o.getOfferNumber() + " || " + o.getPrice()));
-		}
+	private void updateOffers(Offer offer, int index) throws RemoteException {
+		offerArray.remove(index);
+		offerArray.add(index, offer);
+		offersDataString.remove(index);
+		offersDataString.add(index, offer.getOfferNumber() + " || " + offer.getPrice());
 	}
 
 	private Date trim(Date date) {
