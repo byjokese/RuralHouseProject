@@ -31,6 +31,7 @@ import exceptions.OverlappingOfferExists;
 
 public class DB4oManager {
 
+	//Hay que cambiar el mail en las llamadas a los constructores, yo he puesto un Sring "a" para que no de error
 	private static ObjectContainer db;
 	private static EmbeddedConfiguration configuration;
 	private static ClientConfiguration configurationCS;
@@ -159,8 +160,10 @@ public class DB4oManager {
 			RuralHouse rhhh = updateRuralHouse(of.getRuralHouse(), of.getRuralHouse().getOwner(), of.getRuralHouse().getDescription(), 4, of.getRuralHouse()
 					.getComments());
 			of.setRuralHouse(rhhh);
-			Booking bo = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of);
-			Booking bo1 = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of1);
+			Date date = new Date(System.currentTimeMillis());
+			Date date2 = new Date(System.currentTimeMillis());
+			Booking bo = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of, date, "a");//!!!!!!!!!!!!!!!
+			Booking bo1 = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of1, date2, "a");//!!!!!!!!!!!!!!!!!!
 			db.store(bo1);
 			db.store(bo);
 			db.commit();
@@ -216,7 +219,8 @@ public class DB4oManager {
 	 * @return a book
 	 */
 	public Booking createBooking(Offer offer, String telephone) {
-		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer);
+		Date date = new Date(System.currentTimeMillis());
+		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer, date, "a"); //!!!!!!!!!!!!!!!!!!!!
 		db.store(book);
 		db.commit();
 		return book;
@@ -533,7 +537,8 @@ public class DB4oManager {
 		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		if (!list.isEmpty()) {
 			list.get(0).setReserved(true);
-			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0));
+			Date date = new Date(System.currentTimeMillis());
+			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0), date, "a"); //!!!!!!!!!!!!!!!!!!!!
 			o.setReservedActivities(activieties);
 			book.setActivieties(activieties);
 			List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
@@ -549,6 +554,34 @@ public class DB4oManager {
 			}
 		}
 		return null;
+	}
+	
+	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException{
+		List<Booking> list = db.queryByExample(new Booking(bo.getBookingNumber(), null, null, null, null));
+		List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
+		List<Offer> listo = db.queryByExample(new Offer(list.get(0).getOffer().getOfferNumber(), null, null, null, 0));
+		list.get(0).setTelephone(telephone);
+		list.get(0).setEmail(email);
+		listc.get(0).updateBooking(bo, list.get(0));
+		listo.get(0).setBooking(list.get(0));
+		db.store(list.get(0));
+		db.store(listc.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		return list.get(0);
+	}
+	
+	public boolean cancelBooking(Booking bo, Client client) throws RemoteException{
+		List<Booking> list = db.queryByExample(new Booking(bo.getBookingNumber(), null, null, null, null));
+		List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
+		List<Offer> listo = db.queryByExample(new Offer(list.get(0).getOffer().getOfferNumber(), null, null, null, 0));
+		listo.get(0).cancelBooking();
+		listc.get(0).cancelBooking(list.get(0));
+		db.store(listc.get(0));
+		db.store(listo.get(0));
+		db.delete(list.get(0));
+		db.commit();
+		return true;
 	}
 
 }

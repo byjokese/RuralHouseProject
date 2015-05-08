@@ -2,6 +2,7 @@ package domain;
 
 //prueba unoss
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Vector;
 
 public class Client extends Users implements Serializable {
@@ -27,8 +28,9 @@ public class Client extends Users implements Serializable {
 		return this.books;
 	}
 
-	public void addBook(int bookingNumber, String telephone, Offer offer) {
-		Booking book = new Booking(bookingNumber, telephone, offer);
+	public void addBook(int bookingNumber, String telephone, Offer offer, String email) {
+		Date date = new Date(System.currentTimeMillis());
+		Booking book = new Booking(bookingNumber, telephone, offer, date, email);
 		this.books.add(book);
 	}
 
@@ -51,6 +53,18 @@ public class Client extends Users implements Serializable {
 
 	public void setQualifiedBookings(Vector<Booking> qualifiedBookings) {
 		this.qualifiedBookings = qualifiedBookings;
+	}
+	
+	public Booking updateBooking(Booking previous, Booking actual){
+		int index = books.indexOf(previous);
+		books.remove(previous);
+		books.add(index, actual);
+		return actual;
+	}
+	
+	public boolean cancelBooking(Booking bo){
+		books.remove(bo);
+		return true;
 	}
 
 }

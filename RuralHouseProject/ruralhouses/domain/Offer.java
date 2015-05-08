@@ -16,38 +16,36 @@ public class Offer implements Serializable {
 	private RuralHouse ruralHouse;
 	private Vector<ExtraActivity> extraActivities;
 	private Vector<ExtraActivity> reservedActivities;
-	private boolean isRerserved;
+	private boolean isReserved;
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
-		this.isRerserved = false;
+		this.isReserved = false;
 		this.price = price;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
 		extraActivities = new Vector<ExtraActivity>();
-		this.isRerserved = false;
 	}
 
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.price = price;
-		this.isRerserved = false;
+		this.isReserved = false;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
 		extraActivities = new Vector<ExtraActivity>();
 		for (ExtraActivity act : ExtraActi) {
 			extraActivities.add(act);
 		}
-		this.isRerserved = false;
 	}
 
-	public boolean isRerserved() {
-		return isRerserved;
+	public boolean isReserved() {
+		return isReserved;
 	}
 
 	public void setReserved(boolean choosed) {
-		this.isRerserved = choosed;
+		this.isReserved = choosed;
 	}
 
 	public Vector<ExtraActivity> getExtraActivities() {
@@ -55,7 +53,7 @@ public class Offer implements Serializable {
 	}
 
 	public void setExtraActivities(Vector<ExtraActivity> extraActivities) {
-		extraActivities = extraActivities;
+		this.extraActivities = extraActivities;
 	}
 
 	/**
@@ -178,8 +176,9 @@ public class Offer implements Serializable {
 	 *            day, last day, house number and telephone
 	 * @return a book
 	 */
-	public Booking createBooking(int numBooking, String bookTelephoneNumber) {
-		return booking = new Booking(numBooking, bookTelephoneNumber, this);
+	public Booking createBooking(int numBooking, String bookTelephoneNumber, String email) {
+		Date date = new Date(System.currentTimeMillis());
+		return booking = new Booking(numBooking, bookTelephoneNumber, this, date, email);
 
 	}
 
@@ -194,4 +193,11 @@ public class Offer implements Serializable {
 	public void setReservedActivities(Vector<ExtraActivity> reservedActivities) {
 		this.reservedActivities = reservedActivities;
 	}
+	
+	public boolean cancelBooking(){
+		this.booking = null;
+		this.isReserved = false;
+		return true;
+	}
+	
 }

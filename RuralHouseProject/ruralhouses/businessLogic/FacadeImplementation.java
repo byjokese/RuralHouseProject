@@ -162,7 +162,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		List<Offer> requestedOffers = new Vector<Offer>();
 		List<Offer> possibleOffers = new Vector<Offer>();
 		for (Offer offer : offers) {
-			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)&& !offer.isRerserved()) { // City Filter
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)&& !offer.isReserved()) { // City Filter
 				if (offer.getPrice() >= minPrice && offer.getPrice() <= maxPrice && lastDate.compareTo(offer.getLastDay()) == 0) { // Price & last date filter
 					requestedOffers.add(offer);
 				} else if (offer.getPrice() < minPrice || lastDate.compareTo(offer.getLastDay()) != 0 || lastDate.compareTo(offer.getLastDay()) == 0) {
@@ -214,6 +214,14 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 
 	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
 		return dB4oManager.bookOffer(client, o, activieties, telephon);
+	}
+	
+	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException {
+		return dB4oManager.updateBooking(bo, client, telephone, email);
+	}
+	
+	public boolean cancelBooking(Booking bo, Client client) throws RemoteException{
+		return dB4oManager.cancelBooking(bo, client);
 	}
 
 }
