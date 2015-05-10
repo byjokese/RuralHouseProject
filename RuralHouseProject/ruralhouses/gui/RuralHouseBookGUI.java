@@ -28,6 +28,7 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 
 public class RuralHouseBookGUI extends JFrame {
 
@@ -35,6 +36,7 @@ public class RuralHouseBookGUI extends JFrame {
 	private DefaultListModel<String> availLis = new DefaultListModel<String>();
 	private DefaultListModel<String> selectes = new DefaultListModel<String>();
 	private Vector<ExtraActivity> selected = new Vector<ExtraActivity>();
+	private JTextField mailtextField;
 
 	/**
 	 * Create the frame.
@@ -124,7 +126,7 @@ public class RuralHouseBookGUI extends JFrame {
 		contentPane.add(button);
 
 		JList<String> selectedList = new JList<String>();
-		selectedList.setBounds(303, 324, 388, 144);
+		selectedList.setBounds(303, 351, 388, 144);
 		selectedList.setModel(selectes);
 		contentPane.add(selectedList);
 
@@ -151,19 +153,24 @@ public class RuralHouseBookGUI extends JFrame {
 				if (formattedTextField.getText().compareToIgnoreCase("000-000-000") == 0) {
 					JOptionPane.showMessageDialog(formattedTextField, "Wrong phone Number");
 				} else {
-					try {
-						System.out.println(c.getUsername());
-						facade.bookOffer(c, o, selected, formattedTextField.getText());
-						JOptionPane.showMessageDialog(null, "Booking Made.");
-						dispose();
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
+					if(isValidEmailAddress(mailtextField.getText())){
+						try {
+//							System.out.println(c.getUsername());
+							facade.bookOffer(c, o, selected, formattedTextField.getText(),mailtextField.getText());
+							JOptionPane.showMessageDialog(null, "Booking Made.");
+							dispose();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}else{
+						JOptionPane.showMessageDialog(formattedTextField, "Invalid Mail Adress..");
+						
 					}
 
 				}
 			}
 		});
-		btnNewButton.setBounds(382, 496, 205, 58);
+		btnNewButton.setBounds(382, 517, 205, 58);
 		contentPane.add(btnNewButton);
 
 		JLabel lblBookHouse = new JLabel("Book House");
@@ -175,5 +182,22 @@ public class RuralHouseBookGUI extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 26, 721, 15);
 		contentPane.add(separator);
+		
+		JLabel lblMail = new JLabel("Mail: ");
+		lblMail.setBounds(246, 301, 115, 15);
+		contentPane.add(lblMail);
+		
+		mailtextField = new JTextField();
+		mailtextField.setBounds(432, 286, 276, 29);
+		contentPane.add(mailtextField);
+		mailtextField.setColumns(10);
 	}
+	
+	 public boolean isValidEmailAddress(String email) {
+	     String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+	     java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+	     java.util.regex.Matcher m = p.matcher(email);
+	     return m.matches();
+	}
+	
 }

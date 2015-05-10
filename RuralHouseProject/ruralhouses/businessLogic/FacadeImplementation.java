@@ -212,8 +212,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return result;
 	}
 
-	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
-		return dB4oManager.bookOffer(client, o, activieties, telephon);
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon, String mail) throws RemoteException {
+		return dB4oManager.bookOffer(client, o, activieties, telephon,mail);
 	}
 	
 	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException {

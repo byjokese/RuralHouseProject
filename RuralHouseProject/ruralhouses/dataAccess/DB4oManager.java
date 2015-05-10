@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
+import APIS.Correo;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -531,14 +533,14 @@ public class DB4oManager {
 		return true;
 	}
 
-	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon,String mail) throws RemoteException {
 		System.out.println("Book offer");
 		System.out.println(client.getUsername());
 		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		if (!list.isEmpty()) {
 			list.get(0).setReserved(true);
 			Date date = new Date(System.currentTimeMillis());
-			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0), date, "a"); //!!!!!!!!!!!!!!!!!!!!
+			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0), date, mail); //!!!!!!!!!!!!!!!!!!!!
 			o.setReservedActivities(activieties);
 			book.setActivieties(activieties);
 			List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
@@ -550,6 +552,7 @@ public class DB4oManager {
 				db.store(o);
 				db.store(listc.get(0));
 				db.commit();
+				Notification(listc.get(0), book, "Booking Made");
 				return book;
 			}
 		}
@@ -568,6 +571,7 @@ public class DB4oManager {
 		db.store(listc.get(0));
 		db.store(listo.get(0));
 		db.commit();
+		Notification(listc.get(0), list.get(0), "Booking Updated");
 		return list.get(0);
 	}
 	
@@ -581,7 +585,29 @@ public class DB4oManager {
 		db.store(listo.get(0));
 		db.delete(list.get(0));
 		db.commit();
+		Notification(listc.get(0), list.get(0), "Booking Canceled");
 		return true;
+	}
+	
+	private void Notification(Client u, Booking b,String subj){
+		Correo mail = new Correo();
+		String contenido = "<!DOCTYPE html><html><head>	<title>Rural House System</title></head>"
+				+ "<body><h1><b><a href='bytebreakers.esy.es'><img src='https://gitlab.com/uploads/group/avatar/79542/byte_breakers_logo.png' "
+				+ "height='150' width='200'/></a>Rural House System Notification: </b></h1> <hr>"
+				+ "<p> Sr/a: "
+				+ " <b>"
+				+ u.getName()
+				+ "</b> le enviaamos este correo para notificarle de los cambios realizados en su reserva.<br />"
+				+ "cullos datos son los siguientes:</p><p><b> Numero de Reserva : "+ b.getBookingNumber()+ "<br> "
+						+ "Fecha de Reserva: " + b.getBookingDate().toString() + "<br> Precio: "+ b.getPrice()
+				+ "</b></p>"
+				
+				+ "<h3><b><br>Aviso Legal:  </b></h3>"
+				+ "<p> Este mensaje va dirigido exclusivamente a su destinatario y es confidencial. Si por "
+				+ "error lo recibe, por favor, comuníquelo por teléfono (902001110) y elimínelo. Cualquier uso"
+				+ " de este mensaje o sus anexos sin autorización está prohibido por la Ley.<p></body></html>";
+		mail.SentMail(b.getEmail(), subj, contenido);
+						
 	}
 
 }
