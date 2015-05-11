@@ -951,7 +951,7 @@ public class QueryAvailabilityGUI extends JFrame {
 			browserView.setEnabled(false);
 			browserView.setDragAndDropEnabled(true);
 			jpanel.add(browserView);
-			browser.loadURL("file:///C:/Users/ivan/Documents/GitHub/RuralHouseProject/RuralHouseProject/web/map.html");
+			browser.loadURL("file:///C:\\Users\\JoseAugusto\\Documents\\Universidad\\GIT\\RuralHouseProject\\web\\map.html");
 			browserView.getBrowser().addLoadListener(new LoadAdapter() {
 				public void onFinishLoadingFrame(FinishLoadingEvent event) {
 					if (event.isMainFrame()) {

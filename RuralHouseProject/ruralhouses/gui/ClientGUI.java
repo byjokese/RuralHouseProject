@@ -125,7 +125,15 @@ public class ClientGUI extends JFrame {
 		contentPane.add(lookOffersBtn);
 
 		JButton editBookingBtn = new JButton("Edit my Bookings");
-		editBookingBtn.setBounds(271, 119, 260, 43);
+
+		editBookingBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame q = new EditMyBookingGUI(client);
+				q.setVisible(true);	
+			}
+		});
+		editBookingBtn.setBounds(10, 93, 268, 43);
+
 		contentPane.add(editBookingBtn);
 
 		JButton qualifyBtn = new JButton("Qualify My Books");

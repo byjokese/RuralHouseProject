@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import APIS.Correo;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -34,6 +36,7 @@ import exceptions.OverlappingOfferExists;
 
 public class DB4oManager {
 
+	//Hay que cambiar el mail en las llamadas a los constructores, yo he puesto un Sring "a" para que no de error
 	private static ObjectContainer db;
 	private static EmbeddedConfiguration configuration;
 	private static ClientConfiguration configurationCS;
@@ -173,9 +176,12 @@ public class DB4oManager {
 			RuralHouse rhhh = updateRuralHouse(of.getRuralHouse(), of.getRuralHouse().getOwner(), of.getRuralHouse().getDescription(), 4, of.getRuralHouse()
 					.getComments());
 			of.setRuralHouse(rhhh);
-			Booking bo = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of);
-			Booking bo1 = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of1);
-			bo.setActivieties(of.getExtraActivities());
+
+			Date date = new Date(System.currentTimeMillis());
+			Date date2 = new Date(System.currentTimeMillis());
+			Booking bo = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of, date, "a");//!!!!!!!!!!!!!!!
+			Booking bo1 = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of1, date2, "a");//!!!!!!!!!!!!!!!!!!
+
 			db.store(bo1);
 			db.store(bo);
 			db.commit();
@@ -235,7 +241,8 @@ public class DB4oManager {
 	 * @return a book
 	 */
 	public Booking createBooking(Offer offer, String telephone) {
-		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer);
+		Date date = new Date(System.currentTimeMillis());
+		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer, date, "a"); //!!!!!!!!!!!!!!!!!!!!
 		db.store(book);
 		db.commit();
 		LOGGER.info("New Booking has been Created: " + book.toString());
@@ -561,11 +568,18 @@ public class DB4oManager {
 		return true;
 	}
 
+<<<<<<< HEAD
 	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
+=======
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon,String mail) throws RemoteException {
+		System.out.println("Book offer");
+		System.out.println(client.getUsername());
+>>>>>>> origin/djbienve
 		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		if (!list.isEmpty()) {
 			list.get(0).setReserved(true);
-			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0));
+			Date date = new Date(System.currentTimeMillis());
+			Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephon, list.get(0), date, mail); //!!!!!!!!!!!!!!!!!!!!
 			o.setReservedActivities(activieties);
 			book.setActivieties(activieties);
 			List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
@@ -576,11 +590,66 @@ public class DB4oManager {
 				db.store(o);
 				db.store(listc.get(0));
 				db.commit();
+<<<<<<< HEAD
 				LOGGER.info("An Offer has been BOOKED: " + list.get(0) + " BY " + listc.get(0).getUsername());
+=======
+				Notification(listc.get(0), book, "Booking Made");
+>>>>>>> origin/djbienve
 				return book;
 			}
 		}
 		return null;
+	}
+	
+	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException{
+		List<Booking> list = db.queryByExample(new Booking(bo.getBookingNumber(), null, null, null, null));
+		List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
+		List<Offer> listo = db.queryByExample(new Offer(list.get(0).getOffer().getOfferNumber(), null, null, null, 0));
+		list.get(0).setTelephone(telephone);
+		list.get(0).setEmail(email);
+		listc.get(0).updateBooking(bo, list.get(0));
+		listo.get(0).setBooking(list.get(0));
+		db.store(list.get(0));
+		db.store(listc.get(0));
+		db.store(listo.get(0));
+		db.commit();
+		Notification(listc.get(0), list.get(0), "Booking Updated");
+		return list.get(0);
+	}
+	
+	public boolean cancelBooking(Booking bo, Client client) throws RemoteException{
+		List<Booking> list = db.queryByExample(new Booking(bo.getBookingNumber(), null, null, null, null));
+		List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
+		List<Offer> listo = db.queryByExample(new Offer(list.get(0).getOffer().getOfferNumber(), null, null, null, 0));
+		listo.get(0).cancelBooking();
+		listc.get(0).cancelBooking(list.get(0));
+		db.store(listc.get(0));
+		db.store(listo.get(0));
+		db.delete(list.get(0));
+		db.commit();
+		Notification(listc.get(0), list.get(0), "Booking Canceled");
+		return true;
+	}
+	
+	private void Notification(Client u, Booking b,String subj){
+		Correo mail = new Correo();
+		String contenido = "<!DOCTYPE html><html><head>	<title>Rural House System</title></head>"
+				+ "<body><h1><b><a href='bytebreakers.esy.es'><img src='https://gitlab.com/uploads/group/avatar/79542/byte_breakers_logo.png' "
+				+ "height='150' width='200'/></a>Rural House System Notification: </b></h1> <hr>"
+				+ "<p> Sr/a: "
+				+ " <b>"
+				+ u.getName()
+				+ "</b> le enviaamos este correo para notificarle de los cambios realizados en su reserva.<br />"
+				+ "cullos datos son los siguientes:</p><p><b> Numero de Reserva : "+ b.getBookingNumber()+ "<br> "
+						+ "Fecha de Reserva: " + b.getBookingDate().toString() + "<br> Precio: "+ b.getPrice()
+				+ "</b></p>"
+				
+				+ "<h3><b><br>Aviso Legal:  </b></h3>"
+				+ "<p> Este mensaje va dirigido exclusivamente a su destinatario y es confidencial. Si por "
+				+ "error lo recibe, por favor, comuníquelo por teléfono (902001110) y elimínelo. Cualquier uso"
+				+ " de este mensaje o sus anexos sin autorización está prohibido por la Ley.<p></body></html>";
+		mail.SentMail(b.getEmail(), subj, contenido);
+						
 	}
 
 }

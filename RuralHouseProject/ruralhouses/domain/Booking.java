@@ -16,22 +16,29 @@ public class Booking implements Serializable {
 	private Date bookingDate;
 	private String telephone;
 	private Offer offer;
-	private Vector<ExtraActivity> activieties;
+	private Vector<ExtraActivity> activities;
+	private String email;
 	
+
 	public Booking() {
 	}
 
-	public Booking(int bookingNumber,String telephone, Offer offer) {
+	public Booking(int bookingNumber,String telephone, Offer offer, Date date, String email) {
 		
 		this.bookingNumber = bookingNumber;
 		this.telephone=telephone;
 		this.offer = offer;
 		//this.price = price;
 		//Booking date is assigned to actual date
-		this.bookingDate= new Date(System.currentTimeMillis());
+		this.bookingDate= date;
 		this.isPaid=false;
 		this.activieties = new Vector<ExtraActivity>();
+
+		this.email = email;
+
+
 	}
+	
 	
 	public void imprimete(){
 		System.out.println(bookingNumber);
@@ -146,11 +153,19 @@ public class Booking implements Serializable {
 	}
 
 	public Vector<ExtraActivity> getActivieties() {
-		return activieties;
+		return activities;
 	}
 
 	public void setActivieties(Vector<ExtraActivity> activieties) {
-		this.activieties = activieties;
+		this.activities = activieties;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	@Override

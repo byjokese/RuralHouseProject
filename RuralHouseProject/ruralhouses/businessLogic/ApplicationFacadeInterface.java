@@ -85,6 +85,10 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public List<Object> qualify(int ownerMark, int houseMark, boolean isAnonmous, String comment, Client client, Booking book) throws RemoteException;
 
-	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException;
+	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon,String mail) throws RemoteException;
+	
+	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException;
+	
+	public boolean cancelBooking(Booking bo, Client client) throws RemoteException;
 
 }

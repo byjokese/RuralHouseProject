@@ -139,9 +139,18 @@
 /RuralHouseBookGUI$2.class
 /RuralHouseBookGUI$3.class
 >>>>>>> origin/djbienve
+<<<<<<< HEAD
 /OwnerGUI$6.class
 /ClientGUI$3.class
 /ClientGUI$4.class
 /OwnerGUI$7.class
 /ClientGUI$5.class
 /OwnerGUI$8.class
+=======
+/EditMyBookingGUI$1.class
+/EditMyBookingGUI$2.class
+/EditMyBookingGUI$3.class
+/EditMyBookingGUI$4.class
+/EditMyBookingGUI.class
+/ClientGUI$3.class
+>>>>>>> origin/djbienve
