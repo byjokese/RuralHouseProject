@@ -18,6 +18,7 @@ public class RuralHouse implements Serializable {
 	private String address;
 	private int number;
 	private Vector<Offer> offers;
+
 	private int mark;
 	private int numVotes;
 	private List<String[]> comments; // [0] comments, [1] author.
@@ -173,6 +174,10 @@ public class RuralHouse implements Serializable {
 		return availableOffers;
 	}
 
+	public Vector<Offer> getOffers() {
+		return offers;
+	}
+
 	/**
 	 * This method obtains the offer that match exactly with a given dates that has not been booked
 	 * 
@@ -221,7 +226,7 @@ public class RuralHouse implements Serializable {
 	}
 
 	public void setMark(int mark) {
-		this.mark = ((this.mark*numVotes)+mark)/(numVotes+1);
+		this.mark = ((this.mark * numVotes) + mark) / (numVotes + 1);
 	}
 
 	public List<String[]> getComments() {

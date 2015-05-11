@@ -34,6 +34,7 @@ public class StartWindow extends JFrame {
 	private JLabel lblNewLabel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private static configuration.ConfigXML c;
+	private StartWindow thisWindow;
 
 	public static ApplicationFacadeInterface facadeInterface;
 
@@ -73,6 +74,7 @@ public class StartWindow extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		thisWindow = this;
 		setBounds(100, 100, 248, 318);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,10 +132,12 @@ public class StartWindow extends JFrame {
 					if (user != null) {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 						if (isOwner) {
-							JFrame o = new OwnerGUI((Owner) user);
+							JFrame o = new OwnerGUI((Owner) user, thisWindow);
+							thisWindow.setVisible(false);
 							o.setVisible(true);
 						} else {
-							JFrame c = new ClientGUI((Client) user);
+							JFrame c = new ClientGUI((Client) user, thisWindow);
+							thisWindow.setVisible(false);
 							c.setVisible(true);
 						}
 					} else

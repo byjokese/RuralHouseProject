@@ -7,6 +7,7 @@ import java.util.Vector;
 
 @SuppressWarnings("serial")
 public class Booking implements Serializable {
+
 	private int bookingNumber;
 	private boolean isPaid;
 	private Date bookingDate;
@@ -26,7 +27,7 @@ public class Booking implements Serializable {
 		//Booking date is assigned to actual date
 		this.bookingDate= new Date(System.currentTimeMillis());
 		this.isPaid=false;
-
+		this.activieties = new Vector<ExtraActivity>();
 	}
 	
 	public void imprimete(){
@@ -149,4 +150,8 @@ public class Booking implements Serializable {
 		this.activieties = activieties;
 	}
 	
+	@Override
+	public String toString() {
+		return (bookingNumber + offer.getRuralHouse().getCity());
+	}
 }

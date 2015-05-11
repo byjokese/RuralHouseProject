@@ -60,4 +60,11 @@ public class ExtraActivity implements Serializable {
 		this.fecha = fecha;
 	}
 
+	@Override
+	public String toString() {
+		return (nombre);
+	}
+	
+	
+
 }

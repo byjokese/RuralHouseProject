@@ -136,6 +136,7 @@ public class ActivationGUI extends JFrame {
 						if (user != null) {
 							facade.activateAccount(username, isOwner, bankaccount);
 							JOptionPane.showMessageDialog(null, "Successfully Activated.");
+							dispose();
 						} else
 							JOptionPane.showMessageDialog(null, "Username or password incorrect.");
 					} else {

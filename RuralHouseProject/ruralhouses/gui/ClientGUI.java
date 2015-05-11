@@ -3,16 +3,36 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.Date;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
+import businessLogic.ApplicationFacadeInterface;
+import domain.Booking;
 import domain.Client;
+import domain.ExtraActivity;
+import domain.Owner;
+import domain.Users;
 import exceptions.DataBaseNotInitialized;
 
 public class ClientGUI extends JFrame {
@@ -23,10 +43,58 @@ public class ClientGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClientGUI(Client client) {
+	public ClientGUI(Client client, StartWindow starWindow) {
 		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 307, 243);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				starWindow.setVisible(true);
+			}
+		});
+		ApplicationFacadeInterface facade = StartWindow.facadeInterface;
+		setBounds(100, 100, 553, 477);
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnSwitchUser = new JMenu("Switch user");
+		menuBar.add(mnSwitchUser);
+
+		JMenuItem mntmClient = new JMenuItem("Client");
+		mntmClient.setEnabled(false);
+		mnSwitchUser.add(mntmClient);
+
+		JMenuItem mntmOwner = new JMenuItem("Owner");
+		mntmOwner.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Users owner = facade.checkLogin(client.getUsername(), client.getPassword(), true);
+					if (owner != null) {
+						OwnerGUI a = new OwnerGUI((Owner) owner, starWindow);
+						a.setVisible(true);
+						dispose();
+					} else {
+						if (JOptionPane.showConfirmDialog(null, "Would you like to activate the owner account?", "Account not activated", 0) == 0) {
+							ActivationGUI a = new ActivationGUI();
+							a.setVisible(true);
+						}
+					}
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+		mnSwitchUser.add(mntmOwner);
+
+		JMenu mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
+
+		JMenuItem mntmChangePassword = new JMenuItem("Change password");
+		mnEdit.add(mntmChangePassword);
+
+		JMenuItem mntmEditContactInfo = new JMenuItem("Edit contact info");
+		mnEdit.add(mntmEditContactInfo);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -35,11 +103,11 @@ public class ClientGUI extends JFrame {
 		JLabel lblClientDashboard = new JLabel("Client Dashboard");
 		lblClientDashboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblClientDashboard.setHorizontalAlignment(SwingConstants.CENTER);
-		lblClientDashboard.setBounds(0, 0, 291, 32);
+		lblClientDashboard.setBounds(0, 0, 537, 32);
 		contentPane.add(lblClientDashboard);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 29, 291, 9);
+		separator.setBounds(0, 29, 571, 12);
 		contentPane.add(separator);
 
 		JButton lookOffersBtn = new JButton("Look for Offers");
@@ -53,22 +121,68 @@ public class ClientGUI extends JFrame {
 				}
 			}
 		});
-		lookOffersBtn.setBounds(10, 39, 268, 43);
+		lookOffersBtn.setBounds(271, 65, 260, 43);
 		contentPane.add(lookOffersBtn);
 
 		JButton editBookingBtn = new JButton("Edit my Bookings");
-		editBookingBtn.setBounds(10, 93, 268, 43);
+		editBookingBtn.setBounds(271, 119, 260, 43);
 		contentPane.add(editBookingBtn);
-		
+
 		JButton qualifyBtn = new JButton("Qualify My Books");
 		qualifyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame q = new QualifyGUI(client);
 				q.setVisible(true);
-				
+
 			}
 		});
-		qualifyBtn.setBounds(10, 147, 271, 43);
+		qualifyBtn.setBounds(271, 173, 260, 43);
 		contentPane.add(qualifyBtn);
+
+		JLabel lblMyBookings = new JLabel("My Bookings");
+		lblMyBookings.setBounds(10, 39, 85, 14);
+		contentPane.add(lblMyBookings);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 64, 251, 342);
+		contentPane.add(scrollPane);
+
+		JTree bookingTree = new JTree();
+		bookingTree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("My bookings") {
+			private static final long serialVersionUID = 1L;
+			{
+				DefaultMutableTreeNode node_1;
+				DefaultMutableTreeNode node_2;
+				Date date;
+				for (Booking book : client.getBooks()) {
+					date = book.getBookingDate();
+					node_1 = new DefaultMutableTreeNode(book.toString());
+					node_1.add(new DefaultMutableTreeNode("Is Paid: " + book.isPaid()));
+					node_1.add(new DefaultMutableTreeNode("Booking date: " + date.toString().substring(0, 9) + " " + date.toString().substring(25, 29)));
+					if (!book.getActivieties().isEmpty()) {
+						node_2 = new DefaultMutableTreeNode("Activities");
+						for (ExtraActivity extra : book.getActivieties()) {
+							node_2.add(new DefaultMutableTreeNode(extra));
+						}
+						node_1.add(node_2);
+					}
+					add(node_1);
+				}
+			}
+		}));
+		scrollPane.setViewportView(bookingTree);
+		
+		String path_house = "images/icons/house_max.png";
+		File houseIconsFile = new File(path_house);
+		BufferedImage houseImg = null;
+		try {
+			houseImg = ImageIO.read(houseIconsFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		JLabel houseIconlbl = new JLabel(new ImageIcon(houseImg));
+		houseIconlbl.setBounds(334, 253, 128, 128);
+		contentPane.add(houseIconlbl);
+
 	}
 }

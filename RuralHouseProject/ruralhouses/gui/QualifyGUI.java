@@ -134,8 +134,6 @@ public class QualifyGUI extends JFrame {
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting() && table.isEnabled()) { // This line prevents double events
-					System.out.println("Index: " + table.getSelectedRow());
-					System.out.println("Books size: " + client.getBooks().size());
 					Booking book = client.getBooks().get(table.getSelectedRow());
 					ownerSlider.setEnabled(true);
 					houseSlider.setEnabled(true);

@@ -1,0 +1,894 @@
+May 10, 2015 1:26:59 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 1:27:01 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 10, 2015 1:30:51 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 1:30:53 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 10, 2015 1:32:18 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 1:33:52 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 1:33:53 PM dataAccess.DB4oManager initializeDB
+WARNING: Exception: java.lang.ClassCastException: domain.Client cannot be cast to domain.RuralHouse
+May 10, 2015 1:33:53 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 10, 2015 3:05:29 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1;Thu Jul 30 00:00:00 CEST 2015;Tue Aug 04 00:00:00 CEST 2015;750.0;1: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2;Mon Mar 30 00:00:00 CEST 2015;Sat Apr 04 00:00:00 CEST 2015;1200.0;5: Tolosa ON Mon Mar 30 00:00:00 CEST 2015
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3;Sat Feb 28 00:00:00 CET 2015;Thu Apr 30 00:00:00 CEST 2015;999.0;6: tolosa ON Sat Feb 28 00:00:00 CET 2015
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4;Thu Jul 30 00:00:00 CEST 2015;Sat Aug 08 00:00:00 CEST 2015;1100.0;3: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 10, 2015 3:05:30 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 10, 2015 3:15:01 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1;Thu Jul 30 00:00:00 CEST 2015;Tue Aug 04 00:00:00 CEST 2015;750.0;1: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 10, 2015 3:15:02 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2;Mon Mar 30 00:00:00 CEST 2015;Sat Apr 04 00:00:00 CEST 2015;1200.0;5: Tolosa ON Mon Mar 30 00:00:00 CEST 2015
+May 10, 2015 3:15:03 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3;Sat Feb 28 00:00:00 CET 2015;Thu Apr 30 00:00:00 CEST 2015;999.0;6: tolosa ON Sat Feb 28 00:00:00 CET 2015
+May 10, 2015 3:15:03 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4;Thu Jul 30 00:00:00 CEST 2015;Sat Aug 08 00:00:00 CEST 2015;1100.0;3: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 10, 2015 3:15:03 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 10, 2015 3:15:03 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 10, 2015 3:15:57 PM dataAccess.DB4oManager bookOffer
+INFO: An Offer has been BOOKED: 4;Thu Jul 30 00:00:00 CEST 2015;Sat Aug 08 00:00:00 CEST 2015;1100.0;3: Tolosa BY byjoke
+May 10, 2015 3:16:22 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 4: Renteria
+May 10, 2015 3:16:22 PM dataAccess.DB4oManager updateOwner
+INFO: Owner data has been Changed: bienve
+May 10, 2015 3:16:22 PM dataAccess.DB4oManager updateClient
+INFO: Client data has been Changed: byjoke
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:53:10 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1;Thu Jul 30 00:00:00 CEST 2015;Tue Aug 04 00:00:00 CEST 2015;750.0;1: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2;Mon Mar 30 00:00:00 CEST 2015;Sat Apr 04 00:00:00 CEST 2015;1200.0;5: Tolosa ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3;Sat Feb 28 00:00:00 CET 2015;Thu Apr 30 00:00:00 CEST 2015;999.0;6: tolosa ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4;Thu Jul 30 00:00:00 CEST 2015;Sat Aug 08 00:00:00 CEST 2015;1100.0;3: Tolosa ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:53:11 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:54:59 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Jul 30 00 Aug 04 00 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mar 30 00 Apr 04 00 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Feb 28 00 Apr 30 00 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Jul 30 00 Aug 08 00 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:55:00 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:55:53 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 3 -> Tue Aug 0 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 3 -> Sat Apr 0 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 2 -> Thu Apr 3 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 3 -> Sat Aug 0 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:55:54 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:56:37 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 00:00:00  -> Tue Aug 0 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 00:00:00  -> Sat Apr 0 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 00:00:00  -> Thu Apr 3 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 00:00:00  -> Sat Aug 0 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:56:38 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:57:15 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 0 -> Tue Aug 04 0 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 0 -> Sat Apr 04 0 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 0 -> Thu Apr 30 0 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 0 -> Sat Aug 08 0 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:57:16 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:57:35 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:57:35 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:57:35 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:57:35 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 0 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 0 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 0 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 0 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:57:36 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 2:57:47 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:48 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 2:57:48 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 2:57:48 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 2:57:48 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 2:57:48 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:05:40 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:05:41 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:06:09 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:06:10 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:09:04 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:09:05 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:10:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:10:34 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:12:37 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:12:38 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:13:00 PM dataAccess.DB4oManager activateAccount
+INFO: User: byjoke has Activated theOwner acount.
+May 11, 2015 3:14:32 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:14:32 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:14:32 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:14:32 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:14:32 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:14:33 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:14:45 PM dataAccess.DB4oManager activateAccount
+INFO: User: byjoke has Activated theOwner acount.
+May 11, 2015 3:17:26 PM dataAccess.DB4oManager <init>
+INFO: DataBase opened
+May 11, 2015 3:17:26 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: byjoke AS Client
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: bienve AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: ena_795 AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jonlog AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: AlfredoLog AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: Jesuslog AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager addUserToDataBase
+INFO: NEW USER HAS BEEN ADED TO DB: JoseanLog AS Owner
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 1: Tolosa
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 2: Tolosa
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 3: Tolosa
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 4: Renteria
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 5: Tolosa
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeRuralhouse
+INFO: NEW RURALHOUSE ADDED TO DB: 6: tolosa
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Tue Aug 31 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a bici ON Tue Aug 03 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Wed Aug 04 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Montar a caballo ON Sat Aug 07 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 08 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Run ON Sat Jul 31 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeExtraActivity
+INFO: NEW EXTRA ACTIVITY HAS BEEN CREATED: Fiesta ON Sun Aug 01 00:00:00 CEST 3915
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 1 Thu Jul 30 -> Tue Aug 04 750.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 2 Mon Mar 30 -> Sat Apr 04 1200.0 ON Mon Mar 30 00:00:00 CEST 2015
+May 11, 2015 3:17:27 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 3 Sat Feb 28 -> Thu Apr 30 999.0 ON Sat Feb 28 00:00:00 CET 2015
+May 11, 2015 3:17:28 PM dataAccess.DB4oManager storeOffer
+INFO: NEW OFFER HAS BEEN CREATED: 4 Thu Jul 30 -> Sat Aug 08 1100.0 ON Thu Jul 30 00:00:00 CEST 2015
+May 11, 2015 3:17:28 PM dataAccess.DB4oManager updateRuralHouse
+INFO: RuralHouse info has been updated 5: Tolosa
+May 11, 2015 3:17:28 PM dataAccess.DB4oManager <init>
+INFO: DataBase initialized
+May 11, 2015 3:17:42 PM dataAccess.DB4oManager activateAccount
+INFO: User: byjoke has Activated theOwner acount.

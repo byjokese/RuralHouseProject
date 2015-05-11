@@ -17,6 +17,7 @@ public class Offer implements Serializable {
 	private Vector<ExtraActivity> extraActivities;
 	private Vector<ExtraActivity> reservedActivities;
 	private boolean isRerserved;
+	
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
@@ -184,7 +185,7 @@ public class Offer implements Serializable {
 	}
 
 	public String toString() {
-		return offerNumber + ";" + firstDay.toString() + ";" + lastDay.toString() + ";" + price + ";" + ruralHouse;
+		return offerNumber + " " + firstDay.toString().substring(0, 10) + " -> " + lastDay.toString().substring(0, 10) + " " + price;
 	}
 
 	public Vector<ExtraActivity> getReservedActivities() {

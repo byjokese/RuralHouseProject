@@ -5,11 +5,14 @@ import java.io.File;
 // import java.util.Vector;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -38,11 +41,19 @@ public class DB4oManager {
 
 	private static ControlDB4o theDB4oManagerAux;
 	private static boolean initialized = false;
+	private static Logger LOGGER = Logger.getLogger("DataBaseLog");
+	private FileHandler fileHandler;
 	ConfigXML c;
 
 	private DB4oManager() throws Exception {
 		theDB4oManagerAux = new ControlDB4o();
-
+		/* _____________________________________LOGGER________________________________________ */
+		fileHandler = new FileHandler("./DataBase.log", true);
+		LOGGER.addHandler(fileHandler);
+		SimpleFormatter simpleFormatter = new SimpleFormatter();
+		fileHandler.setLevel(Level.ALL);
+		fileHandler.setFormatter(simpleFormatter);
+		/* ___________________________________________________________________________________ */
 		c = ConfigXML.getInstance();
 		System.out.println("Creating DB4oManager instance => isDatabaseLocal: " + c.isDatabaseLocal() + " getDatabBaseOpenMode: " + c.getDataBaseOpenMode());
 
@@ -55,6 +66,7 @@ public class DB4oManager {
 			configuration.common().updateDepth(c.getUpdateDepth());
 			db = Db4oEmbedded.openFile(configuration, c.getDb4oFilename());
 			System.out.println("DataBase opened");
+			LOGGER.info("DataBase opened");
 		} else // c.isDatabaseLocal==false
 		{
 			openObjectContainer();
@@ -63,6 +75,7 @@ public class DB4oManager {
 			/** ---------------------------------------------------------------------------------------------------- **/
 			initializeDB();
 			System.out.println("DataBase initialized");
+			LOGGER.info("DataBase initialized");
 			initialized = true;
 		} else // c.getDataBaseOpenMode().equals("open")
 
@@ -150,6 +163,7 @@ public class DB4oManager {
 				of1 = storeOffer(rjB2, new Date(2015 - 1900, 1, 28), new Date(2015 - 1900, 3, 30), 999, activitiesB);
 				storeOffer(rhJe, new Date(2015 - 1900, 6, 30), new Date(2015 - 1900, 7, 8), 1100, activitiesB);
 			} catch (Exception e1) {
+				LOGGER.warning("Exception: " + e1);
 				System.out.println("Error at initialize DataBase on: ./storeOffer " + e1.getMessage());
 				e1.printStackTrace();
 			}
@@ -161,6 +175,7 @@ public class DB4oManager {
 			of.setRuralHouse(rhhh);
 			Booking bo = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of);
 			Booking bo1 = new Booking(theDB4oManagerAux.nextBookingNumber(), "676617056", of1);
+			bo.setActivieties(of.getExtraActivities());
 			db.store(bo1);
 			db.store(bo);
 			db.commit();
@@ -168,6 +183,7 @@ public class DB4oManager {
 			((Client) byjokese).addBook(bo1);
 
 		} catch (RemoteException e) {
+			LOGGER.warning("Exception: " + e);
 			e.printStackTrace();
 		}
 
@@ -184,10 +200,12 @@ public class DB4oManager {
 				db.store(theDB4oManagerAux); // To store the status of the control database
 				db.store(o);
 				db.commit();
+				LOGGER.info("New offer has been created: " + o.toString());
 				return o;
 			}
 		} catch (com.db4o.ext.ObjectNotStorableException e) {
 			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in createOffer " + e.getMessage());
+			LOGGER.warning("Exception: " + e);
 			return null;
 		}
 		return null;
@@ -203,6 +221,7 @@ public class DB4oManager {
 				db.delete(o);
 			}
 			db.commit();
+			LOGGER.info("DataBase has been deleted.");
 		} finally {
 			// db.close();
 		}
@@ -219,6 +238,7 @@ public class DB4oManager {
 		Booking book = new Booking(theDB4oManagerAux.nextBookingNumber(), telephone, offer);
 		db.store(book);
 		db.commit();
+		LOGGER.info("New Booking has been Created: " + book.toString());
 		return book;
 	}
 
@@ -227,6 +247,7 @@ public class DB4oManager {
 		((Client) user).addBook(book);
 		db.store(book);
 		db.commit();
+		LOGGER.info("Offer Booked By: " + user.getUsername());
 		return book;
 	}
 
@@ -248,6 +269,7 @@ public class DB4oManager {
 				owners.add((Owner) result.next());
 			return owners;
 		} finally {
+			LOGGER.info("All OWNERS HAD BEEN TAKEN FROM THE DATABASE");
 			// db.close();
 		}
 	}
@@ -261,6 +283,7 @@ public class DB4oManager {
 		listO.get(0).setMark(mark);
 		db.store(listO.get(0));
 		db.commit();
+		LOGGER.info("Owner data has been Changed: " + owner.getUsername());
 		return listO.get(0);
 	}
 
@@ -271,6 +294,7 @@ public class DB4oManager {
 			listC.get(0).setBooks(books);
 			db.store(listC.get(0));
 			db.commit();
+			LOGGER.info("Client data has been Changed: " + client.getUsername());
 		}
 		return listC.get(0);
 	}
@@ -285,6 +309,7 @@ public class DB4oManager {
 				ruralHouses.add((RuralHouse) result.next());
 			return ruralHouses;
 		} finally {
+			LOGGER.info("All HOUSES HAD BEEN TAKEN FROM THE DATABASE");
 			// db.close();
 		}
 	}
@@ -319,13 +344,14 @@ public class DB4oManager {
 		data.get(0).setActivated(true); // POSIBLE ERROR IF NOT CHECKED PREVIUSLY WITH CHECKLOGIN!!
 		db.store(data.get(0));
 		db.commit();
+		LOGGER.info("User: " + act.getUsername() + " has Activated the" + ((isOwner) ? "Owner" : "Client") + " acount.");
 	}
 
 	public Users addUserToDataBase(String name, String login, String password, boolean isOwner, String bank) throws RemoteException {
 		Users client;
 		Users owner;
 		if (isOwner) {
-			client = new Client(name, login, password, false, false);
+			client = new Client(name, login, password, true, false);
 			owner = new Owner(name, login, password, true, true, bank);
 		} else {
 			client = new Client(name, login, password, true, false);
@@ -334,8 +360,8 @@ public class DB4oManager {
 		db.store(client);
 		db.store(owner);
 		db.commit();
+		LOGGER.info("NEW USER HAS BEEN ADED TO DB: " + ((isOwner) ? owner.getUsername() : client.getUsername()) + " AS " + ((isOwner) ? "Owner" : "Client"));
 		return (isOwner) ? owner : client;
-
 	}
 
 	private boolean checkRural(String city, String address, int number) throws RemoteException {
@@ -351,11 +377,13 @@ public class DB4oManager {
 				db.store(rh);
 				db.store(theDB4oManagerAux);
 				db.commit();
+				LOGGER.info("NEW RURALHOUSE ADDED TO DB: " + rh.toString());
 				return rh;
 			} else {
 				return null;
 			}
 		} catch (com.db4o.ext.ObjectNotStorableException e) {
+			LOGGER.warning("Exceptin at storing RuralHouse" + e);
 			System.out.println("Error: com.db4o.ext.ObjectNotStorableException in storeRuralhouse " + e.getMessage());
 			return null;
 		}
@@ -364,16 +392,15 @@ public class DB4oManager {
 	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException {
 		List<RuralHouse> list = db.queryByExample(new RuralHouse(0, null, null, null, null, rh.getNumber()));
 		List<Owner> listo = db.queryByExample(new Owner(null, owner.getUsername(), null, true, true, null));
-		System.out.println(owner.getUsername());
 		RuralHouse rhs = list.get(0);
 		rhs.setDescription(description);
 		rhs.setMark(mark);
 		rhs.setComments(comments);
 		db.store(list.get(0));
-		System.out.println(rhs);
 		listo.get(0).updateRuralHouse(rhs);
 		db.store(listo.get(0));
 		db.commit();
+		LOGGER.info("RuralHouse info has been updated " + rhs.toString());
 		return rhs;
 	}
 
@@ -384,6 +411,7 @@ public class DB4oManager {
 		db.delete(list.get(0));
 		db.store(listo.get(0));
 		db.commit();
+		LOGGER.info("RURALHUSE HAS BEEN DELETED FROM DB: " + list.get(0).toString());
 		return true;
 	}
 
@@ -422,6 +450,7 @@ public class DB4oManager {
 			db.store(owner);
 			db.store(actividad);
 			db.commit();
+			LOGGER.info("NEW EXTRA ACTIVITY HAS BEEN CREATED: " + actividad.toString() + " ON " + actividad.getFecha());
 			return actividad;
 		} else {
 			return null;
@@ -438,6 +467,7 @@ public class DB4oManager {
 			db.store(idem); // Offer
 			db.store(list.get(0)); // Ruralhouse
 			db.commit();
+			LOGGER.info("NEW OFFER HAS BEEN CREATED: " + (idem.toString() + " ON " + (idem.getFirstDay())));
 			return idem;
 		} else {
 			return null;
@@ -461,6 +491,7 @@ public class DB4oManager {
 		db.store(listO.get(0));
 		db.store(listR.get(0));
 		db.commit();
+		LOGGER.info("An Offer has been updated " + o.toString());
 		return list.get(0);
 	}
 
@@ -471,6 +502,7 @@ public class DB4oManager {
 		db.store(listo.get(0));
 		db.delete(list.get(0));
 		db.commit();
+		LOGGER.info("AN OFFER HAS BEEN DELETED: " + o.toString());
 		return true;
 	}
 
@@ -486,6 +518,7 @@ public class DB4oManager {
 		db.store(list.get(0));
 		db.store(listo.get(0));
 		db.commit();
+		LOGGER.info("An Activity has been updated " + ex.toString());
 		return list.get(0);
 	}
 
@@ -503,6 +536,7 @@ public class DB4oManager {
 		db.delete(list.get(0));
 		db.store(listo.get(0));
 		db.commit();
+		LOGGER.info("AN ACTIVITY HAS BEEN DELETED: " + ex.toString());
 		return true;
 	}
 
@@ -517,7 +551,7 @@ public class DB4oManager {
 				if (o.getLastDay().compareTo(today) < 0) {
 					List<Offer> listo = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 					db.delete(listo.get(0));
-					System.out.println(list.get(0));
+					LOGGER.info("AN ACTIVITY HAS BEEN DELETED: " + listo.get(0).toString());
 					list.get(0).getAllOffers().remove(o);
 				}
 			}
@@ -528,8 +562,6 @@ public class DB4oManager {
 	}
 
 	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon) throws RemoteException {
-		System.out.println("Book offer");
-		System.out.println(client.getUsername());
 		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		if (!list.isEmpty()) {
 			list.get(0).setReserved(true);
@@ -538,13 +570,13 @@ public class DB4oManager {
 			book.setActivieties(activieties);
 			List<Client> listc = db.queryByExample(new Client(null, client.getUsername(), null, true, false, null));
 			if (!listc.isEmpty()) {
-				System.out.println("Client found");
 				listc.get(0).addBook(book);
 				db.store(list.get(0)); // offer
 				db.store(book);
 				db.store(o);
 				db.store(listc.get(0));
 				db.commit();
+				LOGGER.info("An Offer has been BOOKED: " + list.get(0) + " BY " + listc.get(0).getUsername());
 				return book;
 			}
 		}

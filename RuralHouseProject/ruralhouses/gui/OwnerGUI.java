@@ -1,6 +1,14 @@
 package gui;
 
+import domain.Booking;
+import domain.Client;
+import domain.ExtraActivity;
+import domain.Offer;
 import domain.Owner;
+import domain.RuralHouse;
+import domain.Users;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,6 +22,24 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.Date;
+
+import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import businessLogic.ApplicationFacadeInterface;
 
 public class OwnerGUI extends JFrame {
 
@@ -23,9 +49,46 @@ public class OwnerGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OwnerGUI(Owner owner) {
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 309, 353);
+	public OwnerGUI(Owner owner, StartWindow starWindow) {
+		// setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				starWindow.setVisible(true);
+			}
+		});
+		setBounds(100, 100, 553, 477);
+
+		ApplicationFacadeInterface facade = StartWindow.facadeInterface;
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnSwitchUser = new JMenu("Switch user");
+		menuBar.add(mnSwitchUser);
+
+		JMenuItem mntmClient = new JMenuItem("Client");
+		mntmClient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Users client = facade.checkLogin(owner.getUsername(), owner.getPassword(), false);
+					ClientGUI a = new ClientGUI((Client) client, starWindow);
+					a.setVisible(true);
+					dispose();
+
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+		mnSwitchUser.add(mntmClient);
+
+		JMenuItem mntmOwner = new JMenuItem("Owner");
+		mntmOwner.setEnabled(false);
+		mnSwitchUser.add(mntmOwner);
+
+		JMenu mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -34,11 +97,11 @@ public class OwnerGUI extends JFrame {
 		JLabel lblOwnerDashboard = new JLabel("Owner Dashboard");
 		lblOwnerDashboard.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOwnerDashboard.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblOwnerDashboard.setBounds(0, 0, 288, 29);
+		lblOwnerDashboard.setBounds(0, 0, 537, 29);
 		contentPane.add(lblOwnerDashboard);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 29, 288, 2);
+		separator.setBounds(0, 29, 637, 2);
 		contentPane.add(separator);
 
 		JButton SignupHouseBtn = new JButton("Sign-Up House");
@@ -48,7 +111,7 @@ public class OwnerGUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		SignupHouseBtn.setBounds(10, 39, 268, 43);
+		SignupHouseBtn.setBounds(279, 63, 248, 43);
 		contentPane.add(SignupHouseBtn);
 
 		JButton CreateNewOfferBtn = new JButton("Create new Offer");
@@ -58,7 +121,7 @@ public class OwnerGUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		CreateNewOfferBtn.setBounds(10, 147, 268, 43);
+		CreateNewOfferBtn.setBounds(279, 171, 248, 43);
 		contentPane.add(CreateNewOfferBtn);
 
 		JButton EditMyOffersBtn = new JButton("Edit my Offers");
@@ -68,13 +131,8 @@ public class OwnerGUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		EditMyOffersBtn.setBounds(10, 201, 268, 43);
+		EditMyOffersBtn.setBounds(279, 225, 248, 43);
 		contentPane.add(EditMyOffersBtn);
-
-		JLabel infoLabel = new JLabel("");
-		infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		infoLabel.setBounds(10, 194, 268, 14);
-		contentPane.add(infoLabel);
 
 		JButton EditMyHouseBtn = new JButton("Edit My House");
 		EditMyHouseBtn.addActionListener(new ActionListener() {
@@ -83,9 +141,9 @@ public class OwnerGUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		EditMyHouseBtn.setBounds(10, 93, 268, 43);
+		EditMyHouseBtn.setBounds(279, 117, 248, 43);
 		contentPane.add(EditMyHouseBtn);
-		
+
 		JButton EditMyActivityBtn = new JButton("Edit my Activity");
 		EditMyActivityBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -93,7 +151,56 @@ public class OwnerGUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		EditMyActivityBtn.setBounds(10, 255, 268, 43);
+		EditMyActivityBtn.setBounds(279, 279, 248, 43);
 		contentPane.add(EditMyActivityBtn);
+
+		JLabel lblMyHouses = new JLabel("My Houses");
+		lblMyHouses.setBounds(10, 40, 129, 14);
+		contentPane.add(lblMyHouses);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 63, 259, 343);
+		contentPane.add(scrollPane);
+
+		JTree tree = new JTree();
+		tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("My Houses") {
+			private static final long serialVersionUID = 1L;
+
+			{
+				DefaultMutableTreeNode node_1;
+				DefaultMutableTreeNode node_2;
+				if (!owner.getRuralHouses().isEmpty()) {
+					for (RuralHouse rh : owner.getRuralHouses()) {
+						node_1 = new DefaultMutableTreeNode(rh.toString());
+						if (!rh.getOffers().isEmpty()) {
+							for (Offer offer : rh.getOffers()) {
+								node_2 = new DefaultMutableTreeNode(offer.toString());
+								node_1.add(node_2);
+							}
+							add(node_1);
+						} else {
+							node_2 = new DefaultMutableTreeNode("No offers.");
+							node_1.add(node_2);
+						}
+					}
+				} else {
+					node_1 = new DefaultMutableTreeNode("No houses.");
+					add(node_1);
+				}
+			}
+		}));
+		scrollPane.setColumnHeaderView(tree);
+
+		String path_house = "images/icons/house.png";
+		File houseIconsFile = new File(path_house);
+		BufferedImage houseImg = null;
+		try {
+			houseImg = ImageIO.read(houseIconsFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		JLabel houseIconlbl = new JLabel(new ImageIcon(houseImg));
+		houseIconlbl.setBounds(366, 331, 75, 75);
+		contentPane.add(houseIconlbl);
 	}
 }
