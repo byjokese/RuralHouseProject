@@ -11,44 +11,40 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Correo {
-	public Correo(){}
-	 public void SentMail(String to,String subject,String msn){
-		 
-		 final String username = "ruralhousenotifications@bytebreakers.esy.es";
-			final String password = "amapola2011";
+	public Correo() {
+	}
 
-			Properties props = new Properties();
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.host", "mx1.hostinger.es");
-			props.put("mail.smtp.port", "2525");
+	public void SentMail(String to, String subject, String msn) {
 
-			Session session = Session.getInstance(props,
-			  new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(username, password);
-				}
-			  });
+		final String username = "ruralhousenotifications@bytebreakers.esy.es";
+		final String password = "amapola2011";
 
-			try {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "mx1.hostinger.es");
+		props.put("mail.smtp.port", "2525");
 
-				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress("ruralhousenotifications@bytebreakers.esy.es"));
-				message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(to));
-				message.setSubject(subject);
-				message.setText(msn);
-				
-				message.setContent(msn, "text/html; charset=utf-8");
-				
-				Transport.send(message);
-
-				System.out.println("Mail sent..");
-
-			} catch (MessagingException e) {
-				throw new RuntimeException(e);
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
 			}
-		 
-	 }
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("ruralhousenotifications@bytebreakers.esy.es"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			message.setSubject(subject);
+			message.setText(msn);
+			message.setContent(msn, "text/html; charset=utf-8");
+
+			Transport.send(message);
+			System.out.println("Mail sent..");
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
 
 }

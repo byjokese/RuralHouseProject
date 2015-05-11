@@ -72,6 +72,7 @@ public class OwnerGUI extends JFrame {
 				try {
 					Users client = facade.checkLogin(owner.getUsername(), owner.getPassword(), false);
 					ClientGUI a = new ClientGUI((Client) client, starWindow);
+					a.setLocationRelativeTo(null); 
 					a.setVisible(true);
 					dispose();
 
@@ -108,6 +109,7 @@ public class OwnerGUI extends JFrame {
 		SignupHouseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame s = new SignUpHouseGUI(owner);
+				s.setLocationRelativeTo(null); 
 				s.setVisible(true);
 			}
 		});
@@ -118,6 +120,7 @@ public class OwnerGUI extends JFrame {
 		CreateNewOfferBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame s = new CreatenewOfferGUI(owner);
+				s.setLocationRelativeTo(null); 
 				s.setVisible(true);
 			}
 		});
@@ -128,6 +131,7 @@ public class OwnerGUI extends JFrame {
 		EditMyOffersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame s = new EditMyOfferGUI(owner);
+				s.setLocationRelativeTo(null); 
 				s.setVisible(true);
 			}
 		});
@@ -138,6 +142,7 @@ public class OwnerGUI extends JFrame {
 		EditMyHouseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame s = new EditMyHouseGUI(owner);
+				s.setLocationRelativeTo(null); 
 				s.setVisible(true);
 			}
 		});
@@ -148,6 +153,7 @@ public class OwnerGUI extends JFrame {
 		EditMyActivityBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame s = new EditMyActivityGUI(owner);
+				s.setLocationRelativeTo(null); 
 				s.setVisible(true);
 			}
 		});

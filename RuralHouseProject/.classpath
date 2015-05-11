@@ -21,12 +21,7 @@
 	<classpathentry kind="lib" path="additionalLibs/jxbrowser-linux64-5.2.jar"/>
 	<classpathentry kind="lib" path="additionalLibs/jxbrowser-mac-5.2.jar"/>
 	<classpathentry kind="lib" path="additionalLibs/jxbrowser-win-5.2.jar"/>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
+	<classpathentry kind="lib" path="additionalLibs/db4o-8.0.249.16098-all-java5.jar"/>
 	<classpathentry kind="lib" path="additionalLibs/javax.mail.jar"/>
-=======
-	<classpathentry kind="lib" path="/home/djbienve/Documentos/db4o-8.0.249.16098-all-java5.jar"/>
-	<classpathentry kind="lib" path="/home/djbienve/Documentos/javax.mail.jar"/>
->>>>>>> origin/djbienve
 	<classpathentry kind="output" path="ruralhouses"/>
 </classpath>

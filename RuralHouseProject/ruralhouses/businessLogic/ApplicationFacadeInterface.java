@@ -18,16 +18,7 @@ import exceptions.OverlappingOfferExists;
 
 public interface ApplicationFacadeInterface extends Remote {
 
-	/**
-	 * This method creates a book with a corresponding parameters
-	 * 
-	 * @param First
-	 *            day, last day, house number and telephone
-	 * @return a book
-	 */
-
-	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException;
-
+	
 	/**
 	 * This method retrieves the existing owners
 	 * 
@@ -43,6 +34,8 @@ public interface ApplicationFacadeInterface extends Remote {
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception;
 
 	public void close() throws RemoteException;
+	
+	public boolean isinitialized() throws RemoteException;
 
 	public boolean checkUserAvailability(String username) throws RemoteException;
 

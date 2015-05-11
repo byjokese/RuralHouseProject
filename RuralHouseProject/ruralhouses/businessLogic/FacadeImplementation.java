@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import APIS.Correo;
 import dataAccess.DB4oManager;
 import domain.Booking;
 import domain.Client;
@@ -68,10 +69,6 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.existsOverlappingOffer(rh, firstDay, lastDay);
 	}
 
-	public Booking bookOffer(Users user, String telephone, Offer offer) throws RemoteException {
-		return dB4oManager.bookOffer(user, telephone, offer);
-	}
-
 	/**
 	 * This method existing owners
 	 * 
@@ -105,6 +102,10 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	public void close() throws RemoteException {
 		dB4oManager.close();
 
+	}
+	
+	public boolean isinitialized() throws RemoteException{
+		return dB4oManager.isinitialized();
 	}
 
 	@Override
@@ -153,6 +154,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		/** Offers comes with an previous applied filter of starting date. will never show a offer previous to the given date of start. **/
 		// Calculation of the last date of the search
 		Calendar calendar = Calendar.getInstance();
+		Calendar current = Calendar.getInstance();
 		calendar.setTime(date); // date of begin
 		calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(numberOfNights)); // we operate the add begin + numberOfNights
 		Date lastDate = calendar.getTime(); // Get back of the time
@@ -162,7 +164,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		List<Offer> requestedOffers = new Vector<Offer>();
 		List<Offer> possibleOffers = new Vector<Offer>();
 		for (Offer offer : offers) {
-			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city)&& !offer.isReserved()) { // City Filter
+			if (offer.getRuralHouse().getCity().equalsIgnoreCase(city) && !offer.isReserved() && (offer.getFirstDay().compareTo(current.getTime()) >= 0)) { // City Filter
 				if (offer.getPrice() >= minPrice && offer.getPrice() <= maxPrice && lastDate.compareTo(offer.getLastDay()) == 0) { // Price & last date filter
 					requestedOffers.add(offer);
 				} else if (offer.getPrice() < minPrice || lastDate.compareTo(offer.getLastDay()) != 0 || lastDate.compareTo(offer.getLastDay()) == 0) {
@@ -213,15 +215,42 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 	}
 
 	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon, String mail) throws RemoteException {
-		return dB4oManager.bookOffer(client, o, activieties, telephon,mail);
+		Booking book = dB4oManager.bookOffer(client, o, activieties, telephon, mail);
+		if (book != null) {
+			Notification(client, book, "Booking Made");
+		}
+		return book;
 	}
-	
+
 	public Booking updateBooking(Booking bo, Client client, String telephone, String email) throws RemoteException {
-		return dB4oManager.updateBooking(bo, client, telephone, email);
+		Booking book = dB4oManager.updateBooking(bo, client, telephone, email);
+		if (book != null) {
+			Notification(client, book, "Booking Updated");
+		}
+		return book;
 	}
-	
-	public boolean cancelBooking(Booking bo, Client client) throws RemoteException{
-		return dB4oManager.cancelBooking(bo, client);
+
+	public boolean cancelBooking(Booking bo, Client client) throws RemoteException {
+		boolean book = dB4oManager.cancelBooking(bo, client);
+		if (book) {
+			Notification(client, bo, "Booking Canceled");
+		}
+		return book;
+	}
+
+	private void Notification(Client u, Booking b, String subj) {
+		Correo mail = new Correo();
+		String contenido = "<!DOCTYPE html><html><head>	<title>Rural House System</title></head>"
+				+ "<body><h1><a href="+"http://www.bytebreakers.esy.es"+"><img src='https://gitlab.com/uploads/group/avatar/79542/byte_breakers_logo.png' height='150' width='200'/>"
+	+"<b></a>Rural House System Notification: </b></h1> <hr>" + "<p> Sr/a: " + " <b>"
+				+ u.getName() + "</b> le enviamos este correo para notificarle de los cambios realizados en su reserva.<br />"
+				+ "Los datos son los siguientes:</p><p><b> Numero de Reserva : " + b.getBookingNumber() + "<br> " + "Fecha de Reserva: "
+				+ b.getBookingDate().toString() + "<br> Precio: " + b.getPrice() + "</b></p>"
+
+				+ "<h3><b><br>Aviso Legal:  </b></h3>" + "<p> Este mensaje va dirigido exclusivamente a su destinatario y es confidencial. Si por "
+				+ "error lo recibe, por favor, comuníquelo por teléfono (902001110) y elimínelo. Cualquier uso"
+				+ " de este mensaje o sus anexos sin autorización está prohibido por la Ley.<p></body></html>";
+		mail.SentMail(b.getEmail(), subj, contenido);
 	}
 
 }

@@ -71,11 +71,13 @@ public class ClientGUI extends JFrame {
 					Users owner = facade.checkLogin(client.getUsername(), client.getPassword(), true);
 					if (owner != null) {
 						OwnerGUI a = new OwnerGUI((Owner) owner, starWindow);
+						a.setLocationRelativeTo(null); 
 						a.setVisible(true);
 						dispose();
 					} else {
 						if (JOptionPane.showConfirmDialog(null, "Would you like to activate the owner account?", "Account not activated", 0) == 0) {
 							ActivationGUI a = new ActivationGUI();
+							a.setLocationRelativeTo(null); 
 							a.setVisible(true);
 						}
 					}
@@ -115,6 +117,7 @@ public class ClientGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					JFrame o = new QueryAvailabilityGUI(client);
+					o.setLocationRelativeTo(null); 
 					o.setVisible(true);
 				} catch (DataBaseNotInitialized e1) {
 					System.out.println(e1.getMessage());
@@ -129,10 +132,11 @@ public class ClientGUI extends JFrame {
 		editBookingBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame q = new EditMyBookingGUI(client);
+				q.setLocationRelativeTo(null); 
 				q.setVisible(true);	
 			}
 		});
-		editBookingBtn.setBounds(10, 93, 268, 43);
+		editBookingBtn.setBounds(271, 119, 260, 43);
 
 		contentPane.add(editBookingBtn);
 
@@ -140,6 +144,7 @@ public class ClientGUI extends JFrame {
 		qualifyBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame q = new QualifyGUI(client);
+				q.setLocationRelativeTo(null); 
 				q.setVisible(true);
 
 			}
@@ -191,6 +196,5 @@ public class ClientGUI extends JFrame {
 		JLabel houseIconlbl = new JLabel(new ImageIcon(houseImg));
 		houseIconlbl.setBounds(334, 253, 128, 128);
 		contentPane.add(houseIconlbl);
-
 	}
 }

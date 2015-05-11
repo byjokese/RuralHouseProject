@@ -32,11 +32,8 @@ public class Booking implements Serializable {
 		//Booking date is assigned to actual date
 		this.bookingDate= date;
 		this.isPaid=false;
-		this.activieties = new Vector<ExtraActivity>();
-
+		this.activities = new Vector<ExtraActivity>();
 		this.email = email;
-
-
 	}
 	
 	

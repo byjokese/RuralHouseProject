@@ -158,7 +158,7 @@ public class QueryAvailabilityGUI extends JFrame {
 					try {
 						int index = table.getSelectedRow();
 						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-						JFrame ad = new RuralHouseBookGUI(offer, (Client) intoUser);
+						JFrame ad = new BookRuralHouseGUI(offer, (Client) intoUser);
 						ad.setVisible(true);
 					} catch (ArrayIndexOutOfBoundsException e) {
 						JOptionPane.showMessageDialog(null, "Select an Offer");
@@ -941,7 +941,7 @@ public class QueryAvailabilityGUI extends JFrame {
 				System.out.println("HTTP Client Clear and Down.");
 			}
 
-			/* ____________________________________________GOOGLE_MAPS_API______________________________________________ */
+			/*_____________________________________________GOOGLE_MAPS_API______________________________________________ */
 
 			// EXAMPLE: http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true_or_false
 			final Browser browser = new Browser();
@@ -951,7 +951,7 @@ public class QueryAvailabilityGUI extends JFrame {
 			browserView.setEnabled(false);
 			browserView.setDragAndDropEnabled(true);
 			jpanel.add(browserView);
-			browser.loadURL("file:///C:\\Users\\JoseAugusto\\Documents\\Universidad\\GIT\\RuralHouseProject\\web\\map.html");
+			browser.loadURL("file:///C:/Users/PcCom/Documents/GitHub/RuralHouseProject/RuralHouseProject/web/map.html");
 			browserView.getBrowser().addLoadListener(new LoadAdapter() {
 				public void onFinishLoadingFrame(FinishLoadingEvent event) {
 					if (event.isMainFrame()) {

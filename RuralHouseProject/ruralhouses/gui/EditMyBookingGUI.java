@@ -168,8 +168,8 @@ public class EditMyBookingGUI extends JFrame {
 					cityLabel.setText(bo.getOffer().getRuralHouse().getCity());
 					addresslabel.setText(bo.getOffer().getRuralHouse().getAddress());
 					numberlabel.setText(Integer.toString(bo.getOffer().getRuralHouse().getNumber()));
-					firstlabel.setText(bo.getOffer().getFirstDay().toString());
-					lastlabel.setText(bo.getOffer().getLastDay().toString());
+					firstlabel.setText(bo.getOffer().getFirstDay().toString().substring(0, 12));
+					lastlabel.setText(bo.getOffer().getLastDay().toString().substring(0, 12));
 					bookinglabel.setText(bo.getBookingDate().toString());
 					telephonetextField.setText(bo.getTelephone());
 					emailtextField.setText(bo.getEmail());
