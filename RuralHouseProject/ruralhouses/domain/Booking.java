@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.Date;
 import java.util.Vector;
 
+import domain.ExtraActivity;
+import domain.Offer;
+
 
 @SuppressWarnings("serial")
 public class Booking implements Serializable {
