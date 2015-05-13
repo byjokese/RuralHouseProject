@@ -39,8 +39,10 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			dB4oManager = DB4oManager.getInstance();
 		} catch (com.db4o.ext.DatabaseFileLockedException e) {
 			System.out.println("Error in FacadeImplementation: " + e.toString());
+			e.printStackTrace();
 			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Error in FacadeImplementation: " + e.toString());
 			throw new DB4oManagerCreationException();
 		}

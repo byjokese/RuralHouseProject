@@ -56,6 +56,7 @@ public class StartWindow extends JFrame {
 						facade.close();
 				} catch (Exception e1) {
 					System.out.println("Error: " + e1.toString() + " , probably problems with Business Logic or Database");
+					e1.printStackTrace();
 				}
 				System.exit(1);
 			}
