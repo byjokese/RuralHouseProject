@@ -1,56 +1,51 @@
 package gui;
 
-import domain.Booking;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.RemoteException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTree;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import businessLogic.ApplicationFacadeInterface;
 import domain.Client;
-import domain.ExtraActivity;
 import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
 import domain.Users;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.Date;
-
-import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import businessLogic.ApplicationFacadeInterface;
-
 public class OwnerGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ApplicationFacadeInterface facade;
+	private Owner owner;
 
 	/**
 	 * Create the frame.
 	 */
-	public OwnerGUI(Owner owner, StartWindow starWindow) {
+	public OwnerGUI(Owner ow, StartWindow starWindow) {
 		// setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.owner = ow;
+		OwnerGUI frame = this;
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				starWindow.setVisible(true);
@@ -58,7 +53,7 @@ public class OwnerGUI extends JFrame {
 		});
 		setBounds(100, 100, 553, 477);
 
-		ApplicationFacadeInterface facade = StartWindow.facadeInterface;
+		facade = StartWindow.facadeInterface;
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -72,7 +67,7 @@ public class OwnerGUI extends JFrame {
 				try {
 					Users client = facade.checkLogin(owner.getUsername(), owner.getPassword(), false);
 					ClientGUI a = new ClientGUI((Client) client, starWindow);
-					a.setLocationRelativeTo(null); 
+					a.setLocationRelativeTo(null);
 					a.setVisible(true);
 					dispose();
 
@@ -108,8 +103,8 @@ public class OwnerGUI extends JFrame {
 		JButton SignupHouseBtn = new JButton("Sign-Up House");
 		SignupHouseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame s = new SignUpHouseGUI(owner);
-				s.setLocationRelativeTo(null); 
+				JFrame s = new SignUpHouseGUI(owner, frame);
+				s.setLocationRelativeTo(null);
 				s.setVisible(true);
 			}
 		});
@@ -119,8 +114,8 @@ public class OwnerGUI extends JFrame {
 		JButton CreateNewOfferBtn = new JButton("Create new Offer");
 		CreateNewOfferBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame s = new CreatenewOfferGUI(owner);
-				s.setLocationRelativeTo(null); 
+				JFrame s = new CreatenewOfferGUI(owner, frame);
+				s.setLocationRelativeTo(null);
 				s.setVisible(true);
 			}
 		});
@@ -130,8 +125,8 @@ public class OwnerGUI extends JFrame {
 		JButton EditMyOffersBtn = new JButton("Edit my Offers");
 		EditMyOffersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame s = new EditMyOfferGUI(owner);
-				s.setLocationRelativeTo(null); 
+				JFrame s = new EditMyOfferGUI(owner, frame);
+				s.setLocationRelativeTo(null);
 				s.setVisible(true);
 			}
 		});
@@ -141,8 +136,8 @@ public class OwnerGUI extends JFrame {
 		JButton EditMyHouseBtn = new JButton("Edit My House");
 		EditMyHouseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame s = new EditMyHouseGUI(owner);
-				s.setLocationRelativeTo(null); 
+				JFrame s = new EditMyHouseGUI(owner, frame);
+				s.setLocationRelativeTo(null);
 				s.setVisible(true);
 			}
 		});
@@ -152,8 +147,8 @@ public class OwnerGUI extends JFrame {
 		JButton EditMyActivityBtn = new JButton("Edit my Activity");
 		EditMyActivityBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame s = new EditMyActivityGUI(owner);
-				s.setLocationRelativeTo(null); 
+				JFrame s = new EditMyActivityGUI(owner,frame);
+				s.setLocationRelativeTo(null);
 				s.setVisible(true);
 			}
 		});
@@ -208,5 +203,11 @@ public class OwnerGUI extends JFrame {
 		JLabel houseIconlbl = new JLabel(new ImageIcon(houseImg));
 		houseIconlbl.setBounds(366, 331, 75, 75);
 		contentPane.add(houseIconlbl);
+	}
+
+	public void updateOwner() throws RemoteException {
+		owner = (Owner) facade.updateUser(owner.getUsername(), true);
+		//owner = facade.updateOwner(owner, owner.getBankAccount(), owner.getRuralHouses(), owner.getExtraActivities(), owner.getMark());
+		System.out.println(owner.getUsername());
 	}
 }

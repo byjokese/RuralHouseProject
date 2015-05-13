@@ -3,9 +3,13 @@ package domain;
 import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings("serial")
+
 public class ExtraActivity implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String description;
 	private Owner owner;
 	private String lugar;

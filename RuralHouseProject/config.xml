@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-<businessLogic local="true"> 
+<businessLogic local="false"> 
 	<businessLogicNode>localhost</businessLogicNode>
 	<portRMI>1099</portRMI>
 	<serviceRMI>RuralHouses</serviceRMI>
 </businessLogic>
-	<database local="true">
+	<database local="false">
 	<databaseNode>localhost</databaseNode>
 	<db4oFilename>casas.db4o</db4oFilename>
 	

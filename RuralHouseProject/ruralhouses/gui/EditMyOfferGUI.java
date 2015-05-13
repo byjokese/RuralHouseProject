@@ -50,8 +50,9 @@ public class EditMyOfferGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public EditMyOfferGUI(Owner owner) {
+	public EditMyOfferGUI(Owner owner, OwnerGUI frame) {
 		this.ownerI = owner;
 		EditMyOfferGUI thisFrame = this;
 		setTitle("Rural House System");
@@ -270,6 +271,7 @@ public class EditMyOfferGUI extends JFrame {
 										selectedDataString.clear();
 										updateOffers(offer, index);
 										System.out.println(offerArray.toString());
+										frame.updateOwner();
 										JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 									}
 								} catch (HeadlessException e1) {

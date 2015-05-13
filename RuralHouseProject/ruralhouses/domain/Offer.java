@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
-@SuppressWarnings("serial")
+
 public class Offer implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int offerNumber;
 	private Date firstDay; // Dates are stored as java.util.Date objects instead of java.sql.Date objects
 	private Date lastDay; // because, they are not well stored in db4o as java.util.Date objects
@@ -29,7 +33,7 @@ public class Offer implements Serializable {
 		extraActivities = new Vector<ExtraActivity>();
 	}
 
-	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
+	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.price = price;

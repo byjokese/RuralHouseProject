@@ -3,9 +3,13 @@ package domain;
 import java.io.Serializable;
 import java.util.Vector;
 
-@SuppressWarnings("serial")
+
 public class Owner extends Users implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String bankAccount = "";
 	private Vector<RuralHouse> ruralHouses;
 	private Vector<ExtraActivity> extraActivities;
@@ -74,7 +78,7 @@ public class Owner extends Users implements Serializable {
 	public int searchHouse(RuralHouse rh) {
 		int i = 0;
 		for (RuralHouse rural : ruralHouses) {
-			if (rural.getNumber() == rh.getNumber()) {
+			if (rural.getHouseNumber() == rh.getHouseNumber()) {
 				return i;
 			}
 			i++;

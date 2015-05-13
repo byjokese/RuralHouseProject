@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -23,6 +22,8 @@ import javax.swing.JTextArea;
 
 import businessLogic.ApplicationFacadeInterface;
 import domain.Owner;
+import domain.RuralHouse;
+
 import javax.swing.JSeparator;
 
 public class SignUpHouseGUI extends JFrame {
@@ -36,7 +37,7 @@ public class SignUpHouseGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SignUpHouseGUI(Owner owner) {
+	public SignUpHouseGUI(Owner owner, OwnerGUI parent) {
 		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 544, 392);
@@ -87,10 +88,12 @@ public class SignUpHouseGUI extends JFrame {
 					}
 					if (number >= 0) {
 						try {
-							if (facade.storeRuralhouse(owner, description, city, address, number) == null) {
+							RuralHouse rh = facade.storeRuralhouse(owner, description, city, address, number);
+							if (rh == null) {
 								JOptionPane.showMessageDialog(numerotextField, "This rural house already exists");
 							} else {
 								JOptionPane.showMessageDialog(numerotextField, "Successfully Registered");
+								owner.addRuralHouse(rh);
 								dispose();
 							}
 						} catch (HeadlessException e1) {

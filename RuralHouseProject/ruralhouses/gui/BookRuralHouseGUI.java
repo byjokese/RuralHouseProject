@@ -21,9 +21,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import businessLogic.ApplicationFacadeInterface;
+import domain.Booking;
 import domain.Client;
 import domain.ExtraActivity;
 import domain.Offer;
+
 import javax.swing.JScrollPane;
 
 public class BookRuralHouseGUI extends JFrame {
@@ -157,7 +159,8 @@ public class BookRuralHouseGUI extends JFrame {
 					if (isValidEmailAddress(mailtextField.getText())) {
 						try {
 							// System.out.println(c.getUsername());
-							facade.bookOffer(c, o, selected, formattedTextField.getText(), mailtextField.getText());
+							Booking book = facade.bookOffer(c, o, selected, formattedTextField.getText(), mailtextField.getText());
+							c.addBook(book);
 							JOptionPane.showMessageDialog(null, "Booking Made.");
 							dispose();
 						} catch (RemoteException e1) {

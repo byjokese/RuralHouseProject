@@ -35,6 +35,8 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public void close() throws RemoteException;
 	
+	public Users updateUser(String username, boolean isOwner) throws RemoteException;
+	
 	public boolean isinitialized() throws RemoteException;
 
 	public boolean checkUserAvailability(String username) throws RemoteException;
@@ -60,7 +62,7 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException;
 
-	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException;
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException;
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException;

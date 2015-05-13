@@ -230,6 +230,7 @@ public class EditMyBookingGUI extends JFrame {
 					if (comparaFechas(today, bo.getOffer().getFirstDay())) {
 						try {
 							facade.cancelBooking(bo, client);
+							client.getBooks().remove(bo);
 							JOptionPane.showMessageDialog(Cancelbtn, "Cancelled Correctly");
 							list.clearSelection();
 							DefaultListModel<String> bookingsString = new DefaultListModel<String>();

@@ -44,8 +44,9 @@ public class EditMyActivityGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public EditMyActivityGUI(Owner owner) {
+	public EditMyActivityGUI(Owner owner, OwnerGUI frame) {
 		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 574, 436);
@@ -141,6 +142,7 @@ public class EditMyActivityGUI extends JFrame {
 					} else {
 						try {
 							facade.updateExtraActivity(ex, owner, description, index, place, activityDate);
+							frame.updateOwner();
 							JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 						} catch (HeadlessException e1) {
 							e1.printStackTrace();

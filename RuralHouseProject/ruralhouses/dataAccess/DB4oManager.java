@@ -150,14 +150,14 @@ public class DB4oManager {
 			} catch (Exception e) {
 				System.out.println("Error at initialize DataBase on: ./storeRuralHouses " + e.getMessage());
 			}
-			ArrayList<ExtraActivity> activities = new ArrayList<ExtraActivity>();
+			Vector<ExtraActivity> activities = new Vector<ExtraActivity>();
 			activities.add(storeExtraActivity((Owner) bienve, "Montar a caballo", "Tolosa2 Kalea", new Date(2015, 7, 31), "Actividad para montar a caballo"));
 			activities.add(storeExtraActivity((Owner) bienve, "Montar a bici", "kale", new Date(2015, 7, 3), "Actividad para montar en bicicleta"));
 			activities.add(storeExtraActivity((Owner) bienve, "Fiesta", "fiestakalea", new Date(2015, 7, 4), "fiesta de tolosa"));
-			ArrayList<ExtraActivity> activitiesA = new ArrayList<ExtraActivity>();
+			Vector<ExtraActivity> activitiesA = new Vector<ExtraActivity>();
 			activitiesA.add(storeExtraActivity((Owner) jon, "Montar a caballo", "Tolosa Kalea", new Date(2015, 7, 7), "Actividad para montar a caballo"));
 			activitiesA.add(storeExtraActivity((Owner) jon, "Fiesta", "fiestakalea", new Date(2015, 7, 8), "fiesta de tolosa"));
-			ArrayList<ExtraActivity> activitiesB = new ArrayList<ExtraActivity>();
+			Vector<ExtraActivity> activitiesB = new Vector<ExtraActivity>();
 			activitiesB.add(storeExtraActivity((Owner) bienve, "Run", "mountain", new Date(2015, 6, 31), "Runing in the mountain"));
 			activitiesB.add(storeExtraActivity((Owner) bienve, "Fiesta", "fiestakalea", new Date(2015, 7, 1), "fiesta de tolosa"));
 			try {
@@ -233,8 +233,6 @@ public class DB4oManager {
 		}
 	}
 
-	
-
 	/**
 	 * This method existing owners
 	 * 
@@ -281,6 +279,11 @@ public class DB4oManager {
 			LOGGER.info("Client data has been Changed: " + client.getUsername());
 		}
 		return listC.get(0);
+	}
+
+	public Users updateUser(String username, boolean isOwner) throws RemoteException {
+		List<Users> users = db.queryByExample(new Users(null, username, null, true, isOwner));
+		return users.get(0);
 	}
 
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
@@ -402,7 +405,7 @@ public class DB4oManager {
 	public boolean existsOverlappingOffer(RuralHouse rh, Date firstDay, Date lastDay) throws RemoteException, OverlappingOfferExists {
 		try {
 			// if (c.isDatabaseLocal()==false) openObjectContainer();
-			RuralHouse rhn = (RuralHouse) db.queryByExample(rh).get(0);
+			RuralHouse rhn = (RuralHouse) db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null, null, 0)).get(0);
 			if (rhn.overlapsWith(firstDay, lastDay) != null)
 				throw new OverlappingOfferExists("Overlaping Offer");
 			else
@@ -441,11 +444,11 @@ public class DB4oManager {
 		} // implementar el almacenamienro.
 	}
 
-	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException {
 		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
 		if (db.queryByExample(idem).size() == 0) {
 			idem.setOfferNumber(theDB4oManagerAux.nextOffersNumber());
-			List<RuralHouse> list = db.queryByExample(ruralHouse);
+			List<RuralHouse> list = db.queryByExample(new RuralHouse(ruralHouse.getHouseNumber(), null, null, null, null, 0));
 			list.get(0).getAllOffers().add(idem);
 			db.store(theDB4oManagerAux); // Db4o Control
 			db.store(idem); // Offer
@@ -460,14 +463,14 @@ public class DB4oManager {
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException {
-		List<Offer> list = db.queryByExample(o);
+		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 		list.get(0).setExtraActivities(vectorlistSeleccion);
 		list.get(0).setFirstDay(firstDay);
 		list.get(0).setLastDay(lastDay);
 		list.get(0).setPrice(price);
 		db.store(list.get(0));
-		List<RuralHouse> listR = db.queryByExample(rh);
-		List<Owner> listO = db.queryByExample(listR.get(0).getOwner());
+		List<RuralHouse> listR = db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null, null, 0));
+		List<Owner> listO = db.queryByExample(new Owner(null, listR.get(0).getOwner().getUsername(), null, true, null, null));
 		listO.get(0).getRuralHouses().remove(listR.get(0));
 		listR.get(0).getAllOffers().remove(o);
 		listR.get(0).getAllOffers().add(list.get(0));
@@ -480,8 +483,8 @@ public class DB4oManager {
 	}
 
 	public boolean deleteOffer(Offer o) throws RemoteException {
-		List<Offer> list = db.queryByExample(o);
-		List<RuralHouse> listo = db.queryByExample(o.getRuralHouse());
+		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
+		List<RuralHouse> listo = db.queryByExample(new RuralHouse(o.getRuralHouse().getHouseNumber(), null, null, null, null, 0));
 		listo.get(0).getAllOffers().remove(o);
 		db.store(listo.get(0));
 		db.delete(list.get(0));
@@ -507,12 +510,12 @@ public class DB4oManager {
 	}
 
 	public boolean deleteExtraActivity(ExtraActivity ex, Owner owner, int index) throws RemoteException {
-		List<ExtraActivity> list = db.queryByExample(ex);
-		List<Owner> listo = db.queryByExample(owner);
+		List<ExtraActivity> list = db.queryByExample(new ExtraActivity(null, ex.getNombre(), ex.getLugar(), ex.getFecha(), ex.getDescription()));
+		List<Owner> listo = db.queryByExample(new Owner(null, owner.getUsername(), null, true, true, null));
 		listo.get(0).deleteExtraActivity(index);
 		for (RuralHouse rh : owner.getRuralHouses()) {
 			for (Offer o : rh.getAllOffers()) {
-				List<Offer> listito = db.queryByExample(o);
+				List<Offer> listito = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
 				listito.get(0).getExtraActivities().remove(ex);
 				db.store(listito.get(0));
 			}
@@ -546,9 +549,7 @@ public class DB4oManager {
 	}
 
 	public Booking bookOffer(Client client, Offer o, Vector<ExtraActivity> activieties, String telephon, String mail) throws RemoteException {
-		System.out.println("Book offer");
-		System.out.println(client.getUsername());
-		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0));
+		List<Offer> list = db.queryByExample(new Offer(o.getOfferNumber(), null, null, null, 0, o.getExtraActivities()));
 		if (!list.isEmpty()) {
 			list.get(0).setReserved(true);
 			Date date = new Date(System.currentTimeMillis());

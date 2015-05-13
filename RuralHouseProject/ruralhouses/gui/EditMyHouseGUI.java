@@ -33,8 +33,9 @@ public class EditMyHouseGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public EditMyHouseGUI(Owner owner) {
+	public EditMyHouseGUI(Owner owner, OwnerGUI frame) {
 		setTitle("Rural House System");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 562, 300);
@@ -128,7 +129,8 @@ public class EditMyHouseGUI extends JFrame {
 						JOptionPane.showMessageDialog(Savebtn, "You have to insert a description");
 					} else {
 						try {
-							facade.updateRuralHouse(rh, owner, description, rh.getMark(), rh.getComments());
+							RuralHouse rh1 = facade.updateRuralHouse(rh, owner, description, rh.getMark(), rh.getComments());
+							owner.updateRuralHouse(rh1);
 							JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 						} catch (HeadlessException e1) {
 							e1.printStackTrace();

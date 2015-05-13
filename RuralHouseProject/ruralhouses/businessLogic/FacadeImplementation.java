@@ -122,7 +122,10 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 			e.printStackTrace();
 			return null;
 		}
-
+	}
+	
+	public Users updateUser(String username, boolean isOwner) throws RemoteException{
+		return dB4oManager.updateUser(username, isOwner);
 	}
 
 	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException {
@@ -186,7 +189,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.updateClient(client, books, qualifiedBookings);
 	}
 
-	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) throws RemoteException {
+	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException {
 		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
@@ -250,6 +253,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 				+ "<h3><b><br>Aviso Legal:  </b></h3>" + "<p> Este mensaje va dirigido exclusivamente a su destinatario y es confidencial. Si por "
 				+ "error lo recibe, por favor, comuníquelo por teléfono (902001110) y elimínelo. Cualquier uso"
 				+ " de este mensaje o sus anexos sin autorización está prohibido por la Ley.<p></body></html>";
+		
 		mail.SentMail(b.getEmail(), subj, contenido);
 	}
 

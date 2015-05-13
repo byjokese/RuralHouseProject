@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import businessLogic.ApplicationFacadeInterface;
 import com.toedter.calendar.JCalendar;
 
 import domain.ExtraActivity;
+import domain.Offer;
 import domain.Owner;
 import domain.RuralHouse;
 import exceptions.OverlappingOfferExists;
@@ -41,12 +43,13 @@ public class CreatenewOfferGUI extends JFrame {
 	private JLabel lblListOfHouses;
 	private JList<String> activityList;
 	private DefaultListModel<String> activities;
-	private ArrayList<ExtraActivity> lista;
+	private Vector<ExtraActivity> lista;
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public CreatenewOfferGUI(Owner owner) {
+	public CreatenewOfferGUI(Owner owner, OwnerGUI frame) {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		CreatenewOfferGUI thisFrame = this;
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
@@ -117,7 +120,7 @@ public class CreatenewOfferGUI extends JFrame {
 
 		// rellenamos las actividades
 		activities = new DefaultListModel<String>(); //
-		lista = new ArrayList<ExtraActivity>();
+		lista = new Vector<ExtraActivity>();
 		for (ExtraActivity e : owner.getExtraActivities()) {
 			activities.addElement(e.getNombre());
 			lista.add(e);
@@ -153,7 +156,7 @@ public class CreatenewOfferGUI extends JFrame {
 
 		btnCreateHouse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame a = new SignUpHouseGUI(owner);
+				JFrame a = new SignUpHouseGUI(owner, frame);
 				a.setVisible(true);
 			}
 		});
@@ -161,7 +164,7 @@ public class CreatenewOfferGUI extends JFrame {
 		contentPane.add(btnCreateHouse);
 		// lista de actividades seleccionadas
 		DefaultListModel<String> seleccion = new DefaultListModel<String>();
-		ArrayList<ExtraActivity> listaSeleccion = new ArrayList<ExtraActivity>();
+		Vector<ExtraActivity> listaSeleccion = new Vector<ExtraActivity>();
 
 		JList<String> Selectedlist = new JList<String>();
 		Selectedlist.setBounds(290, 387, 549, 171);
@@ -242,10 +245,13 @@ public class CreatenewOfferGUI extends JFrame {
 						if (res <= 0) {
 							try {
 								if (!facade.existsOverlappingOffer(RHouseslist.getSelectedValue(), firstDay, lastDay)) {
-									if (facade.storeOffer(RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion) == null) {
+									Offer offer = facade.storeOffer(RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion);
+									if ( offer == null) {
 										JOptionPane.showMessageDialog(null, "This offer alredy exits");
 									} else {
 										JOptionPane.showMessageDialog(null, "OFFER CREATED");
+										RHouseslist.getSelectedValue().createOffer(offer.getOfferNumber(), offer.getFirstDay(), offer.getLastDay(), offer.getPrice());
+										owner.updateRuralHouse(RHouseslist.getSelectedValue());
 										dispose();
 									}
 								}
