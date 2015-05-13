@@ -133,12 +133,12 @@ public class StartWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "Successfully loged in.");
 						if (isOwner) {
 							JFrame o = new OwnerGUI((Owner) user, thisWindow);
-							o.setLocationRelativeTo(null); 
+							o.setLocationRelativeTo(null);
 							thisWindow.setVisible(false);
 							o.setVisible(true);
 						} else {
 							JFrame c = new ClientGUI((Client) user, thisWindow);
-							c.setLocationRelativeTo(null); 
+							c.setLocationRelativeTo(null);
 							thisWindow.setVisible(false);
 							c.setVisible(true);
 						}
@@ -175,7 +175,6 @@ public class StartWindow extends JFrame {
 					System.out.println(e.getMessage());
 					lblNewLabel.setText(e.getMessage());
 				}
-
 			}
 		});
 		LookForOffersBtn.setBounds(12, 228, 205, 39);
@@ -190,16 +189,14 @@ public class StartWindow extends JFrame {
 		BannerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		BannerLabel.setBounds(0, 0, 247, 37);
 		contentPane.add(BannerLabel);
-
 	}
 
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		JFrame splash = new splash();
-		splash.setLocationRelativeTo(null); 
+		splash.setLocationRelativeTo(null);
 		splash.setVisible(true);
 		StartWindow a = new StartWindow();
-		
 		try {
 
 			c = ConfigXML.getInstance();
@@ -248,12 +245,13 @@ public class StartWindow extends JFrame {
 		}
 		// a.pack();
 		try {
-			while(!facadeInterface.isinitialized()){}
+			while (!facadeInterface.isinitialized()) {
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		splash.setVisible(false);
-		a.setLocationRelativeTo(null); 
+		a.setLocationRelativeTo(null);
 		a.setVisible(true);
 	}
 }

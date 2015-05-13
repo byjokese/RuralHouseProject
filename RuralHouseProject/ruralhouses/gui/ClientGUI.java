@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -27,10 +28,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.paypal.base.exception.SSLConfigurationException;
+import com.paypal.base.rest.PayPalRESTException;
+
+import APIS.paypal;
 import businessLogic.ApplicationFacadeInterface;
 import domain.Booking;
 import domain.Client;
 import domain.ExtraActivity;
+import domain.Offer;
 import domain.Owner;
 import domain.Users;
 import exceptions.DataBaseNotInitialized;
@@ -194,7 +200,26 @@ public class ClientGUI extends JFrame {
 			e1.printStackTrace();
 		}
 		JLabel houseIconlbl = new JLabel(new ImageIcon(houseImg));
-		houseIconlbl.setBounds(334, 253, 128, 128);
+		houseIconlbl.setBounds(338, 278, 128, 128);
 		contentPane.add(houseIconlbl);
+		
+		JButton btnProcessToPay = new JButton("Process to Pay");
+		btnProcessToPay.setToolTipText("Select an offer from the left tree to pay.");
+		btnProcessToPay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(bookingTree.getSelectionPaths());
+				Offer offer = new Offer(5, null, Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), 2300);
+				try {
+					JFrame pay = new paypal(offer);
+					pay.setVisible(true);
+				} catch (SSLConfigurationException e) {
+					e.printStackTrace();
+				} catch (PayPalRESTException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnProcessToPay.setBounds(271, 227, 256, 43);
+		contentPane.add(btnProcessToPay);
 	}
 }
