@@ -8,9 +8,13 @@ import domain.ExtraActivity;
 import domain.Offer;
 
 
-@SuppressWarnings("serial")
+
 public class Booking implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int bookingNumber;
 	private boolean isPaid;
 	private Date bookingDate;

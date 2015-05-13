@@ -173,8 +173,7 @@ public class DB4oManager {
 
 			of.getRuralHouse().addComments("MuyG Guapa", "pepe");
 			of.getRuralHouse().addComments("no esta mal", "ivan");
-			RuralHouse rhhh = updateRuralHouse(of.getRuralHouse(), of.getRuralHouse().getOwner(), of.getRuralHouse().getDescription(), 4, of.getRuralHouse()
-					.getComments());
+			RuralHouse rhhh = updateRuralHouse(of.getRuralHouse(), (Owner) bienve, of.getRuralHouse().getDescription(), 4, of.getRuralHouse().getComments());
 			of.setRuralHouse(rhhh);
 
 			Date date = new Date(System.currentTimeMillis());
@@ -358,9 +357,11 @@ public class DB4oManager {
 	public RuralHouse storeRuralhouse(Owner owner, String description, String city, String address, int number) throws RemoteException, Exception {
 		try {
 			RuralHouse rh = new RuralHouse(theDB4oManagerAux.nextHouseNumber(), owner, description, city, address, number);
+			List<Owner> Low = db.queryByExample(new Owner(null, owner.getUsername(), null, true, true, null));
+			Owner ow = Low.get(0);
 			if (checkRural(city, address, number)) {
-				owner.addRuralHouse(rh);
-				db.store(owner);
+				ow.addRuralHouse(rh);
+				db.store(ow);
 				db.store(rh);
 				db.store(theDB4oManagerAux);
 				db.commit();
@@ -377,6 +378,7 @@ public class DB4oManager {
 	}
 
 	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException {
+
 		List<RuralHouse> list = db.queryByExample(new RuralHouse(0, null, null, null, null, rh.getNumber()));
 		List<Owner> listo = db.queryByExample(new Owner(null, owner.getUsername(), null, true, true, null));
 		RuralHouse rhs = list.get(0);
@@ -445,14 +447,18 @@ public class DB4oManager {
 	}
 
 	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException {
-		Offer idem = new Offer(0, ruralHouse, firstDay, lastDay, price, ExtraActi);
+		Offer idem = new Offer(0, new RuralHouse(ruralHouse.getHouseNumber(), null, null, null, null, 0), firstDay, lastDay, price, ExtraActi);
 		if (db.queryByExample(idem).size() == 0) {
 			idem.setOfferNumber(theDB4oManagerAux.nextOffersNumber());
 			List<RuralHouse> list = db.queryByExample(new RuralHouse(ruralHouse.getHouseNumber(), null, null, null, null, 0));
+			List<Owner> listO = db.queryByExample(new Owner(null, list.get(0).getOwner().getUsername(), null, true, null, null));
 			list.get(0).getAllOffers().add(idem);
+			listO.get(0).getRuralHouses().remove(ruralHouse);
+			listO.get(0).addRuralHouse(list.get(0));
 			db.store(theDB4oManagerAux); // Db4o Control
 			db.store(idem); // Offer
 			db.store(list.get(0)); // Ruralhouse
+			// db.store(listO.get(0));
 			db.commit();
 			LOGGER.info("NEW OFFER HAS BEEN CREATED: " + (idem.toString() + " ON " + (idem.getFirstDay())));
 			return idem;
@@ -470,7 +476,8 @@ public class DB4oManager {
 		list.get(0).setPrice(price);
 		db.store(list.get(0));
 		List<RuralHouse> listR = db.queryByExample(new RuralHouse(rh.getHouseNumber(), null, null, null, null, 0));
-		List<Owner> listO = db.queryByExample(new Owner(null, listR.get(0).getOwner().getUsername(), null, true, null, null));
+		System.out.println("1"+listR.get(0).getOwner().getUsername());
+		List<Owner> listO = db.queryByExample(new Owner(null, listR.get(0).getOwner().getUsername(), null, true, true, null));
 		listO.get(0).getRuralHouses().remove(listR.get(0));
 		listR.get(0).getAllOffers().remove(o);
 		listR.get(0).getAllOffers().add(list.get(0));

@@ -173,7 +173,7 @@ public class QualifyGUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "Thanks for qualifiying!");
 						initializeTable();
 					} else
-						JOptionPane.showMessageDialog(null, "Insert a commetary.");
+						JOptionPane.showMessageDialog(null, "Insert a comment.");
 				} catch (RemoteException e1) {
 					System.out.println(e1.getMessage());
 				}

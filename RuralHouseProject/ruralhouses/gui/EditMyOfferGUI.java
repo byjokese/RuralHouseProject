@@ -270,7 +270,7 @@ public class EditMyOfferGUI extends JFrame {
 										selectedActivitiesVector.clear();
 										selectedDataString.clear();
 										updateOffers(offer, index);
-										System.out.println(offerArray.toString());
+										//System.out.println(offerArray.toString());
 										frame.updateOwner();
 										JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
 									}

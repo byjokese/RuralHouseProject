@@ -93,7 +93,8 @@ public class SignUpHouseGUI extends JFrame {
 								JOptionPane.showMessageDialog(numerotextField, "This rural house already exists");
 							} else {
 								JOptionPane.showMessageDialog(numerotextField, "Successfully Registered");
-								owner.addRuralHouse(rh);
+								//owner.addRuralHouse(rh);
+								parent.updateOwner();
 								dispose();
 							}
 						} catch (HeadlessException e1) {

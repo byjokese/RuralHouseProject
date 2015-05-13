@@ -209,5 +209,9 @@ public class OwnerGUI extends JFrame {
 		owner = (Owner) facade.updateUser(owner.getUsername(), true);
 		//owner = facade.updateOwner(owner, owner.getBankAccount(), owner.getRuralHouses(), owner.getExtraActivities(), owner.getMark());
 		System.out.println(owner.getUsername());
+		for (RuralHouse rh : owner.getRuralHouses()){
+			System.out.println(rh);
+		}
+		
 	}
 }

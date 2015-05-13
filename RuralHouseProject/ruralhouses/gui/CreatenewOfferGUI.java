@@ -251,7 +251,8 @@ public class CreatenewOfferGUI extends JFrame {
 									} else {
 										JOptionPane.showMessageDialog(null, "OFFER CREATED");
 										RHouseslist.getSelectedValue().createOffer(offer.getOfferNumber(), offer.getFirstDay(), offer.getLastDay(), offer.getPrice());
-										owner.updateRuralHouse(RHouseslist.getSelectedValue());
+										//owner.updateRuralHouse(RHouseslist.getSelectedValue());
+										frame.updateOwner();
 										dispose();
 									}
 								}
