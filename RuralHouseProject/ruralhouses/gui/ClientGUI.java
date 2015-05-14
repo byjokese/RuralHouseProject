@@ -45,12 +45,16 @@ public class ClientGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ApplicationFacadeInterface facade;
+	private Client client;
 
 	/**
 	 * Create the frame.
 	 */
-	public ClientGUI(Client client, StartWindow starWindow) {
+	public ClientGUI(Client clt, StartWindow starWindow) {
 		setTitle("Rural House System");
+		ClientGUI frame = this;
+		this.client = clt;
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -122,7 +126,7 @@ public class ClientGUI extends JFrame {
 		lookOffersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					JFrame o = new QueryAvailabilityGUI(client);
+					JFrame o = new QueryAvailabilityGUI(client, frame);
 					o.setLocationRelativeTo(null); 
 					o.setVisible(true);
 				} catch (DataBaseNotInitialized e1) {
@@ -221,5 +225,10 @@ public class ClientGUI extends JFrame {
 		});
 		btnProcessToPay.setBounds(271, 227, 256, 43);
 		contentPane.add(btnProcessToPay);
+	}
+	
+	public void updateClient() throws RemoteException {
+		client = (Client) facade.updateUser(client.getUsername(), false);
+		//owner = facade.updateOwner(owner, owner.getBankAccount(), owner.getRuralHouses(), owner.getExtraActivities(), owner.getMark());
 	}
 }

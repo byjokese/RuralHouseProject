@@ -147,7 +147,7 @@ public class paypal extends JFrame {
 		// invoice.
 		//String offername = offer.getRuralHouse().toString();
 		InvoiceItemType invoiceItem = new InvoiceItemType("offername", Double.parseDouble("1"), Double.parseDouble(Float.toString(offer.getPrice())));
-		invoiceItem.setDate(Calendar.getInstance().getTime().toString());
+		//invoiceItem.setDate(Calendar.getInstance().getTime().toString());
 		invoiceItemList.add(invoiceItem);
 
 		// Invoice item.

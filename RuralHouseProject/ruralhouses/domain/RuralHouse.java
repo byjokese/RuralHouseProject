@@ -21,9 +21,9 @@ public class RuralHouse implements Serializable {
 
 	private int mark;
 	private int numVotes;
-	private List<String[]> comments; // [0] comments, [1] author.
+	private Vector<String[]> comments; // [0] comments, [1] author.
 
-	public void setComments(List<String[]> comments) {
+	public void setComments(Vector<String[]> comments) {
 		this.comments = comments;
 	}
 
@@ -40,7 +40,7 @@ public class RuralHouse implements Serializable {
 		this.number = number;
 		this.mark = 3;
 		this.numVotes = 1;
-		this.comments = (new ArrayList<String[]>());
+		this.comments = new Vector<String[]>();
 		offers = new Vector<Offer>();
 	}
 
@@ -229,7 +229,7 @@ public class RuralHouse implements Serializable {
 		this.mark = ((this.mark * numVotes) + mark) / (numVotes + 1);
 	}
 
-	public List<String[]> getComments() {
+	public Vector<String[]> getComments() {
 		return comments;
 	}
 

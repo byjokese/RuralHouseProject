@@ -130,7 +130,7 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.updateUser(username, isOwner);
 	}
 
-	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException {
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, Vector<String[]> comments) throws RemoteException {
 		return dB4oManager.updateRuralHouse(rh, owner, description, mark, comments);
 	}
 
@@ -191,8 +191,8 @@ public class FacadeImplementation extends UnicastRemoteObject implements Applica
 		return dB4oManager.updateClient(client, books, qualifiedBookings);
 	}
 
-	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException {
-		return dB4oManager.storeOffer(ruralHouse, firstDay, lastDay, price, ExtraActi);
+	public Offer storeOffer(Owner owner, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException {
+		return dB4oManager.storeOffer(owner, ruralHouse, firstDay, lastDay, price, ExtraActi);
 	}
 
 	public ExtraActivity updateExtraActivity(ExtraActivity ex, Owner owner, String description, int index, String place, Date activityDate)

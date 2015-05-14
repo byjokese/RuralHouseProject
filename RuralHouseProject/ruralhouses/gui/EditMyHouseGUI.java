@@ -132,6 +132,7 @@ public class EditMyHouseGUI extends JFrame {
 							RuralHouse rh1 = facade.updateRuralHouse(rh, owner, description, rh.getMark(), rh.getComments());
 							owner.updateRuralHouse(rh1);
 							JOptionPane.showMessageDialog(Savebtn, "Save Correctly");
+							frame.updateOwner();
 						} catch (HeadlessException e1) {
 							e1.printStackTrace();
 						} catch (RemoteException e1) {
@@ -156,6 +157,7 @@ public class EditMyHouseGUI extends JFrame {
 						try {
 							facade.deleteRuralHouse(rh, owner, index);
 							JOptionPane.showMessageDialog(Deletebtn, "Delete Correctly");
+							frame.updateOwner();
 							list.clearSelection();
 							DefaultListModel<RuralHouse> houses = new DefaultListModel<RuralHouse>();
 							for (RuralHouse h : owner.getRuralHouses()) {

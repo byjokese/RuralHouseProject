@@ -170,7 +170,7 @@ public class StartWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame b;
 				try {
-					b = new QueryAvailabilityGUI(null);
+					b = new QueryAvailabilityGUI(null, null);
 					b.setVisible(true);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

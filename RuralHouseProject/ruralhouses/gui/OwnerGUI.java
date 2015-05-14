@@ -178,11 +178,11 @@ public class OwnerGUI extends JFrame {
 								node_2 = new DefaultMutableTreeNode(offer.toString());
 								node_1.add(node_2);
 							}
-							add(node_1);
 						} else {
 							node_2 = new DefaultMutableTreeNode("No offers.");
 							node_1.add(node_2);
 						}
+						add(node_1);
 					}
 				} else {
 					node_1 = new DefaultMutableTreeNode("No houses.");
@@ -208,10 +208,5 @@ public class OwnerGUI extends JFrame {
 	public void updateOwner() throws RemoteException {
 		owner = (Owner) facade.updateUser(owner.getUsername(), true);
 		//owner = facade.updateOwner(owner, owner.getBankAccount(), owner.getRuralHouses(), owner.getExtraActivities(), owner.getMark());
-		System.out.println(owner.getUsername());
-		for (RuralHouse rh : owner.getRuralHouses()){
-			System.out.println(rh);
-		}
-		
 	}
 }

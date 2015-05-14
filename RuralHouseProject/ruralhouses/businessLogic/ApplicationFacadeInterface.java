@@ -49,7 +49,7 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public void activateAccount(String username, boolean isOwner, String bank) throws RemoteException;
 
-	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, List<String[]> comments) throws RemoteException;
+	public RuralHouse updateRuralHouse(RuralHouse rh, Owner owner, String description, int mark, Vector<String[]> comments) throws RemoteException;
 
 	public Owner updateOwner(Owner owner, String bankAccount, Vector<RuralHouse> ruralHouses, Vector<ExtraActivity> extraActivities, int mark)
 			throws RemoteException;
@@ -62,7 +62,7 @@ public interface ApplicationFacadeInterface extends Remote {
 
 	public List<List<Offer>> searchAvailableOffers(String city, String numberOfNights, Date date, int minPrice, int maxPrice) throws RemoteException;
 
-	public Offer storeOffer(RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException;
+	public Offer storeOffer(Owner owner, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, Vector<ExtraActivity> ExtraActi) throws RemoteException;
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException;

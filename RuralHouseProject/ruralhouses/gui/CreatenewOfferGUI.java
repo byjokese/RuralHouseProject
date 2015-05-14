@@ -245,7 +245,7 @@ public class CreatenewOfferGUI extends JFrame {
 						if (res <= 0) {
 							try {
 								if (!facade.existsOverlappingOffer(RHouseslist.getSelectedValue(), firstDay, lastDay)) {
-									Offer offer = facade.storeOffer(RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion);
+									Offer offer = facade.storeOffer(owner, RHouseslist.getSelectedValue(), firstDay, lastDay, precio, listaSeleccion);
 									if ( offer == null) {
 										JOptionPane.showMessageDialog(null, "This offer alredy exits");
 									} else {

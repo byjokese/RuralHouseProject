@@ -40,10 +40,7 @@ public class Offer implements Serializable {
 		this.isReserved = false;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
-		extraActivities = new Vector<ExtraActivity>();
-		for (ExtraActivity act : ExtraActi) {
-			extraActivities.add(act);
-		}
+		extraActivities = ExtraActi;
 	}
 
 	public boolean isReserved() {

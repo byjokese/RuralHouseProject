@@ -39,8 +39,9 @@ public class BookRuralHouseGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param frame 
 	 */
-	public BookRuralHouseGUI(Offer o, Client c) {
+	public BookRuralHouseGUI(Offer o, Client c, ClientGUI frame) {
 		setBounds(100, 100, 719, 533);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -162,6 +163,7 @@ public class BookRuralHouseGUI extends JFrame {
 							Booking book = facade.bookOffer(c, o, selected, formattedTextField.getText(), mailtextField.getText());
 							c.addBook(book);
 							JOptionPane.showMessageDialog(null, "Booking Made.");
+							frame.updateClient();
 							dispose();
 						} catch (RemoteException e1) {
 							e1.printStackTrace();

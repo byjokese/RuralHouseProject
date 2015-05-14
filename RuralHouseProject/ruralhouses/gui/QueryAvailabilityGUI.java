@@ -106,14 +106,14 @@ public class QueryAvailabilityGUI extends JFrame {
 	private final JLabel infoMessagesLbl = new JLabel("");
 	private List<List<Offer>> availableOffers;
 
-	public QueryAvailabilityGUI(Users user) throws DataBaseNotInitialized {
+	public QueryAvailabilityGUI(Users user, ClientGUI frame) throws DataBaseNotInitialized {
 		getContentPane().setForeground(SystemColor.textHighlight);
 		intoUser = user;
 		minPriceTextField.setEditable(false);
 		minPriceTextField.setBounds(699, 54, 34, 20);
 		minPriceTextField.setColumns(10);
 		try {
-			jbInit(intoUser);
+			jbInit(intoUser, frame);
 		} catch (DataBaseNotInitialized e) {
 			throw new DataBaseNotInitialized("Data Base not intialized");
 		} catch (Exception e) {
@@ -121,7 +121,7 @@ public class QueryAvailabilityGUI extends JFrame {
 		}
 	}
 
-	private void jbInit(Users user) throws Exception {
+	private void jbInit(Users user, ClientGUI frame) throws Exception {
 		ApplicationFacadeInterface facade = StartWindow.getBusinessLogic();
 		// wait till the database is loaded.
 		if (intoUser == null)
@@ -158,7 +158,7 @@ public class QueryAvailabilityGUI extends JFrame {
 					try {
 						int index = table.getSelectedRow();
 						Offer offer = (index < offers.get(0).size()) ? offers.get(0).get(index) : offers.get(1).get(index - offers.get(0).size());
-						JFrame ad = new BookRuralHouseGUI(offer, (Client) intoUser);
+						JFrame ad = new BookRuralHouseGUI(offer, (Client) intoUser, frame);
 						ad.setVisible(true);
 					} catch (ArrayIndexOutOfBoundsException e) {
 						JOptionPane.showMessageDialog(null, "Select an Offer");
