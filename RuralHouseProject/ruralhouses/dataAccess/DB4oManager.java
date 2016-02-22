@@ -235,17 +235,6 @@ public class DB4oManager {
 
 	}
 
-	public ArrayList<Offer> getUpdatedOffers(Owner owner) throws RemoteException {
-		List<Owner> list = db.queryByExample(owner);
-		ArrayList<Offer> listO = new ArrayList<Offer>();
-		for (RuralHouse rh : list.get(0).getRuralHouses()) {
-			for (Offer o : rh.getAllOffers()) {
-				listO.add(o);
-			}
-		}
-		return listO;
-	}
-
 	public Vector<RuralHouse> getAllRuralHouses() throws RemoteException, Exception {
 		// if (c.isDatabaseLocal()==false) openObjectContainer();
 		try {
@@ -369,11 +358,6 @@ public class DB4oManager {
 		return db.queryByExample(offer);
 	}
 
-	@SuppressWarnings("unused")
-	private int nextHouseNumber() {
-		return nextHouseNumber() + 1;
-	}
-
 	public void close() {
 		db.close();
 		System.out.println("DataBase closed");
@@ -415,7 +399,6 @@ public class DB4oManager {
 
 	public Offer updateOffer(Offer o, RuralHouse rh, float price, Date firstDay, Date lastDay, Vector<ExtraActivity> vectorlistSeleccion)
 			throws RemoteException {
-		System.out.println("DATA BASE: " + vectorlistSeleccion);
 		List<Offer> list = db.queryByExample(o);
 		list.get(0).setExtraActivities(vectorlistSeleccion);
 		list.get(0).setFirstDay(firstDay);
