@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="ruralhouses"/>
+	<classpathentry kind="lib" path="additionalLibs/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/fluent-hc-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/httpclient-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/httpclient-cache-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/httpclient-win-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/httpcore-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/httpmime-4.4.1.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/java-json.jar"/>
 	<classpathentry kind="lib" path="additionalLibs/jcalendar.jar"/>
-	<classpathentry kind="lib" path="db4o/lib/db4o-8.0.249.16098-all-java5.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/license.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/db4o-8.0.249.16098-all-java5.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jxbrowser-5.2.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jxbrowser-linux32-5.2.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jxbrowser-linux64-5.2.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jxbrowser-mac-5.2.jar"/>
+	<classpathentry kind="lib" path="additionalLibs/jxbrowser-win-5.2.jar"/>
 	<classpathentry kind="output" path="ruralhouses"/>
 </classpath>

@@ -14,35 +14,46 @@ public class Offer implements Serializable {
 	private float price; // This is coherent because objects of java.sql.Date are objects of java.util.Date
 	private Booking booking; // That is: java.sql.Date is a subclass (or extends) java.util.Date
 	private RuralHouse ruralHouse;
-	private Vector<ExtraActivity> ExtraActivities;
-
+	private Vector<ExtraActivity> extraActivities;
+	private Vector<ExtraActivity> reservedActivities;
+	private boolean isReserved;
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
+		this.isReserved = false;
 		this.price = price;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
-		ExtraActivities = new Vector<ExtraActivity>();
+		extraActivities = new Vector<ExtraActivity>();
 	}
 
 	public Offer(int offerNumber, RuralHouse ruralHouse, Date firstDay, Date lastDay, float price, ArrayList<ExtraActivity> ExtraActi) {
 		this.firstDay = firstDay;
 		this.lastDay = lastDay;
 		this.price = price;
+		this.isReserved = false;
 		this.ruralHouse = ruralHouse;
 		this.offerNumber = offerNumber;
-		ExtraActivities = new Vector<ExtraActivity>();
+		extraActivities = new Vector<ExtraActivity>();
 		for (ExtraActivity act : ExtraActi) {
-			ExtraActivities.add(act);
+			extraActivities.add(act);
 		}
 	}
 
+	public boolean isReserved() {
+		return isReserved;
+	}
+
+	public void setReserved(boolean choosed) {
+		this.isReserved = choosed;
+	}
+
 	public Vector<ExtraActivity> getExtraActivities() {
-		return ExtraActivities;
+		return extraActivities;
 	}
 
 	public void setExtraActivities(Vector<ExtraActivity> extraActivities) {
-		ExtraActivities = extraActivities;
+		this.extraActivities = extraActivities;
 	}
 
 	/**
@@ -165,12 +176,28 @@ public class Offer implements Serializable {
 	 *            day, last day, house number and telephone
 	 * @return a book
 	 */
-	public Booking createBooking(int numBooking, String bookTelephoneNumber) {
-		return booking = new Booking(numBooking, bookTelephoneNumber, this);
+	public Booking createBooking(int numBooking, String bookTelephoneNumber, String email) {
+		Date date = new Date(System.currentTimeMillis());
+		return booking = new Booking(numBooking, bookTelephoneNumber, this, date, email);
 
 	}
 
 	public String toString() {
 		return offerNumber + ";" + firstDay.toString() + ";" + lastDay.toString() + ";" + price + ";" + ruralHouse;
 	}
+
+	public Vector<ExtraActivity> getReservedActivities() {
+		return reservedActivities;
+	}
+
+	public void setReservedActivities(Vector<ExtraActivity> reservedActivities) {
+		this.reservedActivities = reservedActivities;
+	}
+	
+	public boolean cancelBooking(){
+		this.booking = null;
+		this.isReserved = false;
+		return true;
+	}
+	
 }

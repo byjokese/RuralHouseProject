@@ -101,5 +101,47 @@
 /QueryAvailabilityGUI$CellRender.class
 /EditMyOfferGUI$6.class
 /EditMyOfferGUI$7.class
+<<<<<<< HEAD
 /QueryAvailabilityGUI$AditionalOfferInfoGUI$1.class
 /QueryAvailabilityGUI$AditionalOfferInfoGUI.class
+<<<<<<< HEAD
+/ClientGUI$2.class
+/QualifyGUI.class
+/QualifyGUI$1.class
+/QualifyGUI$2.class
+/QualifyGUI$3.class
+/QualifyGUI$4.class
+/tetx$1.class
+/tetx.class
+/AditionalOfferInfoGUI.class
+/a$1.class
+/a.class
+/tetx$2.class
+/test$1.class
+/test.class
+/test$2.class
+/test$3.class
+/test$3$1.class
+/QueryAvailabilityGUI$AditionalOfferInfoGUI$2$1.class
+/QueryAvailabilityGUI$AditionalOfferInfoGUI$2.class
+=======
+/EditMyActivityGUI$1.class
+/EditMyActivityGUI$2.class
+/EditMyActivityGUI$3.class
+/EditMyActivityGUI$4.class
+/EditMyActivityGUI.class
+/OwnerGUI$5.class
+/EditMyOfferGUI$8.class
+>>>>>>> origin/feature/Ena
+=======
+/RuralHouseBookGUI$1.class
+/RuralHouseBookGUI.class
+/RuralHouseBookGUI$2.class
+/RuralHouseBookGUI$3.class
+>>>>>>> origin/djbienve
+/EditMyBookingGUI$1.class
+/EditMyBookingGUI$2.class
+/EditMyBookingGUI$3.class
+/EditMyBookingGUI$4.class
+/EditMyBookingGUI.class
+/ClientGUI$3.class

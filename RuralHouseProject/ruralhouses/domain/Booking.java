@@ -2,6 +2,7 @@ package domain;
 
 import java.io.*;
 import java.util.Date;
+import java.util.Vector;
 
 
 @SuppressWarnings("serial")
@@ -11,21 +12,26 @@ public class Booking implements Serializable {
 	private Date bookingDate;
 	private String telephone;
 	private Offer offer;
+	private Vector<ExtraActivity> activities;
+	private String email;
 	
+
 	public Booking() {
 	}
 
-	public Booking(int bookingNumber,String telephone, Offer offer) {
+	public Booking(int bookingNumber,String telephone, Offer offer, Date date, String email) {
 		
 		this.bookingNumber = bookingNumber;
 		this.telephone=telephone;
 		this.offer = offer;
 		//this.price = price;
 		//Booking date is assigned to actual date
-		this.bookingDate= new Date(System.currentTimeMillis());
+		this.bookingDate= date;
 		this.isPaid=false;
+		this.email = email;
 
 	}
+	
 	
 	public void imprimete(){
 		System.out.println(bookingNumber);
@@ -33,7 +39,6 @@ public class Booking implements Serializable {
 		System.out.println(bookingDate);
 		System.out.println(telephone);
 		System.out.println(offer);
-		
 	}
 
 	
@@ -138,6 +143,22 @@ public class Booking implements Serializable {
 	 */
 	public boolean isPaid() {
 		return isPaid;
+	}
+
+	public Vector<ExtraActivity> getActivieties() {
+		return activities;
+	}
+
+	public void setActivieties(Vector<ExtraActivity> activieties) {
+		this.activities = activieties;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }
